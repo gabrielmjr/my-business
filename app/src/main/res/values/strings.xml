@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">My Business</string>
     
+    
+    <string name="product_name">Name: </string>
+    <string name="product_price">Price: </string>
+    <string name="product_amount">Amount: </string>
+    <string name="add_new_product">Add new product</string>
+    <string name="product_added">Product added</string>
 </resources>

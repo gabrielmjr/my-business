@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gabrielMJr.twaire.mybusiness"
-    android:versionName="0.1.0-Alpha">
+    package="com.gabrielMJr.twaire.mybusiness">
 
     <application
         android:allowBackup="true"
@@ -18,6 +17,24 @@
             <intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 				
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".AddNewProductActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.PARENT"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".ProductLocalDataCenter">
+            <intent-filter>
+                <action android:name="android.intent.action.PARENT"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
