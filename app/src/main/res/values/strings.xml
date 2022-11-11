@@ -7,4 +7,13 @@
     <string name="product_amount">Amount: </string>
     <string name="add_new_product">Add new product</string>
     <string name="product_added">Product added</string>
+    <string name="canceled_by_user">Canceled by user</string>
+    <string name="camera_perm_denied">To take pictures using camera,
+        you need to grant camera permission
+        , you can still load from gallery.</string>
+        
+    <string name="pick_from_gallery">Pick from gallery</string>
+    <string name="take_picture">Take picture from camera</string>
+    <string name="cancel">Cancel</string>
+    <string name="load_picture">Load picture</string>
 </resources>
