@@ -16,4 +16,5 @@
     <string name="take_picture">Take picture from camera</string>
     <string name="cancel">Cancel</string>
     <string name="load_picture">Load picture</string>
+    <string name="add_product">Add product</string>
 </resources>

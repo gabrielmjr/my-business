@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.R;
 
 public class AddNewProductActivity extends AppCompatActivity
@@ -32,7 +33,11 @@ public class AddNewProductActivity extends AppCompatActivity
     // Intent for picker and taker
     private static Intent pick_take_Image;
 
+    // Boolean with camera permission
     private static Boolean hasCameraPerm;
+    
+    // Data center variable
+    private static ProductDataCenter dataCenter;
 
     private static ImageView add_new_product_image;
     private static EditText add_new_product_name;
@@ -43,12 +48,14 @@ public class AddNewProductActivity extends AppCompatActivity
     private static Button take_picture;
     private static Button cancel;
     
-
+    // Add product button
+    private static Button add_new_product_button;
+    
     private static PackageManager pm;
 
+    // Alert dialog of image chooser components
     private static AlertDialog.Builder builder;
-    private static AlertDialog dialog;
-    
+    private static AlertDialog dialog;   
     private static View dialog_view;
 
     //private static String path;
@@ -57,10 +64,13 @@ public class AddNewProductActivity extends AppCompatActivity
     // Initializing
     private void initialize()
     {
+        dataCenter = new  ProductDataCenter(getApplicationContext());
+        
         add_new_product_image = findViewById(R.id.add_new_product_image);
-
         add_new_product_name = findViewById(R.id.add_new_product_name);
-        add_new_product_price = findViewById(R.id.add_new_product_price);
+        add_new_product_price = findViewById(R.id.add_new_product_price);    
+        add_new_product_button = findViewById(R.id.add_new_product_button);
+        
     }
 
     @Override
@@ -79,8 +89,25 @@ public class AddNewProductActivity extends AppCompatActivity
                     pickImage();
                 }
             });
+            
+        add_new_product_button.setOnClickListener(
+            new OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    addProduct();
+                }
+            });
     }
 
+    // Add product method
+    private void addProduct()
+    {
+        String product = add_new_product_name.getText().toString();
+        float price = Float.valueOf(add_new_product_price.getText().toString());
+        dataCenter.addProduct(product, price);
+    }
 
     // Take/ pick image method
     private void pickImage()
