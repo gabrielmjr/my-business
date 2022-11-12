@@ -1,6 +1,7 @@
 package com.gabrielMJr.twaire.mybusiness;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,8 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.R;
+import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 
 public class AddNewProductActivity extends AppCompatActivity
 {
@@ -57,7 +58,7 @@ public class AddNewProductActivity extends AppCompatActivity
     private static AlertDialog.Builder builder;
     private static AlertDialog dialog;   
     private static View dialog_view;
-
+   
     //private static String path;
     private static Uri imageUri;
 
@@ -106,7 +107,19 @@ public class AddNewProductActivity extends AppCompatActivity
     {
         String product = add_new_product_name.getText().toString();
         float price = Float.valueOf(add_new_product_price.getText().toString());
-        dataCenter.addProduct(product, price);
+        if (dataCenter.addProduct(product, price))
+        {
+            try
+            {
+                finalize();
+            }
+            catch (Throwable e)
+            {}
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), getString(R.string.an_error_occurred_on_db), Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Take/ pick image method

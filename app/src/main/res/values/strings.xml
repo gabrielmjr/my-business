@@ -17,4 +17,5 @@
     <string name="cancel">Cancel</string>
     <string name="load_picture">Load picture</string>
     <string name="add_product">Add product</string>
+    <string name="an_error_occurred_on_db">An error occurred while adding product</string>
 </resources>

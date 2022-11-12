@@ -19,6 +19,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     private static final String COL1_2 = "total_avaliable";
     
     private static SQLiteDatabase db;
+    private static Boolean isDatabaseEmpty = false;
     
     private static ContentValues CV;
     
@@ -79,7 +80,19 @@ public class DatabaseManager extends SQLiteOpenHelper
         while (cursor.moveToNext())
         {
            result = cursor.getInt(1);
+            setIsDatabaseEmpty(false);
         }
         return result;
+    }
+    
+    // Getting and setting has data on database
+    protected Boolean isDataCenterEmpty()
+    {
+        return isDatabaseEmpty;
+    }
+    
+    private void setIsDatabaseEmpty(Boolean isDatabaseEmpty)
+    {
+        this.isDatabaseEmpty = isDatabaseEmpty;
     }
 }

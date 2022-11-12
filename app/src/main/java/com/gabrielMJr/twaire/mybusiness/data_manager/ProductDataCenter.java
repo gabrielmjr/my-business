@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Context;
 import com.gabrielMJr.twaire.mybusiness.data_manager.DatabaseManager;
+import java.util.ArrayList;
+import java.time.Year;
 
 public class ProductDataCenter extends AppCompatActivity
 {
@@ -48,7 +50,7 @@ public class ProductDataCenter extends AppCompatActivity
         if (editor.commit())
         {
             lastIndex++;
-            // If database stored
+            // If database stored return true, else false
             if (dbm.addTotalIndex(lastIndex))
             {
                 return true;
@@ -56,12 +58,38 @@ public class ProductDataCenter extends AppCompatActivity
             else
             {
                 return false;
-            }
-           
+            }     
         }
         else
         {
             return false;
         }
+    }
+    
+    
+    // Getting product name using index
+    public String getName(int index)
+    {
+        product_id = context.getSharedPreferences(PRODUCT + index, 0);
+        return product_id.getString(NAME, null);
+    }
+    
+    // Getting product price using index
+    public float getPrice(int index)
+    {
+        product_id = context.getSharedPreferences(PRODUCT + index, 0);
+        return product_id.getFloat(PRICE, 0.0f);
+    }
+    
+    // Getting total avaliable product on data
+    public int getProductsIndex()
+    {
+        return dbm.getTotalIndex();
+    }
+    
+    // Is data empty method
+    public Boolean isDataCenterEmpty()
+    {
+        return dbm.isDataCenterEmpty();
     }
 }
