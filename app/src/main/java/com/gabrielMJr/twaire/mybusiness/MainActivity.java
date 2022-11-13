@@ -1,18 +1,18 @@
 package com.gabrielMJr.twaire.mybusiness;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.content.Intent;
 import com.gabrielMJr.twaire.mybusiness.AddNewProductActivity;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
-import java.util.ArrayList;
-import android.support.v7.widget.RecyclerView;
 import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
-import android.support.v7.widget.LinearLayoutManager;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,8 +20,9 @@ public class MainActivity extends AppCompatActivity {
     private static Button add_new_product;
     
     // Products array
-    private static ArrayList<String> name;
-    private static ArrayList<String> price;
+    protected static ArrayList<String> name;
+    protected static ArrayList<String> price;
+    protected static ArrayList<String> image;
     
     // Recycler and adapter view
     private static RecyclerView productRecycler;
@@ -37,8 +38,9 @@ public class MainActivity extends AppCompatActivity {
         
         name = new ArrayList<>();
         price = new ArrayList<>();
+        image = new ArrayList<>();
         
-        productAdapter = new MyAdapter(getApplicationContext(), name, price);
+        productAdapter = new MyAdapter(getApplicationContext(), name, price, image);
         dataCenter = new ProductDataCenter(getApplicationContext());
     }
     
@@ -80,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
         {
             name.add(dataCenter.getName(i));
             price.add(String.valueOf(dataCenter.getPrice(i)));
+            image.add(dataCenter.getImage(i));
         }
     }
+    
+ protected Context getContext()
+ {
+     return getApplicationContext();
+ }
 }

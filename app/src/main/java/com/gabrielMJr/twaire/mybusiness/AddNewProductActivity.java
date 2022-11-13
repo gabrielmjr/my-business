@@ -17,8 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import com.gabrielMJr.twaire.mybusiness.MainActivity;
 import com.gabrielMJr.twaire.mybusiness.R;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
+import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
+import android.graphics.drawable.BitmapDrawable;
 
 public class AddNewProductActivity extends AppCompatActivity
 {
@@ -27,7 +30,7 @@ public class AddNewProductActivity extends AppCompatActivity
     // Final int for result of image picker
     private static final int IMAGE_PICKER_CODE = 100;
     private static final int IMAGE_TAKE_CODE = 101;
-    
+
     // Camera permission code
     private static final int CAMERA_PERM_CODE = 102;
 
@@ -36,42 +39,49 @@ public class AddNewProductActivity extends AppCompatActivity
 
     // Boolean with camera permission
     private static Boolean hasCameraPerm;
-    
+
     // Data center variable
     private static ProductDataCenter dataCenter;
 
+    // Activity widgets
     private static ImageView add_new_product_image;
     private static EditText add_new_product_name;
     private static EditText add_new_product_price;
-    
+
     // Buttons of the dialog
     private static Button pick_from_gallery;
     private static Button take_picture;
     private static Button cancel;
-    
+
     // Add product button
     private static Button add_new_product_button;
-    
+
+    // Package manager
     private static PackageManager pm;
 
     // Alert dialog of image chooser components
     private static AlertDialog.Builder builder;
     private static AlertDialog dialog;   
     private static View dialog_view;
-   
-    //private static String path;
-    private static Uri imageUri;
+
+    // BitmapDrawable (converteble drawable)
+    private static BitmapDrawable imageS;
 
     // Initializing
     private void initialize()
     {
+        // New datacenter object
         dataCenter = new  ProductDataCenter(getApplicationContext());
-        
-        add_new_product_image = findViewById(R.id.add_new_product_image);
+
+        // Creating neccessary folders 
+        dataCenter.createHome();
+        dataCenter.createImgDir();
+
+        // Getting activity components
         add_new_product_name = findViewById(R.id.add_new_product_name);
-        add_new_product_price = findViewById(R.id.add_new_product_price);    
+        add_new_product_price = findViewById(R.id.add_new_product_price);
+        add_new_product_image = findViewById(R.id.add_new_product_image);
         add_new_product_button = findViewById(R.id.add_new_product_button);
-        
     }
 
     @Override
@@ -81,16 +91,19 @@ public class AddNewProductActivity extends AppCompatActivity
         setContentView(R.layout.activity_add_new_product);
         initialize();
 
+        // Add new product image (visible while product.isEmpty())
         add_new_product_image.setOnClickListener(
             new OnClickListener()
             {
                 @Override
                 public void onClick(View view)
                 {
+                    // Pick image
                     pickImage();
                 }
             });
-            
+
+        // Add new product button 
         add_new_product_button.setOnClickListener(
             new OnClickListener()
             {
@@ -107,17 +120,17 @@ public class AddNewProductActivity extends AppCompatActivity
     {
         String product = add_new_product_name.getText().toString();
         float price = Float.valueOf(add_new_product_price.getText().toString());
-        if (dataCenter.addProduct(product, price))
+        
+        // If data.wasAdded, finish the activity
+        if (dataCenter.addProduct(product, price, imageS))
         {
-            try
-            {
-                finalize();
-            }
-            catch (Throwable e)
-            {}
+            finish();
         }
+        
+        // Else, finish activity and show message Toast
         else
         {
+            finish();
             Toast.makeText(getApplicationContext(), getString(R.string.an_error_occurred_on_db), Toast.LENGTH_SHORT).show();
         }
     }
@@ -133,28 +146,28 @@ public class AddNewProductActivity extends AppCompatActivity
             // Boolean with camera permission value
             hasCameraPerm = getPackageManager().checkPermission(Manifest.permission.CAMERA, getPackageName()) == PackageManager.PERMISSION_GRANTED;
         }
-        
+
         // Else, hasCameraPerm will be true
         else
         {
             hasCameraPerm = true;
         }
-        
+
         // Builder for the dialog
         builder = new AlertDialog.Builder(this);
         dialog_view = getLayoutInflater().inflate(R.layout.image_chooser_custom_dialog, null);
-        
+
         // Initialze the buttons
         initializeChooserPicDialog();
-        
+
         // Setting tittle
         builder.setTitle(R.string.load_picture);
-        
+
         // Setting view and creating the dialog
         builder.setView(dialog_view);
         dialog = builder.create();
         dialog.show();
-        
+
         // OnClick of each button
         // Pick from gallery
         pick_from_gallery.setOnClickListener(
@@ -168,44 +181,45 @@ public class AddNewProductActivity extends AppCompatActivity
                     startActivityForResult(pick_take_Image, IMAGE_PICKER_CODE);
                 }                          
             });
-            
-            // Take using camera
-            take_picture.setOnClickListener(
-                new OnClickListener()
+
+        // Take using camera
+        take_picture.setOnClickListener(
+            new OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
                 {
-                    @Override
-                    public void onClick(View view)
+                    dialog.dismiss();
+
+                    // Check for camera permissiom
+                    if (hasCameraPerm)
                     {
-                        dialog.dismiss();
-
-                        // Check for camera permissiom
-                        if (hasCameraPerm)
-                        {
-                            pick_take_Image = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(pick_take_Image, IMAGE_TAKE_CODE);
-                        }
-
-                        // Ask permission
-                        else
-                        {
-                            askCameraPermission();
-                        }
+                        pick_take_Image = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(pick_take_Image, IMAGE_TAKE_CODE);
                     }
-                });
-                
-                cancel.setOnClickListener(
-                    new OnClickListener()
+
+                    // Ask permission
+                    else
                     {
-                        @Override
-                        public void onClick(View view)
-                        {
-                            dialog.dismiss();
-                            Toast.makeText(getApplicationContext(), getText(R.string.canceled_by_user), Toast.LENGTH_SHORT).show();                       
-                        }
-                    });              
-        }
-                  
-        
+                        askCameraPermission();
+                    }
+                }
+            });
+
+        // Cancel field on dialog
+        cancel.setOnClickListener(
+            new OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    dialog.dismiss();
+                    Toast.makeText(getApplicationContext(), getText(R.string.canceled_by_user), Toast.LENGTH_SHORT).show();                       
+                }
+            });              
+    }
+
+
     // Initialize the byttons of image chooser dialog
     private static void initializeChooserPicDialog()
     {
@@ -219,25 +233,26 @@ public class AddNewProductActivity extends AppCompatActivity
     {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
     }
-    
-       
+
+
     // On intent result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        
+
         // Check if it was done
         if (resultCode == RESULT_OK)
         {
             if (requestCode == IMAGE_PICKER_CODE
                 || 
                 requestCode == IMAGE_TAKE_CODE)
-                {
-                    add_new_product_image.setImageURI(data.getData());
-                }
+            {
+                add_new_product_image.setImageURI(data.getData());
+                imageS = (BitmapDrawable)add_new_product_image.getDrawable();
+            }
         }
-        
+
         // Else, show an toast
         else if (resultCode == RESULT_CANCELED)
         {
