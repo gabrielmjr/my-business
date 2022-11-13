@@ -1,10 +1,10 @@
 package com.gabrielMJr.twaire.mybusiness;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,11 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.gabrielMJr.twaire.mybusiness.MainActivity;
 import com.gabrielMJr.twaire.mybusiness.R;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
-import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
-import android.graphics.drawable.BitmapDrawable;
 
 public class AddNewProductActivity extends AppCompatActivity
 {
@@ -244,11 +241,14 @@ public class AddNewProductActivity extends AppCompatActivity
         // Check if it was done
         if (resultCode == RESULT_OK)
         {
-            if (requestCode == IMAGE_PICKER_CODE
-                || 
-                requestCode == IMAGE_TAKE_CODE)
+            if (requestCode == IMAGE_PICKER_CODE)
             {
                 add_new_product_image.setImageURI(data.getData());
+                imageS = (BitmapDrawable)add_new_product_image.getDrawable();
+            }
+            else if (requestCode == IMAGE_TAKE_CODE)
+            {
+                add_new_product_image.setImageBitmap((Bitmap)data.getExtras().get("data"));
                 imageS = (BitmapDrawable)add_new_product_image.getDrawable();
             }
         }
