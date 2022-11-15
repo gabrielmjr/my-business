@@ -2,6 +2,7 @@ package com.gabrielMJr.twaire.mybusiness;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import com.gabrielMJr.twaire.mybusiness.AddNewProductActivity;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
 import java.util.ArrayList;
+import android.graphics.drawable.Drawable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     // Products array
     protected static ArrayList<String> name;
     protected static ArrayList<String> price;
-    protected static ArrayList<String> image;
+    protected static ArrayList<Bitmap> image;
     
     // Recycler and adapter view
     private static RecyclerView productRecycler;

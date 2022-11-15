@@ -10,6 +10,9 @@
     <!--take pictures and videos-->
     <uses-permission android:name="android.permission.CAMERA"/>
 
+    <!--STORAGE_INTERNAL-->
+    <uses-permission android:name="android.permission.STORAGE_INTERNAL"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

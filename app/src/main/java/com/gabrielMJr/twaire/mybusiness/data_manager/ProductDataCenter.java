@@ -1,17 +1,19 @@
 package com.gabrielMJr.twaire.mybusiness.data_manager;
 
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.app.AppCompatActivity;
 import com.gabrielMJr.twaire.mybusiness.data_manager.DatabaseManager;
-import java.util.ArrayList;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
+import android.graphics.drawable.Drawable;
 
 public class ProductDataCenter extends AppCompatActivity
 {
@@ -95,9 +97,9 @@ public class ProductDataCenter extends AppCompatActivity
         // Total index of avaliable products
         int lastIndex = dbm.getTotalIndex();
 
-        product_id = context.getSharedPreferences(PRODUCT + lastIndex, 0);    
+        product_id = context.getSharedPreferences(PRODUCT + lastIndex + ".bmp", 0);    
         editor = product_id.edit();
-        
+
         // Adding into sharedPreferences
         editor.putString(NAME, name);
         editor.putFloat(PRICE, price);
@@ -132,9 +134,9 @@ public class ProductDataCenter extends AppCompatActivity
     {
         // Converting from bitmalDrawable to bitmal
         Bitmap bitmap = drawable.getBitmap();
-        
+
         // File contains imageDir/imageFile
-        File file = new File(pwd + "/" + home + "/" + image_dir, PRODUCT + lastIndex);
+        File file = new File(pwd + "/" + home + "/" + image_dir, PRODUCT + lastIndex + ".bmp");
         try
         {        
             // Compressing the image
@@ -176,10 +178,15 @@ public class ProductDataCenter extends AppCompatActivity
     }
 
     // Getting product image using index
-    public String getImage(int index)
+    public Bitmap getImage(int index)
     {
-        product_id = context.getSharedPreferences(IMAGE + index, 0);
-        return product_id.getString(IMAGE, null);
+        File path = new File( + "/" + home + "/" + image_dir + "/" + PRODUCT + index);
+
+        //InputStream inputStream = new FileInputStream(path);
+        Bitmap bmp = BitmapFactory.decodeFile(path, BitmapFactory;
+
+        //Drawable bmp = Drawable.createFromPath(path);
+        return bmp;
     }
 
     // Getting total avaliable product on data

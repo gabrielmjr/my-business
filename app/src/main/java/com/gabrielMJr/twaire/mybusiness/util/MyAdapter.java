@@ -1,15 +1,16 @@
 package com.gabrielMJr.twaire.mybusiness.util;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import java.util.ArrayList;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.gabrielMJr.twaire.mybusiness.R;
-import android.view.ViewGroup;
-import android.view.LayoutInflater;
-import android.widget.ImageView;
-import android.net.Uri;
+import java.util.ArrayList;
+import android.graphics.Bitmap;
 
 // Products adapter view
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
@@ -19,12 +20,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
     private static Context context;
     private static ArrayList names_id;
     private static ArrayList prices_id;
-    private static ArrayList images_id;
+    private static ArrayList<Bitmap> images_id;
     
     private static View viewHolder;
 
     // Constructor
-    public MyAdapter(Context context, ArrayList names_id, ArrayList prices_id, ArrayList images_id)
+    public MyAdapter(Context context, ArrayList names_id, ArrayList prices_id, ArrayList<Bitmap> images_id)
     {
         this.context = context;
         this.names_id = names_id;
@@ -48,7 +49,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
         // Setting text and uri image parsed of each avaliable product
         holder.names_id.setText(String.valueOf(names_id.get(position)));
         holder.prices_id.setText(String.valueOf(prices_id.get(position)));
-        //holder.images_id.setImageURI(Uri.parse(String.valueOf(images_id.get(position))));
+        holder.images_id.setImageBitmap(images_id.get(position));
     }
 
     // Setting total index of adapted views
