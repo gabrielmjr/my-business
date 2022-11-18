@@ -15,6 +15,7 @@ import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
 import java.util.ArrayList;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     // Products array
     protected static ArrayList<String> name;
     protected static ArrayList<String> price;
-    protected static ArrayList<Bitmap> image;
+    protected static ArrayList<Uri> image;
     
     // Recycler and adapter view
     private static RecyclerView productRecycler;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         {
             name.add(dataCenter.getName(i));
             price.add(String.valueOf(dataCenter.getPrice(i)));
-            image.add(dataCenter.getImage(i));
+            image.add(Uri.parse(String.valueOf(dataCenter.getImage(i))));
         }
     }
     

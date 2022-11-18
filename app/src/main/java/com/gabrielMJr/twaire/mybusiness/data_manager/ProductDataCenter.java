@@ -3,17 +3,14 @@ package com.gabrielMJr.twaire.mybusiness.data_manager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import com.gabrielMJr.twaire.mybusiness.data_manager.DatabaseManager;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import android.graphics.drawable.Drawable;
 
 public class ProductDataCenter extends AppCompatActivity
 {
@@ -97,7 +94,7 @@ public class ProductDataCenter extends AppCompatActivity
         // Total index of avaliable products
         int lastIndex = dbm.getTotalIndex();
 
-        product_id = context.getSharedPreferences(PRODUCT + lastIndex + ".bmp", 0);    
+        product_id = context.getSharedPreferences(PRODUCT + lastIndex, 0);    
         editor = product_id.edit();
 
         // Adding into sharedPreferences
@@ -178,15 +175,15 @@ public class ProductDataCenter extends AppCompatActivity
     }
 
     // Getting product image using index
-    public Bitmap getImage(int index)
+    public Uri getImage(int index)
     {
-        File path = new File( + "/" + home + "/" + image_dir + "/" + PRODUCT + index);
+        File file = new File(pwd + "/" + home + "/" + image_dir, PRODUCT + index + ".bmp");
 
         //InputStream inputStream = new FileInputStream(path);
-        Bitmap bmp = BitmapFactory.decodeFile(path, BitmapFactory;
-
+       
         //Drawable bmp = Drawable.createFromPath(path);
-        return bmp;
+       return Uri.fromFile(file);
+        
     }
 
     // Getting total avaliable product on data

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.gabrielMJr.twaire.mybusiness.R;
 import java.util.ArrayList;
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 // Products adapter view
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
@@ -20,12 +21,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
     private static Context context;
     private static ArrayList names_id;
     private static ArrayList prices_id;
-    private static ArrayList<Bitmap> images_id;
+    private static ArrayList<Uri> images_id;
     
     private static View viewHolder;
 
     // Constructor
-    public MyAdapter(Context context, ArrayList names_id, ArrayList prices_id, ArrayList<Bitmap> images_id)
+    public MyAdapter(Context context, ArrayList names_id, ArrayList prices_id, ArrayList<Uri> images_id)
     {
         this.context = context;
         this.names_id = names_id;
@@ -39,7 +40,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int p2)
     {
         // Inflating the card view
-        viewHolder = LayoutInflater.from(context).inflate(R.layout.products_card, parent, false);
+        viewHolder = LayoutInflater.from(context).inflate(R.layout.product_card_view, parent, false);
         return new MyViewHolder(viewHolder);
     }
 
@@ -47,9 +48,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
     public void onBindViewHolder(MyViewHolder holder, int position)
     {
         // Setting text and uri image parsed of each avaliable product
-        holder.names_id.setText(String.valueOf(names_id.get(position)));
-        holder.prices_id.setText(String.valueOf(prices_id.get(position)));
-        holder.images_id.setImageBitmap(images_id.get(position));
+        holder.names_id.setText(" " + String.valueOf(names_id.get(position)));
+        holder.prices_id.setText(" " + String.valueOf(prices_id.get(position)));
+        holder.images_id.setImageURI(images_id.get(position));
     }
 
     // Setting total index of adapted views
@@ -74,9 +75,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
             super(itemView);
             
             // Finding the widgets
-            names_id = itemView.findViewById(R.id.name);
-            prices_id = itemView.findViewById(R.id.price);
-            images_id = itemView.findViewById(R.id.image);
+            names_id = itemView.findViewById(R.id.product_name);
+            prices_id = itemView.findViewById(R.id.product_price);
+            images_id = itemView.findViewById(R.id.product_image);
         }
     }
 }

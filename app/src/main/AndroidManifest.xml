@@ -4,14 +4,8 @@
     package="com.gabrielMJr.twaire.mybusiness"
     android:versionName="0.1.0-Alpha">
 
-    <!--read the contents of your shared storage-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
     <!--take pictures and videos-->
     <uses-permission android:name="android.permission.CAMERA"/>
-
-    <!--STORAGE_INTERNAL-->
-    <uses-permission android:name="android.permission.STORAGE_INTERNAL"/>
 
     <application
         android:allowBackup="true"

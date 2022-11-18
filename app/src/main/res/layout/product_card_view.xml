@@ -5,6 +5,7 @@
     android:layout_width="match_parent"   
     android:layout_height="wrap_content" 
     app:cardCornerRadius="15dp"
+    android:layout_margin="10dp"
     android:orientation="vertical">  
 
     <LinearLayout  
@@ -15,13 +16,15 @@
 
         <ImageView      
             android:id="@+id/product_image"  
-            android:layout_width="wrap_content"  
-            android:layout_height="wrap_content"/>  
+            android:layout_width="100dp"  
+            android:layout_height="100dp"
+            android:layout_margin="10dp"/>  
 
         <LinearLayout      
             android:layout_width="match_parent" 
             android:layout_height="wrap_content"
-            android:orientation="vertical">  
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">  
 
             <LinearLayout      
                 android:layout_width="wrap_content"  
@@ -63,7 +66,7 @@
                     android:textSize="18sp"/>
 
             </LinearLayout>  
-
+                   
             <LinearLayout   
                 android:layout_width="wrap_content" 
                 android:layout_height="wrap_content"  
