@@ -160,6 +160,21 @@ public class ProductDataCenter extends AppCompatActivity
         {}
     }
 
+    // Check for product existing using name
+    public boolean checkByName(String name)
+    {
+        for (int i = 0; i < dbm.getTotalIndex(); i++)
+        {
+            // Compare lowercase of the parameter name and stored name of the product
+            if (name.toLowerCase().replaceAll("\\s", "").equals(getName(i).toLowerCase().replaceAll("\\s", "")))
+            {
+                return true;
+            }
+        }
+
+        // If the code arrive here, the product doesnt exist
+        return false;
+    }
 
 
     // Getting product name using index
@@ -175,7 +190,7 @@ public class ProductDataCenter extends AppCompatActivity
         product_id = context.getSharedPreferences(PRODUCT + index, 0);
         return product_id.getFloat(PRICE, 0.0f);
     }
-    
+
     // Getting the product amount using index
     public int getAmount(int index)
     {
@@ -189,12 +204,12 @@ public class ProductDataCenter extends AppCompatActivity
         File file = new File(pwd + "/" + home + "/" + image_dir, PRODUCT + index + ".bmp");
 
         //InputStream inputStream = new FileInputStream(path);
-       
+
         //Drawable bmp = Drawable.createFromPath(path);
-       return Uri.fromFile(file);
-        
+        return Uri.fromFile(file);
+
     }
-    
+
 
     // Getting total avaliable product on data
     public int getProductsIndex()

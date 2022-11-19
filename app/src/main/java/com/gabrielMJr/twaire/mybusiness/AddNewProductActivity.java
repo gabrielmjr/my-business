@@ -109,17 +109,27 @@ public class AddNewProductActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view)
                 {
-                    addProduct();
+                    String product = add_new_product_name.getText().toString();
+                    float price = Float.valueOf(add_new_product_price.getText().toString());
+                    int initial_amount = Integer.valueOf(add_new_product_initial_amount.getText().toString());
+                    
+                    // 
+                    if (dataCenter.checkByName(product))
+                    {
+                        Toast.makeText(getApplicationContext(), getText(R.string.product_exist), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        addProduct(product, price, initial_amount);
+                        Toast.makeText(getApplicationContext(), getText(R.string.added_successfully), Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
     }
 
     // Add product method
-    private void addProduct()
+    private void addProduct(String product, float price, int initial_amount)
     {
-        String product = add_new_product_name.getText().toString();
-        float price = Float.valueOf(add_new_product_price.getText().toString());
-        int initial_amount = Integer.valueOf(add_new_product_initial_amount.getText().toString());
         
         // If data.wasAdded, finish the activity
         if (dataCenter.addProduct(product, price, initial_amount, imageS))

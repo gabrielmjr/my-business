@@ -4,7 +4,6 @@
 *.ap_
 *.aab
 
-src/main/java/com/gabrielMJr/twaire/mybusiness/data_manager/ProductDatabase.java
 
 # Files for the ART/Dalvik VM
 *.dex
