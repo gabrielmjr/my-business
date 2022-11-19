@@ -23,4 +23,9 @@
     <string name="error_on_image_pick">An error occurred on image pick</string>
     <string name="product_exist">Product already exist</string>
     <string name="added_successfully">Product added successfully</string>
+    
+    <string name="empty_name">The product name cannot be empty</string>
+    <string name="empty_price">The product need to have a price</string>
+    <string name="empty_amount">The product need to have an amount</string>
+    <string name="empty_image">Insert an image</string>
 </resources>

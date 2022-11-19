@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.gabrielMJr.twaire.mybusiness.R;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
+import com.gabrielMJr.twaire.tools.Tools;
 
 public class AddNewProductActivity extends AppCompatActivity
 {
@@ -46,6 +47,10 @@ public class AddNewProductActivity extends AppCompatActivity
     private static EditText add_new_product_price;
     private static EditText add_new_product_initial_amount;
 
+    // Boolean verifier
+    // Does have image on the image field?
+    private static Boolean hasImage = false;
+
     // Buttons of the dialog
     private static Button pick_from_gallery;
     private static Button take_picture;
@@ -64,12 +69,20 @@ public class AddNewProductActivity extends AppCompatActivity
 
     // BitmapDrawable (converteble drawable)
     private static BitmapDrawable imageS;
+    
+    /* 
+     My tools package
+     I used him instead of java.lang.isEmpty because:
+     my tools consider space as empty
+    */
+    private static Tools tools;
 
     // Initializing
     private void initialize()
     {
         // New datacenter object
         dataCenter = new  ProductDataCenter(getApplicationContext());
+        tools = new Tools();
 
         // Creating neccessary folders 
         dataCenter.createHome();
@@ -110,33 +123,86 @@ public class AddNewProductActivity extends AppCompatActivity
                 public void onClick(View view)
                 {
                     String product = add_new_product_name.getText().toString();
-                    float price = Float.valueOf(add_new_product_price.getText().toString());
-                    int initial_amount = Integer.valueOf(add_new_product_initial_amount.getText().toString());
-                    
-                    // 
-                    if (dataCenter.checkByName(product))
+                    String price = add_new_product_price.getText().toString();
+                    String initial_amount = add_new_product_initial_amount.getText().toString();
+
+                    if (checkFieldsValues(product, price, initial_amount))
                     {
-                        Toast.makeText(getApplicationContext(), getText(R.string.product_exist), Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        addProduct(product, price, initial_amount);
-                        Toast.makeText(getApplicationContext(), getText(R.string.added_successfully), Toast.LENGTH_SHORT).show();
+                        // Checks if the name already exists
+                        if (dataCenter.checkByName(product))
+                        {
+                            Toast.makeText(getApplicationContext(), getText(R.string.product_exist), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            addProduct(product, Float.valueOf(price), Integer.valueOf(initial_amount));
+                            Toast.makeText(getApplicationContext(), getText(R.string.added_successfully), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
     }
 
+    // Check if the fields are empty
+    private Boolean checkFieldsValues(String name, String price, String amount)
+    {
+        // Boolean verifiers
+        Boolean verifyName;
+        Boolean verifyPrice;
+        Boolean verifyAmount;
+        
+        // Check for name
+        if (tools.isNull(name))
+        {
+            add_new_product_name.setError(getText(R.string.empty_name));
+            verifyName = false;
+        }
+        else
+        {
+            verifyName = true;
+        }
+        
+        // Check for price
+        if (tools.isNull(price))
+        {
+            add_new_product_price.setError(getText(R.string.empty_price));
+            verifyPrice = false;
+        }
+        else
+        {
+            verifyPrice = true;
+        }
+        
+        // Check amount
+        if (tools.isNull(amount))
+        {
+            add_new_product_initial_amount.setError(getText(R.string.empty_amount));
+            verifyAmount = false;
+        }
+        else
+        {
+            verifyAmount = true;
+        }
+        
+        if (!hasImage)
+        {
+            Toast.makeText(getApplicationContext(), getText(R.string.empty_image), Toast.LENGTH_SHORT).show();
+        }
+        
+        // Checking and returning the boolean
+        return (verifyName && verifyPrice && verifyAmount && hasImage) ? true: false;
+    }
+
     // Add product method
     private void addProduct(String product, float price, int initial_amount)
     {
-        
+
         // If data.wasAdded, finish the activity
         if (dataCenter.addProduct(product, price, initial_amount, imageS))
         {
             finish();
         }
-        
+
         // Else, finish activity and show message Toast
         else
         {
@@ -258,11 +324,15 @@ public class AddNewProductActivity extends AppCompatActivity
             {
                 add_new_product_image.setImageURI(data.getData());
                 imageS = (BitmapDrawable)add_new_product_image.getDrawable();
+                
+                // Setting has image to reuse when verify values
+                hasImage = true;
             }
             else if (requestCode == IMAGE_TAKE_CODE)
             {
                 add_new_product_image.setImageBitmap((Bitmap)data.getExtras().get("data"));
                 imageS = (BitmapDrawable)add_new_product_image.getDrawable();
+                hasImage = true;
             }
         }
 
@@ -270,6 +340,7 @@ public class AddNewProductActivity extends AppCompatActivity
         else if (resultCode == RESULT_CANCELED)
         {
             Toast.makeText(getApplicationContext(), getText(R.string.canceled_by_user), Toast.LENGTH_SHORT).show();
+            hasImage = false;
         }
     }
 }
