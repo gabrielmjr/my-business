@@ -28,7 +28,6 @@ public class DatabaseManager extends SQLiteOpenHelper
     {
         super(context, DB1_NAME, null, 1);
         db = this.getWritableDatabase();
-        CV = new ContentValues();
     }
     
     // Creating database
@@ -56,6 +55,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     // Adding total index of data center to db
     protected boolean addTotalIndex(int totalIndex)
     {
+        CV = new ContentValues();
         CV.put(COL1_2, totalIndex);
         
         Long result = db.insert(TABLE1_NAME, null, CV);

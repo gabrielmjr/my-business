@@ -44,6 +44,7 @@ public class AddNewProductActivity extends AppCompatActivity
     private static ImageView add_new_product_image;
     private static EditText add_new_product_name;
     private static EditText add_new_product_price;
+    private static EditText add_new_product_initial_amount;
 
     // Buttons of the dialog
     private static Button pick_from_gallery;
@@ -77,6 +78,7 @@ public class AddNewProductActivity extends AppCompatActivity
         // Getting activity components
         add_new_product_name = findViewById(R.id.add_new_product_name);
         add_new_product_price = findViewById(R.id.add_new_product_price);
+        add_new_product_initial_amount = findViewById(R.id.add_new_product_initial_amount);
         add_new_product_image = findViewById(R.id.add_new_product_image);
         add_new_product_button = findViewById(R.id.add_new_product_button);
     }
@@ -117,9 +119,10 @@ public class AddNewProductActivity extends AppCompatActivity
     {
         String product = add_new_product_name.getText().toString();
         float price = Float.valueOf(add_new_product_price.getText().toString());
+        int initial_amount = Integer.valueOf(add_new_product_initial_amount.getText().toString());
         
         // If data.wasAdded, finish the activity
-        if (dataCenter.addProduct(product, price, imageS))
+        if (dataCenter.addProduct(product, price, initial_amount, imageS))
         {
             finish();
         }

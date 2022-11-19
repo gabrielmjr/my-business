@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     // Products array
     protected static ArrayList<String> name;
     protected static ArrayList<String> price;
+    private static ArrayList<String> amount;
     protected static ArrayList<Uri> image;
     
     // Recycler and adapter view
@@ -41,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
         
         name = new ArrayList<>();
         price = new ArrayList<>();
+        amount = new ArrayList<>();
         image = new ArrayList<>();
         
-        productAdapter = new MyAdapter(getApplicationContext(), name, price, image);
+        productAdapter = new MyAdapter(getApplicationContext(), name, price, amount, image);
         dataCenter = new ProductDataCenter(getApplicationContext());
     }
     
@@ -85,12 +87,8 @@ public class MainActivity extends AppCompatActivity {
         {
             name.add(dataCenter.getName(i));
             price.add(String.valueOf(dataCenter.getPrice(i)));
+            amount.add(String.valueOf(dataCenter.getAmount(i)));
             image.add(Uri.parse(String.valueOf(dataCenter.getImage(i))));
         }
     }
-    
- protected Context getContext()
- {
-     return getApplicationContext();
- }
 }

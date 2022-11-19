@@ -21,11 +21,12 @@ public class ProductDataCenter extends AppCompatActivity
     private static SharedPreferences product_id;
 
     // product preffix
-    private static final String PRODUCT = "product_";
+    protected static final String PRODUCT = "product_";
 
     // Product descriptions
     private static final String NAME = "name";
     private static final String PRICE = "price";
+    private static final String AMOUNT = "amount";
     private static final String IMAGE = "uri_image";
 
     // Shared preferences editor
@@ -89,7 +90,7 @@ public class ProductDataCenter extends AppCompatActivity
 
 
     // add product and return boolean value
-    public boolean addProduct(String name, float price, BitmapDrawable image)
+    public boolean addProduct(String name, float price, int initial_amount,  BitmapDrawable image)
     {
         // Total index of avaliable products
         int lastIndex = dbm.getTotalIndex();
@@ -100,6 +101,7 @@ public class ProductDataCenter extends AppCompatActivity
         // Adding into sharedPreferences
         editor.putString(NAME, name);
         editor.putFloat(PRICE, price);
+        editor.putInt(AMOUNT, initial_amount);
 
         // Saving the image
         addImage(image, lastIndex);
@@ -173,6 +175,13 @@ public class ProductDataCenter extends AppCompatActivity
         product_id = context.getSharedPreferences(PRODUCT + index, 0);
         return product_id.getFloat(PRICE, 0.0f);
     }
+    
+    // Getting the product amount using index
+    public int getAmount(int index)
+    {
+        product_id = context.getSharedPreferences(PRODUCT + index, 0);
+        return product_id.getInt(AMOUNT, 0);
+    }
 
     // Getting product image using index
     public Uri getImage(int index)
@@ -185,6 +194,7 @@ public class ProductDataCenter extends AppCompatActivity
        return Uri.fromFile(file);
         
     }
+    
 
     // Getting total avaliable product on data
     public int getProductsIndex()

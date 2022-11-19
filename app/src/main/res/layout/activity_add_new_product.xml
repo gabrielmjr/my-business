@@ -9,12 +9,12 @@
 	android:orientation="vertical">
 
 	<LinearLayout
+		android:id="@+id/productLinearLayout1"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
 		android:layout_margin="10dp"
-		android:layout_centerVertical="true"
-		android:id="@+id/activityaddnewproductLinearLayout1">
+		android:layout_centerVertical="true">
 
 		<TextView
 			android:layout_width="wrap_content"
@@ -29,6 +29,7 @@
 			android:layout_height="wrap_content"
 			android:textStyle="bold"
 			android:inputType="textShortMessage"
+			android:imeOptions="actionNext"
 			android:gravity="center_horizontal"/>
 
 	</LinearLayout>
@@ -39,16 +40,25 @@
 		android:layout_height="150dp"
 		android:layout_margin="10dp"
 		android:layout_centerHorizontal="true"
-		android:layout_above="@id/activityaddnewproductLinearLayout1"
+		android:layout_above="@id/productLinearLayout1"
 		android:src="@drawable/ic_image_plus"/>
 
+	<View
+		android:id="@+id/vv"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:layout_centerHorizontal="true"
+		android:layout_below="@id/productLinearLayout1"/>
+
 	<LinearLayout
-		android:layout_width="match_parent"
+		android:id="@+id/productLinearLayout3"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
+		android:layout_below="@id/productLinearLayout1"
 		android:layout_margin="10dp"
-		android:layout_below="@id/activityaddnewproductLinearLayout1"
-		android:id="@+id/activityaddnewproductLinearLayout2">
+		android:layout_toEndOf="@id/vv"
+		android:layout_alignParentEnd="true">
 
 		<TextView
 			android:layout_width="wrap_content"
@@ -63,17 +73,46 @@
 			android:layout_height="wrap_content"
 			android:textStyle="bold"
 			android:inputType="numberDecimal"
+			android:imeOptions="actionDone"
+			android:gravity="center_horizontal"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/productLinearLayout2"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_alignTop="@id/vv"
+		android:layout_margin="10dp"
+		android:layout_toStartOf="@id/vv"
+		android:layout_alignParentStart="true">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textStyle="bold"
+			android:text="@string/product_amount"
+			android:layout_gravity="center_vertical"/>
+
+		<EditText
+			android:id="@+id/add_new_product_initial_amount"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textStyle="bold"
+			android:inputType="number"
+			android:imeOptions="actionNext"
 			android:gravity="center_horizontal"/>
 
 	</LinearLayout>
 
 	<Button
-        android:id="@+id/add_new_product_button"
+		android:id="@+id/add_new_product_button"
 		android:layout_width="wrap_content"
 		style="?android:attr/buttonStyleSmall"
 		android:layout_height="wrap_content"
 		android:text="@string/add_product"
-		android:layout_below="@id/activityaddnewproductLinearLayout2"
+		android:layout_below="@id/productLinearLayout3"
 		android:layout_centerHorizontal="true"
 		android:layout_margin="15dp"/>
 
