@@ -7,10 +7,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import com.gabrielMJr.twaire.mybusiness.data_manager.DatabaseManager;
+import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 
 public class ProductDataCenter extends AppCompatActivity
 {
@@ -27,13 +29,15 @@ public class ProductDataCenter extends AppCompatActivity
     private static final String NAME = "name";
     private static final String PRICE = "price";
     private static final String AMOUNT = "amount";
-    private static final String IMAGE = "uri_image";
 
     // Shared preferences editor
     private static SharedPreferences.Editor editor;
 
     // Database manager class
     private static DatabaseManager dbm;
+    
+    // Product database
+    private static ProductDatabase pdb;
 
     // Home folder
     public static final String home = "files";
@@ -43,12 +47,12 @@ public class ProductDataCenter extends AppCompatActivity
 
     // pwd = actual directory
     public static String pwd; 
-
+    
     // Constructor
     public ProductDataCenter(Context context)
     {
         this.context = context;
-        dbm = new DatabaseManager(context);
+        dbm = new DatabaseManager(context);  
         pwd = context.getApplicationInfo().dataDir;
     }
 
@@ -221,5 +225,17 @@ public class ProductDataCenter extends AppCompatActivity
     public Boolean isDataCenterEmpty()
     {
         return dbm.isDataCenterEmpty();
+    }
+    
+    // Setting index before initialize product db
+    public void setIndex(Context context, int index)
+    {
+        initializePDB(context, index);
+    }
+    
+    // Initializing product database
+    public void initializePDB(Context context, int index)
+    {
+        pdb = new ProductDatabase(context, index);
     }
 }

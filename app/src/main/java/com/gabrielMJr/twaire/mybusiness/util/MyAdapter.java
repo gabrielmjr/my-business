@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.gabrielMJr.twaire.mybusiness.R;
+import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.view.View.OnClickListener;
 
 // Products adapter view
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
@@ -25,15 +27,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
     private static ArrayList<Uri> images_id;
     
     private static View viewHolder;
+    private final RecyclerViewInterface RVI;
 
     // Constructor
-    public MyAdapter(Context context, ArrayList names_id, ArrayList prices_id, ArrayList amount_id, ArrayList<Uri> images_id)
+    public MyAdapter(
+                    Context context,
+                    ArrayList names_id,
+                    ArrayList prices_id,
+                    ArrayList amount_id, 
+                    ArrayList<Uri> images_id,
+                    RecyclerViewInterface RVI)
     {
         this.context = context;
         this.names_id = names_id;
         this.prices_id = prices_id;
         this.amount_id = amount_id;
         this.images_id = images_id;
+        this.RVI = RVI;
     }
     
 
@@ -83,6 +93,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
             prices_id = itemView.findViewById(R.id.product_price);
             amounts_id = itemView.findViewById(R.id.product_amount);
             images_id = itemView.findViewById(R.id.product_image);
+            
+            // OnClick of item
+            itemView.setOnClickListener(
+                new OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        // Getting the clicked item position
+                        int position = getAdapterPosition();
+
+                        
+                        if (position != RecyclerView.NO_POSITION)
+                        {
+                            // Setting the clicked position
+                            RVI.onItemClick(position);
+                        }
+                    }
+                });
         }
     }
 }

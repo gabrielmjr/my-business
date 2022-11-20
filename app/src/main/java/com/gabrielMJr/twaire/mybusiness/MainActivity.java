@@ -1,8 +1,7 @@
 package com.gabrielMJr.twaire.mybusiness;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,11 +12,12 @@ import android.widget.Button;
 import com.gabrielMJr.twaire.mybusiness.AddNewProductActivity;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
+import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerViewInterface
+{
 
     // Go to add item button
     private static Button add_new_product;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         amount = new ArrayList<>();
         image = new ArrayList<>();
         
-        productAdapter = new MyAdapter(getApplicationContext(), name, price, amount, image);
+        productAdapter = new MyAdapter(getApplicationContext(), name, price, amount, image, this);
         dataCenter = new ProductDataCenter(getApplicationContext());
     }
     
@@ -90,5 +90,11 @@ public class MainActivity extends AppCompatActivity {
             amount.add(String.valueOf(dataCenter.getAmount(i)));
             image.add(Uri.parse(String.valueOf(dataCenter.getImage(i))));
         }
+    }
+
+    @Override
+    public void onItemClick(int position)
+    {
+        Toast.makeText(getApplicationContext(), "Clicked on: " + position, Toast.LENGTH_SHORT).show();
     }
 }
