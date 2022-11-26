@@ -9,12 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 import com.gabrielMJr.twaire.mybusiness.AddNewProductActivity;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
+import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
 import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
 import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface
 {
@@ -23,17 +24,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     private static Button add_new_product;
     
     // Products array
-    protected static ArrayList<String> name;
-    protected static ArrayList<String> price;
-    private static ArrayList<String> amount;
-    protected static ArrayList<Uri> image;
+    protected ArrayList<String> name;
+    protected ArrayList<String> price;
+    private ArrayList<String> amount;
+    protected ArrayList<Uri> image;
     
     // Recycler and adapter view
-    private static RecyclerView productRecycler;
-    private static MyAdapter productAdapter;
+    private RecyclerView productRecycler;
+    private MyAdapter productAdapter;
     
     // Product data center
-    private static ProductDataCenter dataCenter;
+    private ProductDataCenter dataCenter;
+    private ProductDatabase productDB;
     
     private void initialize()
     {
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         
         productAdapter = new MyAdapter(getApplicationContext(), name, price, amount, image, this);
         dataCenter = new ProductDataCenter(getApplicationContext());
+        productDB = new ProductDatabase(getApplicationContext());
     }
     
     @Override
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         // Setting adapter into the recycler
         productRecycler.setAdapter(productAdapter);
         productRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        displayDate();
+       // displayDate();
         
         // Add new product button
         add_new_product.setOnClickListener(
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     //Displaying shared preferences into the adapter
     // To display it just add values into the array list
-    private void displayDate()
+    /*private void displayDate()
     {
         if (dataCenter.isDataCenterEmpty())
         {
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             amount.add(String.valueOf(dataCenter.getAmount(i)));
             image.add(Uri.parse(String.valueOf(dataCenter.getImage(i))));
         }
-    }
+    }*/
 
     @Override
     public void onItemClick(int position)

@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
-import com.gabrielMJr.twaire.mybusiness.data_manager.DatabaseManager;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,11 +32,8 @@ public class ProductDataCenter extends AppCompatActivity
     // Shared preferences editor
     private static SharedPreferences.Editor editor;
 
-    // Database manager class
-    private static DatabaseManager dbm;
-    
     // Product database
-    private static ProductDatabase pdb;
+    private static ProductDatabase product_data_base;
 
     // Home folder
     public static final String home = "files";
@@ -52,8 +48,8 @@ public class ProductDataCenter extends AppCompatActivity
     public ProductDataCenter(Context context)
     {
         this.context = context;
-        dbm = new DatabaseManager(context);  
         pwd = context.getApplicationInfo().dataDir;
+        product_data_base = new ProductDatabase(context);
     }
 
     // Creating if not exists local private dir for the app
@@ -97,34 +93,22 @@ public class ProductDataCenter extends AppCompatActivity
     public boolean addProduct(String name, float price, int initial_amount,  BitmapDrawable image)
     {
         // Total index of avaliable products
-        int lastIndex = dbm.getTotalIndex();
+        int lastIndex = 0;//dbm.getTotalIndex();
 
         product_id = context.getSharedPreferences(PRODUCT + lastIndex, 0);    
         editor = product_id.edit();
-
-        // Adding into sharedPreferences
-        editor.putString(NAME, name);
-        editor.putFloat(PRICE, price);
-        editor.putInt(AMOUNT, initial_amount);
 
         // Saving the image
         addImage(image, lastIndex);
 
         // If data center stored the value
-        if (editor.commit())
+        if (product_data_base.addNewProduct(name, price, initial_amount))
         {
             // Total avaliable + 1
             lastIndex++;
 
             // If database stored return true, else false
-            if (dbm.addTotalIndex(lastIndex))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }     
+            return true;
         }
         else
         {
@@ -167,7 +151,7 @@ public class ProductDataCenter extends AppCompatActivity
     // Check for product existing using name
     public boolean checkByName(String name)
     {
-        for (int i = 0; i < dbm.getTotalIndex(); i++)
+        for (int i = 0; i < product_data_base.getTotalIndex(); i++)
         {
             // Compare lowercase of the parameter name and stored name of the product
             if (name.toLowerCase().replaceAll("\\s", "").equals(getName(i).toLowerCase().replaceAll("\\s", "")))
@@ -218,13 +202,13 @@ public class ProductDataCenter extends AppCompatActivity
     // Getting total avaliable product on data
     public int getProductsIndex()
     {
-        return dbm.getTotalIndex();
+        return product_data_base.getTotalIndex();
     }
 
     // Is data empty method
     public Boolean isDataCenterEmpty()
     {
-        return dbm.isDataCenterEmpty();
+        return product_data_base.isProductDBEmpty();
     }
     
     // Setting index before initialize product db
@@ -236,6 +220,6 @@ public class ProductDataCenter extends AppCompatActivity
     // Initializing product database
     public void initializePDB(Context context, int index)
     {
-        pdb = new ProductDatabase(context, index);
+        product_data_base = new ProductDatabase(context);
     }
 }
