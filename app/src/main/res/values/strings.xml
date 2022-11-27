@@ -21,7 +21,7 @@
     
     <string name="an_error_occurred_on_db">An error occurred while adding product</string>
     <string name="error_on_image_pick">An error occurred on image pick</string>
-    <string name="product_exist">Product already exist</string>
+    <string name="product_exist">Product with the same name already exist</string>
     <string name="added_successfully">Product added successfully</string>
     
     <string name="empty_name">The product name cannot be empty</string>

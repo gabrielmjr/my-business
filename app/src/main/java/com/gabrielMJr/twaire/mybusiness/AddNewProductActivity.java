@@ -38,7 +38,7 @@ public class AddNewProductActivity extends AppCompatActivity
     // Boolean with camera permission
     private static Boolean hasCameraPerm;
 
-    // Data center variable
+    // Data managers variable
     private static ProductDataCenter dataCenter;
 
     // Activity widgets
@@ -69,12 +69,12 @@ public class AddNewProductActivity extends AppCompatActivity
 
     // BitmapDrawable (converteble drawable)
     private static BitmapDrawable imageS;
-    
+
     /* 
      My tools package
      I used him instead of java.lang.isEmpty because:
      my tools consider space as empty
-    */
+     */
     private static Tools tools;
 
     // Initializing
@@ -150,7 +150,7 @@ public class AddNewProductActivity extends AppCompatActivity
         Boolean verifyName;
         Boolean verifyPrice;
         Boolean verifyAmount;
-        
+
         // Check for name
         if (tools.isNull(name))
         {
@@ -161,7 +161,7 @@ public class AddNewProductActivity extends AppCompatActivity
         {
             verifyName = true;
         }
-        
+
         // Check for price
         if (tools.isNull(price))
         {
@@ -172,7 +172,7 @@ public class AddNewProductActivity extends AppCompatActivity
         {
             verifyPrice = true;
         }
-        
+
         // Check amount
         if (tools.isNull(amount))
         {
@@ -183,12 +183,12 @@ public class AddNewProductActivity extends AppCompatActivity
         {
             verifyAmount = true;
         }
-        
+
         if (!hasImage)
         {
             Toast.makeText(getApplicationContext(), getText(R.string.empty_image), Toast.LENGTH_SHORT).show();
         }
-        
+
         // Checking and returning the boolean
         return (verifyName && verifyPrice && verifyAmount && hasImage) ? true: false;
     }
@@ -196,7 +196,6 @@ public class AddNewProductActivity extends AppCompatActivity
     // Add product method
     private void addProduct(String product, float price, int initial_amount)
     {
-
         // If data.wasAdded, finish the activity
         if (dataCenter.addProduct(product, price, initial_amount, imageS))
         {
@@ -324,7 +323,7 @@ public class AddNewProductActivity extends AppCompatActivity
             {
                 add_new_product_image.setImageURI(data.getData());
                 imageS = (BitmapDrawable)add_new_product_image.getDrawable();
-                
+
                 // Setting has image to reuse when verify values
                 hasImage = true;
             }
