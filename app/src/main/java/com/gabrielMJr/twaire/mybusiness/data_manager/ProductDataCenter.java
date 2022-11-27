@@ -1,7 +1,6 @@
 package com.gabrielMJr.twaire.mybusiness.data_manager;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -11,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class ProductDataCenter extends AppCompatActivity
@@ -18,22 +18,11 @@ public class ProductDataCenter extends AppCompatActivity
     // Context
     private static Context context;
 
-    // Shared preferences attr
-    private static SharedPreferences product_id;
+    // Product database
+    private static ProductDatabase product_data_base;
 
     // product preffix
     protected static final String PRODUCT = "product_";
-
-    // Product descriptions
-    private static final String NAME = "name";
-    private static final String PRICE = "price";
-    private static final String AMOUNT = "amount";
-
-    // Shared preferences editor
-    private static SharedPreferences.Editor editor;
-
-    // Product database
-    private static ProductDatabase product_data_base;
 
     // Home folder
     public static final String home = "files";
@@ -42,8 +31,8 @@ public class ProductDataCenter extends AppCompatActivity
     public static final String image_dir = "products_pics";
 
     // pwd = actual directory
-    public static String pwd; 
-    
+    public static String pwd;
+
     // Constructor
     public ProductDataCenter(Context context)
     {
@@ -92,20 +81,19 @@ public class ProductDataCenter extends AppCompatActivity
     // add product and return boolean value
     public boolean addProduct(String name, float price, int initial_amount,  BitmapDrawable image)
     {
-        // Total index of avaliable products
-        int lastIndex = 0;//dbm.getTotalIndex();
+        // last Id of avaliable products
+        int lastId = product_data_base.getLastID();
 
-        product_id = context.getSharedPreferences(PRODUCT + lastIndex, 0);    
-        editor = product_id.edit();
 
-        // Saving the image
-        addImage(image, lastIndex);
 
         // If data center stored the value
         if (product_data_base.addNewProduct(name, price, initial_amount))
         {
             // Total avaliable + 1
-            lastIndex++;
+            lastId++;
+
+            // Saving the image
+            addImage(image, lastId);
 
             // If database stored return true, else false
             return true;
@@ -117,13 +105,13 @@ public class ProductDataCenter extends AppCompatActivity
     }
 
     // Save image method
-    public void addImage(BitmapDrawable drawable, int lastIndex)
+    public void addImage(BitmapDrawable drawable, int lastId)
     {
         // Converting from bitmalDrawable to bitmal
         Bitmap bitmap = drawable.getBitmap();
 
         // File contains imageDir/imageFile
-        File file = new File(pwd + "/" + home + "/" + image_dir, PRODUCT + lastIndex + ".bmp");
+        File file = new File(pwd + "/" + home + "/" + image_dir, PRODUCT + lastId + ".bmp");
         try
         {        
             // Compressing the image
@@ -133,12 +121,6 @@ public class ProductDataCenter extends AppCompatActivity
             try
             {
                 output.flush();
-            }
-            catch (IOException e)
-            {}
-
-            try
-            {
                 output.close();
             }
             catch (IOException e)
@@ -151,58 +133,55 @@ public class ProductDataCenter extends AppCompatActivity
     // Check for product existing using name
     public boolean checkByName(String name)
     {
-        for (int i = 0; i < product_data_base.getTotalIndex(); i++)
+        if (product_data_base.getID(name) > 0)
         {
-            // Compare lowercase of the parameter name and stored name of the product
-            if (name.toLowerCase().replaceAll("\\s", "").equals(getName(i).toLowerCase().replaceAll("\\s", "")))
-            {
-                return true;
-            }
+            return true;
         }
 
-        // If the code arrive here, the product doesnt exist
         return false;
     }
 
 
     // Getting product name using index
-    public String getName(int index)
+    public String getName(int id)
     {
-        product_id = context.getSharedPreferences(PRODUCT + index, 0);
-        return product_id.getString(NAME, null);
+        return product_data_base.getName(id);
     }
 
-    // Getting product price using index
-    public float getPrice(int index)
+    // Getting product price using id
+    public float getPrice(int id)
     {
-        product_id = context.getSharedPreferences(PRODUCT + index, 0);
-        return product_id.getFloat(PRICE, 0.0f);
+        return product_data_base.getPrice(id);
     }
 
-    // Getting the product amount using index
-    public int getAmount(int index)
+    // Getting the product amount using id
+    public int getAmount(int id)
     {
-        product_id = context.getSharedPreferences(PRODUCT + index, 0);
-        return product_id.getInt(AMOUNT, 0);
+        return product_data_base.getAmount(id);
     }
 
     // Getting product image using index
-    public Uri getImage(int index)
+    public Uri getImage(int id)
     {
-        File file = new File(pwd + "/" + home + "/" + image_dir, PRODUCT + index + ".bmp");
-
-        //InputStream inputStream = new FileInputStream(path);
+        File file = new File(pwd + "/" + home + "/" + image_dir, PRODUCT + id + ".bmp");
 
         //Drawable bmp = Drawable.createFromPath(path);
         return Uri.fromFile(file);
 
     }
 
+    // Getting total ids from products
+    public ArrayList<Integer> getIDs()
+    {
+        return product_data_base.getIDs();
+    }
+
 
     // Getting total avaliable product on data
     public int getProductsIndex()
     {
-        return product_data_base.getTotalIndex();
+        int indexes = product_data_base.getTotalIndex();     
+        return (indexes == -1) ? 0: indexes;
     }
 
     // Is data empty method
@@ -210,16 +189,22 @@ public class ProductDataCenter extends AppCompatActivity
     {
         return product_data_base.isProductDBEmpty();
     }
-    
+
     // Setting index before initialize product db
     public void setIndex(Context context, int index)
     {
         initializePDB(context, index);
     }
-    
+
     // Initializing product database
     public void initializePDB(Context context, int index)
     {
         product_data_base = new ProductDatabase(context);
+    }
+    
+    // Get product database class
+    public ProductDatabase getProductDB()
+    {
+        return product_data_base;
     }
 }

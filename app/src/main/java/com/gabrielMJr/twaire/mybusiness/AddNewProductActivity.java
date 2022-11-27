@@ -11,7 +11,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -130,15 +129,15 @@ public class AddNewProductActivity extends AppCompatActivity
                     if (checkFieldsValues(product, price, initial_amount))
                     {
                         // Checks if the name already exists
-                         if (dataCenter.checkByName(product))
-                         {
-                         Toast.makeText(getApplicationContext(), getText(R.string.product_exist), Toast.LENGTH_SHORT).show();
-                         }
-                         else
-                         {
-                        addProduct(product, Float.valueOf(price), Integer.valueOf(initial_amount));
-                        Toast.makeText(getApplicationContext(), getText(R.string.added_successfully), Toast.LENGTH_SHORT).show();
-                         }
+                        if (dataCenter.checkByName(product))
+                        {
+                            Toast.makeText(getApplicationContext(), getText(R.string.product_exist), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            addProduct(product, Float.valueOf(price), Integer.valueOf(initial_amount));
+                            Toast.makeText(getApplicationContext(), getText(R.string.added_successfully), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
@@ -197,24 +196,17 @@ public class AddNewProductActivity extends AppCompatActivity
     // Add product method
     private void addProduct(String product, float price, int initial_amount)
     {
-        try
+        // If data.wasAdded, finish the activity
+        if (dataCenter.addProduct(product, price, initial_amount, imageS))
         {
-            // If data.wasAdded, finish the activity
-            if (dataCenter.addProduct(product, price, initial_amount, imageS))
-            {
-                finish();
-            }
-
-            // Else, finish activity and show message Toast
-            else
-            {
-                finish();
-                Toast.makeText(getApplicationContext(), getString(R.string.an_error_occurred_on_db), Toast.LENGTH_SHORT).show();
-            }
+            finish();
         }
-        catch (Exception e)
+
+        // Else, finish activity and show message Toast
+        else
         {
-            Log.e("database_error", e.getMessage());
+            finish();
+            Toast.makeText(getApplicationContext(), getString(R.string.an_error_occurred_on_db), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -22,17 +22,17 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     // Go to add item button
     private static Button add_new_product;
-    
+
     // Products array
     protected ArrayList<String> name;
     protected ArrayList<String> price;
     private ArrayList<String> amount;
     protected ArrayList<Uri> image;
-    
+
     // Recycler and adapter view
     private RecyclerView productRecycler;
     private MyAdapter productAdapter;
-    
+
     // Product data center
     private ProductDataCenter dataCenter;
     private ProductDatabase productDB;
@@ -41,29 +41,30 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     {
         add_new_product = findViewById(R.id.add_new_product);
         productRecycler = findViewById(R.id.productsRecyclerView);
-        
+
         name = new ArrayList<>();
         price = new ArrayList<>();
         amount = new ArrayList<>();
         image = new ArrayList<>();
-        
+
         productAdapter = new MyAdapter(getApplicationContext(), name, price, amount, image, this);
         dataCenter = new ProductDataCenter(getApplicationContext());
         productDB = new ProductDatabase(getApplicationContext());
     }
-    
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         initialize();
-        
+
         // Setting adapter into the recycler
         productRecycler.setAdapter(productAdapter);
         productRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-       // displayDate();
-        
+        displayDate();
+
         // Add new product button
         add_new_product.setOnClickListener(
             new OnClickListener()
@@ -71,29 +72,33 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 @Override
                 public void onClick(View view)
                 {
-                    startActivity(new Intent(getApplicationContext(),AddNewProductActivity.class)); 
+                    startActivity(new Intent(getApplicationContext(), AddNewProductActivity.class)); 
                 }
             });
-		
+
     }
 
-    //Displaying shared preferences into the adapter
+    // Displaying shared preferences into the adapter
     // To display it just add values into the array list
-    /*private void displayDate()
+    private void displayDate()
     {
+        ArrayList id = dataCenter.getIDs();
         if (dataCenter.isDataCenterEmpty())
         {
             productRecycler.setActivated(false);
             add_new_product.setActivated(false);
         }
-        for (int i = 0; i < dataCenter.getProductsIndex(); i++)
+        else
         {
-            name.add(dataCenter.getName(i));
-            price.add(String.valueOf(dataCenter.getPrice(i)));
-            amount.add(String.valueOf(dataCenter.getAmount(i)));
-            image.add(Uri.parse(String.valueOf(dataCenter.getImage(i))));
+            for (int i = 0; i < dataCenter.getProductsIndex(); i++)
+            {
+                name.add(dataCenter.getName((Integer)id.get(i)));
+                price.add(String.valueOf(dataCenter.getPrice((Integer)id.get(i))));
+                amount.add(String.valueOf(dataCenter.getAmount((Integer)id.get(i))));
+                image.add(Uri.parse(String.valueOf(dataCenter.getImage(id.get(i)))));
+            }
         }
-    }*/
+    }
 
     @Override
     public void onItemClick(int position)
