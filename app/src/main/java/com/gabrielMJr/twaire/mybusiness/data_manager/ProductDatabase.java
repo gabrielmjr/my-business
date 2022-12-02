@@ -65,10 +65,27 @@ public class ProductDatabase
         {
             return false;
         }
-        
+
         finally
         {
             db.close();
+        }
+    }
+
+    // Delete product
+    public Boolean deleteProduct(int id)
+    {
+        try
+        {           
+            // Delete db
+            db.execSQL("DELETE FROM " + TBN + " WHERE " + COL_1 + " = " + id);
+            return true;
+        }
+
+        // Some error happened
+        catch (Exception e)
+        {
+            return false;
         }
     }
 
@@ -105,12 +122,6 @@ public class ProductDatabase
         return isEmpty;
     }
 
-    // Open database
-    private void openDB()
-    {
-        
-    }
-    
     // Get total availables products
     protected int getTotalIndex()
     {
@@ -157,7 +168,7 @@ public class ProductDatabase
         Cursor cursor = db.rawQuery("SELECT " + COL_1 + " FROM " + TBN + " WHERE " + COL_2 + " = '" + name + "'", null);
         return cursor.getCount();
     }
-    
+
     // Get last id int
     protected int getLastID()
     {
@@ -166,7 +177,7 @@ public class ProductDatabase
         {
             return cursor.getInt(0);
         }
-        
+
         return 0;
     }
 

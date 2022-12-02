@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 
 // Products adapter view
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
@@ -112,6 +113,29 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
                         }
                     }
                 });
+                
+                // On long click
+                itemView.setOnLongClickListener(
+                    new OnLongClickListener()
+                {
+                    @Override
+                    public boolean onLongClick(View view)
+                    {
+                        int position = getAdapterPosition();
+                        
+                        // If no ppsition
+                        if (position != RecyclerView.NO_POSITION)
+                        {
+                            RVI.onLongItClick(position, view);
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                                         
+                    });
         }
     }
 }

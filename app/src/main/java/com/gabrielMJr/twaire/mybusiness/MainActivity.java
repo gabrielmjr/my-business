@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 import com.gabrielMJr.twaire.mybusiness.AddNewProductActivity;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
@@ -16,6 +18,7 @@ import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
 import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
 import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface
 {
@@ -28,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     protected ArrayList<String> price;
     private ArrayList<String> amount;
     protected ArrayList<Uri> image;
+    
+    private HashMap<Integer, Integer> card_id;
 
     // Recycler and adapter view
     private RecyclerView productRecycler;
@@ -36,7 +41,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     // Product data center
     private ProductDataCenter dataCenter;
     private ProductDatabase productDB;
-    
+
+    // Popup menu
+    private PopupMenu product_options_menu;
+
     private void initialize()
     {
         add_new_product = findViewById(R.id.add_new_product);
@@ -46,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         price = new ArrayList<>();
         amount = new ArrayList<>();
         image = new ArrayList<>();
+        card_id = new HashMap<>();
 
         productAdapter = new MyAdapter(getApplicationContext(), name, price, amount, image, this);
         dataCenter = new ProductDataCenter(getApplicationContext());
@@ -96,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 price.add(String.valueOf(dataCenter.getPrice((Integer)id.get(i))));
                 amount.add(String.valueOf(dataCenter.getAmount((Integer)id.get(i))));
                 image.add(Uri.parse(String.valueOf(dataCenter.getImage(id.get(i)))));
+                card_id.put(i, (Integer)id.get(i));
             }
         }
     }
@@ -104,5 +114,55 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     public void onItemClick(int position)
     {
         Toast.makeText(getApplicationContext(), "Clicked on: " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    // Product on long click
+    @Override
+    public void onLongItClick(final int position, View view)
+    {
+        // Inflate menu
+        product_options_menu = new PopupMenu(getApplicationContext(), view);
+        product_options_menu.inflate(R.menu.product_options_popup_menu);
+
+        product_options_menu.setOnMenuItemClickListener(
+            new PopupMenu.OnMenuItemClickListener()
+            {
+                @Override
+                public boolean onMenuItemClick(MenuItem item)
+                {
+                    switch (item.getItemId())
+                    {
+                            // Delete product
+                        case R.id.delete_product:
+                            deleteProduct(position);
+                            return true;
+                    }
+                    return false;
+                }                              
+            });
+
+        product_options_menu.show();
+    }
+
+    private void deleteProduct(int position)
+    {      
+         
+        int i = position;
+        
+        card_id.remove(i + 1);
+    
+        if (productDB.deleteProduct(card_id.get(position)))
+        {
+            for (int j = position; j < this.name.size(); j++)
+            {
+                card_id.put(i, card_id.get(i + 1));
+                i++;
+            }
+            Toast.makeText(getApplicationContext(), "deleted", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "didnt work", Toast.LENGTH_SHORT).show();
+        }
     }
 }
