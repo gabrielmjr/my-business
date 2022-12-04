@@ -16,10 +16,10 @@ import java.util.ArrayList;
 public class ProductDataCenter extends AppCompatActivity
 {
     // Context
-    private static Context context;
+    private Context context;
 
     // Product database
-    private static ProductDatabase product_data_base;
+    private ProductDatabase product_data_base;
 
     // product preffix
     protected static final String PRODUCT = "product_";
@@ -31,7 +31,10 @@ public class ProductDataCenter extends AppCompatActivity
     public static final String image_dir = "products_pics";
 
     // pwd = actual directory
-    public static String pwd;
+    public String pwd;
+    
+    // Format of stored images
+    private String IMAGE_SUFFIX = ".bmp";
 
     // Constructor
     public ProductDataCenter(Context context)
@@ -83,9 +86,7 @@ public class ProductDataCenter extends AppCompatActivity
     {
         // last Id of avaliable products
         int lastId = product_data_base.getLastID();
-
-
-
+        
         // If data center stored the value
         if (product_data_base.addNewProduct(name, price, initial_amount))
         {
@@ -111,13 +112,13 @@ public class ProductDataCenter extends AppCompatActivity
         Bitmap bitmap = drawable.getBitmap();
 
         // File contains imageDir/imageFile
-        File file = new File(pwd + "/" + home + "/" + image_dir, PRODUCT + lastId + ".bmp");
+        File file = new File(pwd + "/" + home + "/" + image_dir, PRODUCT + lastId + IMAGE_SUFFIX);
         try
         {        
             // Compressing the image
             FileOutputStream output = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
-
+            bitmap.compress(Bitmap.CompressFormat.PNG, 20, output);
+           
             try
             {
                 output.flush();
@@ -128,6 +129,13 @@ public class ProductDataCenter extends AppCompatActivity
         }
         catch (FileNotFoundException e)
         {}
+    }
+    
+    // Delete image method
+    public Boolean deleteImage(int id)
+    {
+        File file = new File(pwd + "/" + home + "/" + image_dir + "/" + PRODUCT + id + IMAGE_SUFFIX);
+        return file.delete();
     }
 
     // Check for product existing using name

@@ -147,18 +147,19 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     private void deleteProduct(int position)
     {      
          
-        int i = position;
-        
+        int i = position;     
         card_id.remove(i + 1);
+        
+        int id = card_id.get(position);
     
-        if (productDB.deleteProduct(card_id.get(position)))
+        if (productDB.deleteProduct(id) && dataCenter.deleteImage(id))
         {
             for (int j = position; j < this.name.size(); j++)
             {
                 card_id.put(i, card_id.get(i + 1));
                 i++;
             }
-            Toast.makeText(getApplicationContext(), "deleted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getText(R.string.deleted) , Toast.LENGTH_SHORT).show();
         }
         else
         {

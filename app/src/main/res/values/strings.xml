@@ -28,4 +28,7 @@
     <string name="empty_price">The product need to have a price</string>
     <string name="empty_amount">The product need to have an amount</string>
     <string name="empty_image">Insert an image</string>
+    
+    <string name="deleted">Deleed</string>
+    
 </resources>
