@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,50 +27,53 @@ public class AddNewProductActivity extends AppCompatActivity
 
     // Attributes
     // Final int for result of image picker
-    private static final int IMAGE_PICKER_CODE = 100;
-    private static final int IMAGE_TAKE_CODE = 101;
+    private final int IMAGE_PICKER_CODE = 100;
+    private final int IMAGE_TAKE_CODE = 101;
 
     // Camera permission code
-    private static final int CAMERA_PERM_CODE = 102;
+    private final int CAMERA_PERM_CODE = 102;
 
     // Intent for picker and taker
-    private static Intent pick_take_Image;
+    private Intent pick_take_Image;
 
     // Boolean with camera permission
-    private static Boolean hasCameraPerm;
+    private Boolean hasCameraPerm;
 
     // Data managers variable
-    private static ProductDataCenter dataCenter;
+    private ProductDataCenter dataCenter;
 
     // Activity widgets
-    private static ImageView add_new_product_image;
-    private static EditText add_new_product_name;
-    private static EditText add_new_product_price;
-    private static EditText add_new_product_initial_amount;
+    private ImageView add_new_product_image;
+    private EditText add_new_product_name;
+    private EditText add_new_product_price;
+    private EditText add_new_product_initial_amount;
 
     // Boolean verifier
     // Does have image on the image field?
-    private static Boolean hasImage = false;
+    private Boolean hasImage = false;
 
     // Buttons of the dialog
-    private static Button pick_from_gallery;
-    private static Button take_picture;
-    private static Button cancel;
+    private Button pick_from_gallery;
+    private Button take_picture;
+    private Button cancel;
 
     // Add product button
-    private static Button add_new_product_button;
+    private Button add_new_product_button;
 
     // Package manager
-    private static PackageManager pm;
+    private PackageManager pm;
 
     // Alert dialog of image chooser components
-    private static AlertDialog.Builder builder;
-    private static AlertDialog dialog;   
-    private static View dialog_view;
+    private AlertDialog.Builder builder;
+    private AlertDialog dialog;   
+    private View dialog_view;
 
     // BitmapDrawable (converteble drawable)
     private static BitmapDrawable imageS;
 
+    // Intent with result data from request
+    private Intent returnData;
+    
     /* 
      My tools package
      I used him instead of java.lang.isEmpty because:
@@ -87,6 +91,9 @@ public class AddNewProductActivity extends AppCompatActivity
         // Creating neccessary folders 
         dataCenter.createHome();
         dataCenter.createImgDir();
+        
+        // Initializing return data intent
+        returnData = new Intent();
 
         // Getting activity components
         add_new_product_name = findViewById(R.id.add_new_product_name);
@@ -199,12 +206,20 @@ public class AddNewProductActivity extends AppCompatActivity
         // If data.wasAdded, finish the activity
         if (dataCenter.addProduct(product, price, initial_amount, imageS))
         {
+            // Return datas
+            returnData.putExtra("name", product);
+            returnData.putExtra("price", price);
+            returnData.putExtra("amount", initial_amount);
+            returnData.putExtra("image", dataCenter.getImagePath(dataCenter.getLastId()));
+            setResult(RESULT_OK, returnData);
             finish();
         }
 
         // Else, finish activity and show message Toast
         else
         {
+            // Return datas
+            setResult(RESULT_CANCELED, returnData);
             finish();
             Toast.makeText(getApplicationContext(), getString(R.string.an_error_occurred_on_db), Toast.LENGTH_SHORT).show();
         }
@@ -218,7 +233,7 @@ public class AddNewProductActivity extends AppCompatActivity
         // if sdk version >= 23, check and ask camera permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
-            // Boolean with camera permission value
+            // Boolean with camera permission boolean
             hasCameraPerm = getPackageManager().checkPermission(Manifest.permission.CAMERA, getPackageName()) == PackageManager.PERMISSION_GRANTED;
         }
 
@@ -296,7 +311,7 @@ public class AddNewProductActivity extends AppCompatActivity
 
 
     // Initialize the byttons of image chooser dialog
-    private static void initializeChooserPicDialog()
+    private void initializeChooserPicDialog()
     {
         pick_from_gallery = dialog_view.findViewById(R.id.pick_from_gallery);
         take_picture = dialog_view.findViewById(R.id.take_picture);

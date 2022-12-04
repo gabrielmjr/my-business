@@ -21,22 +21,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
 {
     
     // Attributes
-    private static Context context;
-    private static ArrayList names_id;
-    private static ArrayList prices_id;
-    private static ArrayList amount_id;
-    private static ArrayList<Uri> images_id;
+    private Context context;
+    private ArrayList names_id;
+    private ArrayList prices_id;
+    private ArrayList amount_id;
+    private ArrayList images_id;
     
-    private static View viewHolder;
+    private View viewHolder;
     private final RecyclerViewInterface RVI;
-
+    
     // Constructor
     public MyAdapter(
                     Context context,
                     ArrayList names_id,
                     ArrayList prices_id,
                     ArrayList amount_id, 
-                    ArrayList<Uri> images_id,
+                    ArrayList images_id,
                     RecyclerViewInterface RVI)
     {
         this.context = context;
@@ -64,7 +64,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
         holder.names_id.setText(" " + names_id.get(position));
         holder.prices_id.setText(" " + prices_id.get(position));
         holder.amounts_id.setText(" " + amount_id.get(position));
-        holder.images_id.setImageURI(images_id.get(position));
+        holder.images_id.setImageURI(Uri.parse((String)images_id.get(position)));
     }
 
     // Setting total index of adapted views

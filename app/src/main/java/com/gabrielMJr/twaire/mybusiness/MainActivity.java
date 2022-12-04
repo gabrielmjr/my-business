@@ -1,7 +1,6 @@
 package com.gabrielMJr.twaire.mybusiness;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +18,7 @@ import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
 import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
+import com.gabrielMJr.twaire.mybusiness.util.Constants;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface
 {
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     protected ArrayList<String> name;
     protected ArrayList<String> price;
     private ArrayList<String> amount;
-    protected ArrayList<Uri> image;
+    protected ArrayList<String> image;
     
     private HashMap<Integer, Integer> card_id;
 
@@ -81,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 @Override
                 public void onClick(View view)
                 {
-                    startActivity(new Intent(getApplicationContext(), AddNewProductActivity.class)); 
+                    //startActivity(new Intent(getApplicationContext(), AddNewProductActivity.class));
+                    startActivityForResult(new Intent(getApplicationContext(), AddNewProductActivity.class), Constants.ADD_PRODUCT_ACTIVITY);
                 }
             });
 
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 name.add(dataCenter.getName((Integer)id.get(i)));
                 price.add(String.valueOf(dataCenter.getPrice((Integer)id.get(i))));
                 amount.add(String.valueOf(dataCenter.getAmount((Integer)id.get(i))));
-                image.add(Uri.parse(String.valueOf(dataCenter.getImage(id.get(i)))));
+                image.add(String.valueOf(dataCenter.getImage(id.get(i))));
                 card_id.put(i, (Integer)id.get(i));
             }
         }
@@ -164,6 +165,44 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         else
         {
             Toast.makeText(getApplicationContext(), "didnt work", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    
+    // On activity result
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        
+        /* Check the request code to determine what is being called*/
+        
+        // Add product activity
+        if (requestCode == Constants.ADD_PRODUCT_ACTIVITY)
+        {
+            /* Check if it was successful or no*/
+            // Sucessfull
+            if (resultCode == RESULT_OK)
+            {
+                // Firstly get product total available index
+                 int id = dataCenter.getProductsIndex() + 1;
+                String name = data.getStringExtra("name");
+                float price = data.getFloatExtra("price", 0f);
+                int amount = data.getIntExtra("amount", 0);
+                String image = data.getStringExtra("image");
+                
+                this.name.add(name);
+                this.price.add(String.valueOf(price));
+                this.amount.add(String.valueOf(amount));
+                this.image.add(image);
+                productAdapter.notifyItemInserted(productAdapter.getItemCount() - 1);
+            }
+            
+            // Unsuccessful
+            else if (resultCode == RESULT_CANCELED)
+            {
+                Toast.makeText(getApplicationContext(), "didnt work", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

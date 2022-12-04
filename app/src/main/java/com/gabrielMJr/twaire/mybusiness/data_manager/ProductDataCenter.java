@@ -35,6 +35,8 @@ public class ProductDataCenter extends AppCompatActivity
     
     // Format of stored images
     private String IMAGE_SUFFIX = ".bmp";
+    
+    private int lastId;
 
     // Constructor
     public ProductDataCenter(Context context)
@@ -82,10 +84,11 @@ public class ProductDataCenter extends AppCompatActivity
 
 
     // add product and return boolean value
-    public boolean addProduct(String name, float price, int initial_amount,  BitmapDrawable image)
+    public boolean addProduct(String name, float price, int initial_amount, BitmapDrawable image)
     {
         // last Id of avaliable products
         int lastId = product_data_base.getLastID();
+        this.lastId = lastId;
         
         // If data center stored the value
         if (product_data_base.addNewProduct(name, price, initial_amount))
@@ -117,7 +120,7 @@ public class ProductDataCenter extends AppCompatActivity
         {        
             // Compressing the image
             FileOutputStream output = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 20, output);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 10, output);
            
             try
             {
@@ -129,6 +132,12 @@ public class ProductDataCenter extends AppCompatActivity
         }
         catch (FileNotFoundException e)
         {}
+    }
+    
+    // Get image path as String 
+    public String getImagePath(int Id)
+    {
+        return pwd + "/" + home + "/" + image_dir + "/" + PRODUCT + Id + IMAGE_SUFFIX;
     }
     
     // Delete image method
@@ -214,5 +223,12 @@ public class ProductDataCenter extends AppCompatActivity
     public ProductDatabase getProductDB()
     {
         return product_data_base;
+    }
+    
+    
+    // Getters and setters
+    public int getLastId()
+    {
+        return this.lastId;
     }
 }
