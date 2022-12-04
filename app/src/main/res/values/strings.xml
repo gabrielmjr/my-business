@@ -30,5 +30,5 @@
     <string name="empty_image">Insert an image</string>
     
     <string name="deleted">Deleed</string>
-    
+    <string name="failed_on_delete">Failed to delete</string>
 </resources>

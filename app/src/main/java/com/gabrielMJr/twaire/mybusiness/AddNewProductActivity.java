@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,16 +19,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.gabrielMJr.twaire.mybusiness.R;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
+import com.gabrielMJr.twaire.mybusiness.util.Constants;
 import com.gabrielMJr.twaire.tools.Tools;
 
 public class AddNewProductActivity extends AppCompatActivity
 {
 
     // Attributes
-    // Final int for result of image picker
-    private final int IMAGE_PICKER_CODE = 100;
-    private final int IMAGE_TAKE_CODE = 101;
-
     // Camera permission code
     private final int CAMERA_PERM_CODE = 102;
 
@@ -207,10 +203,10 @@ public class AddNewProductActivity extends AppCompatActivity
         if (dataCenter.addProduct(product, price, initial_amount, imageS))
         {
             // Return datas
-            returnData.putExtra("name", product);
-            returnData.putExtra("price", price);
-            returnData.putExtra("amount", initial_amount);
-            returnData.putExtra("image", dataCenter.getImagePath(dataCenter.getLastId()));
+            returnData.putExtra(Constants.NAME, product);
+            returnData.putExtra(Constants.PRICE, price);
+            returnData.putExtra(Constants.AMOUNT, initial_amount);
+            returnData.putExtra(Constants.IMAGE, dataCenter.getImagePath(dataCenter.getLastId()));
             setResult(RESULT_OK, returnData);
             finish();
         }
@@ -268,7 +264,7 @@ public class AddNewProductActivity extends AppCompatActivity
                 {
                     dialog.dismiss();
                     pick_take_Image = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(pick_take_Image, IMAGE_PICKER_CODE);
+                    startActivityForResult(pick_take_Image, Constants.IMAGE_PICKER_CODE);
                 }                          
             });
 
@@ -285,7 +281,7 @@ public class AddNewProductActivity extends AppCompatActivity
                     if (hasCameraPerm)
                     {
                         pick_take_Image = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(pick_take_Image, IMAGE_TAKE_CODE);
+                        startActivityForResult(pick_take_Image, Constants.IMAGE_TAKE_CODE);
                     }
 
                     // Ask permission
@@ -334,7 +330,7 @@ public class AddNewProductActivity extends AppCompatActivity
         // Check if it was done
         if (resultCode == RESULT_OK)
         {
-            if (requestCode == IMAGE_PICKER_CODE)
+            if (requestCode == Constants.IMAGE_PICKER_CODE)
             {
                 add_new_product_image.setImageURI(data.getData());
                 imageS = (BitmapDrawable)add_new_product_image.getDrawable();
@@ -342,7 +338,7 @@ public class AddNewProductActivity extends AppCompatActivity
                 // Setting has image to reuse when verify values
                 hasImage = true;
             }
-            else if (requestCode == IMAGE_TAKE_CODE)
+            else if (requestCode == Constants.IMAGE_TAKE_CODE)
             {
                 add_new_product_image.setImageBitmap((Bitmap)data.getExtras().get("data"));
                 imageS = (BitmapDrawable)add_new_product_image.getDrawable();

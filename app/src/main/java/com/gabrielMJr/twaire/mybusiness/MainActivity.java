@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 {
 
     // Go to add item button
-    private static Button add_new_product;
+    private Button add_new_product;
 
     // Products array
     protected ArrayList<String> name;
@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         product_options_menu.show();
     }
 
+    // Delete product submethod
     private void deleteProduct(int position)
     {      
          
@@ -153,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         
         int id = card_id.get(position);
     
+        // Delete from datacenter
         if (productDB.deleteProduct(id) && dataCenter.deleteImage(id))
         {
             for (int j = position; j < this.name.size(); j++)
@@ -162,9 +164,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             }
             Toast.makeText(getApplicationContext(), getText(R.string.deleted) , Toast.LENGTH_SHORT).show();
         }
+        // Something went wrong
         else
         {
-            Toast.makeText(getApplicationContext(), "didnt work", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getText(R.string.failed_on_delete), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -184,24 +187,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             // Sucessfull
             if (resultCode == RESULT_OK)
             {
-                // Firstly get product total available index
-                 int id = dataCenter.getProductsIndex() + 1;
-                String name = data.getStringExtra("name");
-                float price = data.getFloatExtra("price", 0f);
-                int amount = data.getIntExtra("amount", 0);
-                String image = data.getStringExtra("image");
+                String name = data.getStringExtra(Constants.NAME);
+                float price = data.getFloatExtra(Constants.PRICE, 0f);
+                int amount = data.getIntExtra(Constants.AMOUNT, 0);
+                String image = data.getStringExtra(Constants.IMAGE);
                 
                 this.name.add(name);
                 this.price.add(String.valueOf(price));
                 this.amount.add(String.valueOf(amount));
                 this.image.add(image);
                 productAdapter.notifyItemInserted(productAdapter.getItemCount() - 1);
-            }
-            
-            // Unsuccessful
-            else if (resultCode == RESULT_CANCELED)
-            {
-                Toast.makeText(getApplicationContext(), "didnt work", Toast.LENGTH_SHORT).show();
             }
         }
     }

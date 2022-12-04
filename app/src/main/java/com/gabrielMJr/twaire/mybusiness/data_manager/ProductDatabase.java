@@ -9,10 +9,10 @@ public class ProductDatabase
 {
     // Attributes
     // DataBase components
-    private final String DB_NAME = "products.db";
+    private static final String DB_NAME = "products.db";
 
     // Table name
-    private String TBN = "actual_products";
+    private static final String TBN = "actual_products";
 
     // Primary key && anothers
     private final String COL_1 = "id";
