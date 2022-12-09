@@ -88,13 +88,13 @@ public class ProductDataCenter extends AppCompatActivity
     {
         // last Id of avaliable products
         int lastId = product_data_base.getLastID();
-        this.lastId = lastId;
         
         // If data center stored the value
         if (product_data_base.addNewProduct(name, price, initial_amount))
         {
             // Total avaliable + 1
             lastId++;
+            this.lastId = lastId;
 
             // Saving the image
             addImage(image, lastId);
@@ -225,8 +225,7 @@ public class ProductDataCenter extends AppCompatActivity
         return product_data_base;
     }
     
-    
-    // Getters and setters
+    // Get last id
     public int getLastId()
     {
         return this.lastId;

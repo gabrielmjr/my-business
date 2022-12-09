@@ -31,8 +31,14 @@ public class ProductDatabase
     public ProductDatabase(Context context)
     {
         this.context = context;
-        db = context.openOrCreateDatabase(DB_NAME, context.MODE_PRIVATE, null); 
+        initDb();
         createTable();
+    }
+    
+    // InitializeDb
+    private void initDb()
+    {
+        db = context.openOrCreateDatabase(DB_NAME, context.MODE_PRIVATE, null); 
     }
 
     // Create new table
@@ -49,6 +55,7 @@ public class ProductDatabase
     // Add products
     public Boolean addNewProduct(String name, float price, int amount)
     {
+        initDb();
         try
         {
             db.execSQL("INSERT INTO " 
@@ -75,6 +82,7 @@ public class ProductDatabase
     // Delete product
     public Boolean deleteProduct(int id)
     {
+        initDb();
         try
         {           
             // Delete db
@@ -109,6 +117,7 @@ public class ProductDatabase
     // Is database empty
     protected Boolean isProductDBEmpty()
     {
+        initDb();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TBN, null);
 
         Boolean isEmpty = true;
@@ -125,6 +134,7 @@ public class ProductDatabase
     // Get total availables products
     protected int getTotalIndex()
     {
+        initDb();
         Cursor cursor = db.rawQuery("SELECT " + COL_1 + " FROM " + TBN, null);
         return cursor.getCount();
     }
@@ -132,6 +142,7 @@ public class ProductDatabase
     // Get name from id
     public String getName(int id)
     {
+        initDb();
         Cursor cursor = db.rawQuery("SELECT " + COL_2 + " FROM " + TBN + " WHERE " + COL_1 + " = '" + id + "'", null);
         if (cursor.moveToFirst())
         {
@@ -143,6 +154,7 @@ public class ProductDatabase
     // get price from id
     protected float getPrice(int id)
     {
+        initDb();
         Cursor cursor = db.rawQuery("SELECT " + COL_3 + " FROM " + TBN + " WHERE " + COL_1 + " = " + id, null);
         if (cursor.moveToFirst())
         {
@@ -154,6 +166,7 @@ public class ProductDatabase
     // Get amount from id
     protected int getAmount(int id)
     {
+        initDb();
         Cursor cursor = db.rawQuery("SELECT " + COL_4 + " FROM " + TBN + " WHERE " + COL_1 + " = " + id, null);
         if (cursor.moveToFirst())
         {
@@ -165,6 +178,7 @@ public class ProductDatabase
     // Get index from name
     protected int getID(String name)
     {
+        initDb();
         Cursor cursor = db.rawQuery("SELECT " + COL_1 + " FROM " + TBN + " WHERE " + COL_2 + " = '" + name + "'", null);
         return cursor.getCount();
     }
@@ -172,6 +186,7 @@ public class ProductDatabase
     // Get last id int
     protected int getLastID()
     {
+        initDb();
         Cursor cursor = db.rawQuery("SELECT " + COL_1 + " FROM " + TBN , null);
         if (cursor.moveToLast())
         {
@@ -184,6 +199,7 @@ public class ProductDatabase
     // Get total available ids
     protected ArrayList<Integer> getIDs()
     {
+        initDb();
         ArrayList<Integer> ids = new ArrayList<>();
 
         // Get ids from cursor

@@ -1,6 +1,7 @@
 package com.gabrielMJr.twaire.mybusiness;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,11 +15,11 @@ import android.widget.Toast;
 import com.gabrielMJr.twaire.mybusiness.AddNewProductActivity;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
+import com.gabrielMJr.twaire.mybusiness.util.Constants;
 import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
 import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
-import com.gabrielMJr.twaire.mybusiness.util.Constants;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface
 {
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     private void deleteProduct(int position)
     {      
          
-        int i = position;     
+       /* int i = position;     
         card_id.remove(i + 1);
         
         int id = card_id.get(position);
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         else
         {
             Toast.makeText(getApplicationContext(), getText(R.string.failed_on_delete), Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     
@@ -192,11 +193,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 int amount = data.getIntExtra(Constants.AMOUNT, 0);
                 String image = data.getStringExtra(Constants.IMAGE);
                 
+                Uri uri = Uri.parse(image);
+                
                 this.name.add(name);
                 this.price.add(String.valueOf(price));
                 this.amount.add(String.valueOf(amount));
-                this.image.add(image);
-                productAdapter.notifyItemInserted(productAdapter.getItemCount() - 1);
+                this.image.add(String.valueOf(uri));
+                productAdapter.notifyItemInserted(productAdapter.getItemCount());
             }
         }
     }
