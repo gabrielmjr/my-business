@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     // Go to add item button
     private Button add_new_product;
-
+    
     // Products array
     protected ArrayList<String> name;
     protected ArrayList<String> price;

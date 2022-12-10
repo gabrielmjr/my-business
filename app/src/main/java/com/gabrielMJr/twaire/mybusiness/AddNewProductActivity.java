@@ -69,8 +69,8 @@ public class AddNewProductActivity extends AppCompatActivity
 
     // Intent with result data from request
     private Intent returnData;
-    
-    /* 
+     
+     /*
      My tools package
      I used him instead of java.lang.isEmpty because:
      my tools consider space as empty
