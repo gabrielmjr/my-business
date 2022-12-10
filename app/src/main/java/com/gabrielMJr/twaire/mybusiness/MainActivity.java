@@ -101,13 +101,20 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         }
         else
         {
+            name.clear();
+            price.clear();
+            amount.clear();
+            image.clear();
+            card_id.clear();
+            card_id.put(0, -1);
+            
             for (int i = 0; i < dataCenter.getProductsIndex(); i++)
             {
                 name.add(dataCenter.getName((Integer)id.get(i)));
                 price.add(String.valueOf(dataCenter.getPrice((Integer)id.get(i))));
                 amount.add(String.valueOf(dataCenter.getAmount((Integer)id.get(i))));
                 image.add(String.valueOf(dataCenter.getImage(id.get(i))));
-                card_id.put(i, (Integer)id.get(i));
+                card_id.put(i + 1, (Integer)id.get(i));
             }
         }
     }
@@ -149,27 +156,31 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     // Delete product submethod
     private void deleteProduct(int position)
     {      
-         
-       /* int i = position;     
-        card_id.remove(i + 1);
+        // Get id of the item to be removed
+        int id = card_id.get(position + 1);
         
-        int id = card_id.get(position);
-    
         // Delete from datacenter
         if (productDB.deleteProduct(id) && dataCenter.deleteImage(id))
         {
-            for (int j = position; j < this.name.size(); j++)
-            {
-                card_id.put(i, card_id.get(i + 1));
-                i++;
-            }
-            Toast.makeText(getApplicationContext(), getText(R.string.deleted) , Toast.LENGTH_SHORT).show();
+            // Remove items from arraylist
+            name.remove(position);
+            price.remove(position);
+            amount.remove(position);
+            image.remove(position);
+   
+            // Remove from actual hashmap
+            card_id.remove(position + 1, card_id.get(position));
+            
+            // Notify on item removed
+            productAdapter.notifyItemRemoved(position);
+            recreate();
+            Toast.makeText(getApplicationContext(), (String)getText(R.string.deleted) + id, Toast.LENGTH_SHORT).show();
         }
         // Something went wrong
         else
         {
             Toast.makeText(getApplicationContext(), getText(R.string.failed_on_delete), Toast.LENGTH_SHORT).show();
-        }*/
+        }
     }
 
     
@@ -199,7 +210,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 this.price.add(String.valueOf(price));
                 this.amount.add(String.valueOf(amount));
                 this.image.add(String.valueOf(uri));
+                
+                card_id.put(card_id.size() + 1, dataCenter.getLastId());
                 productAdapter.notifyItemInserted(productAdapter.getItemCount());
+                recreate();
             }
         }
     }

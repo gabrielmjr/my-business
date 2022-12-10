@@ -193,7 +193,7 @@ public class AddNewProductActivity extends AppCompatActivity
         }
 
         // Checking and returning the boolean
-        return (verifyName && verifyPrice && verifyAmount && hasImage) ? true: false;
+        return (verifyName && verifyPrice && verifyAmount && hasImage); // ? true: false;
     }
 
     // Add product method
@@ -284,10 +284,10 @@ public class AddNewProductActivity extends AppCompatActivity
                         startActivityForResult(pick_take_Image, Constants.IMAGE_TAKE_CODE);
                     }
 
-                    // Ask permission
+                    // request permission
                     else
                     {
-                        askCameraPermission();
+                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
                     }
                 }
             });
@@ -313,13 +313,6 @@ public class AddNewProductActivity extends AppCompatActivity
         take_picture = dialog_view.findViewById(R.id.take_picture);
         cancel = dialog_view.findViewById(R.id.cancel);
     }
-
-    // Asking camera permission
-    private void askCameraPermission()
-    {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
-    }
-
 
     // On intent result
     @Override

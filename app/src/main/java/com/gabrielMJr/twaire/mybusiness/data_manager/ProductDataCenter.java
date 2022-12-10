@@ -93,7 +93,7 @@ public class ProductDataCenter extends AppCompatActivity
         if (product_data_base.addNewProduct(name, price, initial_amount))
         {
             // Total avaliable + 1
-            lastId++;
+            lastId = product_data_base.getLastID();
             this.lastId = lastId;
 
             // Saving the image
@@ -144,6 +144,7 @@ public class ProductDataCenter extends AppCompatActivity
     public Boolean deleteImage(int id)
     {
         File file = new File(pwd + "/" + home + "/" + image_dir + "/" + PRODUCT + id + IMAGE_SUFFIX);
+        
         return file.delete();
     }
 
