@@ -77,12 +77,18 @@ public class AddNewProductActivity extends AppCompatActivity
      */
     private static Tools tools;
 
+    // Custom toast
+    private Toast toast;
+    
     // Initializing
     private void initialize()
     {
         // New datacenter object
         dataCenter = new  ProductDataCenter(getApplicationContext());
         tools = new Tools();
+        
+        // New toast object
+        toast = new Toast(getApplicationContext());
 
         // Creating neccessary folders 
         dataCenter.createHome();
@@ -139,7 +145,8 @@ public class AddNewProductActivity extends AppCompatActivity
                         else
                         {
                             addProduct(product, Float.valueOf(price), Integer.valueOf(initial_amount));
-                            Toast.makeText(getApplicationContext(), getText(R.string.added_successfully), Toast.LENGTH_SHORT).show();
+                            toast.setView(getLayoutInflater().inflate(R.layout.error_insert_image_toast, null));
+                            toast.show();
                         }
                     }
                 }
