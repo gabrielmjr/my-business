@@ -5,4 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorControlHighlight">#FFCCBC</color>
    	<color name="colorControlNormal">#FF5722</color>
+    
+    <color name="normal_red">#FFCD4848</color>
+    <color name="full_red">#FFFF0000</color>
+    <color name="colorWhie">#FFFFFFFF</color>
 </resources>
