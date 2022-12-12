@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.gabrielMJr.twaire.mybusiness.R;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
@@ -77,8 +77,13 @@ public class AddNewProductActivity extends AppCompatActivity
      */
     private static Tools tools;
 
-    // Custom toast
+    // Custom toast object
     private Toast toast;
+    
+    // Custom toast view && them components
+    private View custom_toast;
+    private TextView toast_status;
+    private ImageView toast_icon;
     
     // Initializing
     private void initialize()
@@ -87,8 +92,11 @@ public class AddNewProductActivity extends AppCompatActivity
         dataCenter = new  ProductDataCenter(getApplicationContext());
         tools = new Tools();
         
-        // New toast object
+        // New toast object, view and them attributes
         toast = new Toast(getApplicationContext());
+        custom_toast = getLayoutInflater().inflate(R.layout.add_item_status_toast, null);
+        toast_status = custom_toast.findViewById(R.id.toast_status);
+        toast_icon = custom_toast.findViewById(R.id.toast_icon);
 
         // Creating neccessary folders 
         dataCenter.createHome();
@@ -144,8 +152,17 @@ public class AddNewProductActivity extends AppCompatActivity
                         }
                         else
                         {
+                            // Add product
                             addProduct(product, Float.valueOf(price), Integer.valueOf(initial_amount));
-                            toast.setView(getLayoutInflater().inflate(R.layout.error_insert_image_toast, null));
+                            //Toast.makeText(getApplicationContext(), getText(R.string.added_successfully), Toast.LENGTH_SHORT).show();
+                            toast_status.setText(R.string.added_successfully);
+                            toast_icon.setImageDrawable(getDrawable(R.drawable.ic_checkbox_marked_circle_outline));
+                            custom_toast.setBackground(getDrawable(R.drawable.ic_done_add_product_toast));
+
+                            // Show empty image warning
+                            //Toast.makeText(getApplicationContext(), getText(R.string.empty_image), Toast.LENGTH_SHORT).show();
+                            toast.setView(custom_toast);
+                            toast.setDuration(Toast.LENGTH_SHORT);
                             toast.show();
                         }
                     }
@@ -196,7 +213,16 @@ public class AddNewProductActivity extends AppCompatActivity
 
         if (!hasImage)
         {
-            Toast.makeText(getApplicationContext(), getText(R.string.empty_image), Toast.LENGTH_SHORT).show();
+            // Set some values into the custom view toast
+            toast_status.setText(R.string.empty_image);
+            toast_icon.setImageDrawable(getDrawable(R.drawable.ic_error_outline));
+            custom_toast.setBackground(getDrawable(R.drawable.ic_error_insert_image_toast));
+            
+            // Show empty image warning
+            //Toast.makeText(getApplicationContext(), getText(R.string.empty_image), Toast.LENGTH_SHORT).show();
+            toast.setView(custom_toast);
+            toast.setDuration(Toast.LENGTH_SHORT);
+            toast.show();
         }
 
         // Checking and returning the boolean
