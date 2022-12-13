@@ -5,6 +5,7 @@
     <string name="product_name">Name: </string>
     <string name="product_price">Price: </string>
     <string name="product_amount">Amount: </string>
+    <string name="product_amount_s">Qtd:</string>
     <string name="add_new_product">Add new product</string>
     <string name="product_added">Product added</string>
     <string name="canceled_by_user">Canceled by user</string>

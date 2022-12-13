@@ -24,7 +24,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
     private Context context;
     private ArrayList names_id;
     private ArrayList prices_id;
-    private ArrayList amount_id;
+    //private ArrayList amount_id;
     private ArrayList images_id;
     
     private View viewHolder;
@@ -35,14 +35,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
                     Context context,
                     ArrayList names_id,
                     ArrayList prices_id,
-                    ArrayList amount_id, 
+                    /*ArrayList amount_id, */
                     ArrayList images_id,
                     RecyclerViewInterface RVI)
     {
         this.context = context;
         this.names_id = names_id;
         this.prices_id = prices_id;
-        this.amount_id = amount_id;
+        //this.amount_id = amount_id;
         this.images_id = images_id;
         this.RVI = RVI;
     }
@@ -63,7 +63,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
         // Setting text and uri image parsed of each avaliable product
         holder.names_id.setText(" " + names_id.get(position));
         holder.prices_id.setText(" " + prices_id.get(position));
-        holder.amounts_id.setText(" " + amount_id.get(position));
+        //holder.amounts_id.setText(" " + amount_id.get(position));
         holder.images_id.setImageURI(Uri.parse((String)images_id.get(position)));
     }
 
@@ -82,7 +82,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
         // Attributes
         private TextView names_id;
         private TextView prices_id;
-        private TextView amounts_id;
+        //private TextView amounts_id;
         private ImageView images_id;
         
         public MyViewHolder(View itemView)
@@ -92,7 +92,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
             // Finding the widgets
             names_id = itemView.findViewById(R.id.product_name);
             prices_id = itemView.findViewById(R.id.product_price);
-            amounts_id = itemView.findViewById(R.id.product_amount);
+            //amounts_id = itemView.findViewById(R.id.product_amount);
             images_id = itemView.findViewById(R.id.product_image);
             
             // OnClick of item

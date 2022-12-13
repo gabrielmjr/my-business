@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +19,7 @@ import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
 import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
+import android.support.v7.widget.GridLayoutManager;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface
 {
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     // Products array
     protected ArrayList<String> name;
     protected ArrayList<String> price;
-    private ArrayList<String> amount;
+    //private ArrayList<String> amount;
     protected ArrayList<String> image;
     
     private HashMap<Integer, Integer> card_id;
@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
         name = new ArrayList<>();
         price = new ArrayList<>();
-        amount = new ArrayList<>();
+        //amount = new ArrayList<>();
         image = new ArrayList<>();
         card_id = new HashMap<>();
 
-        productAdapter = new MyAdapter(getApplicationContext(), name, price, amount, image, this);
+        productAdapter = new MyAdapter(getApplicationContext(), name, price, /*amount,*/ image, this);
         dataCenter = new ProductDataCenter(getApplicationContext());
         productDB = new ProductDatabase(getApplicationContext());
     }
@@ -70,9 +70,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
         initialize();
 
-        // Setting adapter into the recycler
+        // Setting adapter and column numbers into the recycler
+        productRecycler.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
         productRecycler.setAdapter(productAdapter);
-        productRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         displayDate();
 
         // Add new product button
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         {
             name.clear();
             price.clear();
-            amount.clear();
+            //amount.clear();
             image.clear();
             card_id.clear();
             card_id.put(0, -1);
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             {
                 name.add(dataCenter.getName((Integer)id.get(i)));
                 price.add(String.valueOf(dataCenter.getPrice((Integer)id.get(i))));
-                amount.add(String.valueOf(dataCenter.getAmount((Integer)id.get(i))));
+                //amount.add(String.valueOf(dataCenter.getAmount((Integer)id.get(i))));
                 image.add(String.valueOf(dataCenter.getImage(id.get(i))));
                 card_id.put(i + 1, (Integer)id.get(i));
             }
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             // Remove items from arraylist
             name.remove(position);
             price.remove(position);
-            amount.remove(position);
+            //amount.remove(position);
             image.remove(position);
    
             // Remove from actual hashmap
@@ -201,14 +201,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             {
                 String name = data.getStringExtra(Constants.NAME);
                 float price = data.getFloatExtra(Constants.PRICE, 0f);
-                int amount = data.getIntExtra(Constants.AMOUNT, 0);
+                //int amount = data.getIntExtra(Constants.AMOUNT, 0);
                 String image = data.getStringExtra(Constants.IMAGE);
                 
                 Uri uri = Uri.parse(image);
                 
                 this.name.add(name);
                 this.price.add(String.valueOf(price));
-                this.amount.add(String.valueOf(amount));
+                //this.amount.add(String.valueOf(amount));
                 this.image.add(String.valueOf(uri));
                 
                 card_id.put(card_id.size() + 1, dataCenter.getLastId());
