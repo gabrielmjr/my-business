@@ -15,4 +15,6 @@
     
     <color name="colorWhite">#FFFFFFFF</color>
     <color name="colorBlack">#FF000000</color>
+    
+    <color name="colorApp_bar_navigation_background">#FFFF0303</color>
 </resources>
