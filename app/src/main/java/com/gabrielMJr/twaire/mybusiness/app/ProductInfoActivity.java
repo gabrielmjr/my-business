@@ -1,7 +1,8 @@
-package com.gabrielMJr.twaire.mybusiness;
+package com.gabrielMJr.twaire.mybusiness.app;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import com.gabrielMJr.twaire.mybusiness.R;
 
 public class ProductInfoActivity extends AppCompatActivity
 {

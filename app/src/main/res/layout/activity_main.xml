@@ -5,33 +5,33 @@
     xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
-    
-    <include
-        layout="@layout/app_bar_navigation"/>
 
-	<android.support.v7.widget.RecyclerView
-		android:id="@+id/productsRecyclerView"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/productsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-	</android.support.v7.widget.RecyclerView>
+    </android.support.v7.widget.RecyclerView>
 
-	<Button
-		android:id="@+id/add_new_product"
-		android:layout_width="wrap_content"
-		style="?android:attr/buttonStyleSmall"
-		android:layout_height="wrap_content"
-		android:text="@string/add_new_product"
-		app:layout_constraintTop_toTopOf="parent"
+    <Button
+        android:id="@+id/add_new_product"
+        android:layout_width="wrap_content"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_product"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias=".8"
         app:layout_constraintHorizontal_bias=".7"/>
+	
+    <include
+        layout="@layout/app_bar_navigation"/>
 
 </android.support.constraint.ConstraintLayout>
 

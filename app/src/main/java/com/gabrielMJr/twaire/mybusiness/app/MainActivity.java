@@ -1,17 +1,21 @@
-package com.gabrielMJr.twaire.mybusiness;
+package com.gabrielMJr.twaire.mybusiness.app;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
-import com.gabrielMJr.twaire.mybusiness.AddNewProductActivity;
+import com.gabrielMJr.twaire.mybusiness.R;
+import com.gabrielMJr.twaire.mybusiness.app.AddCartActivity;
+import com.gabrielMJr.twaire.mybusiness.app.AddNewProductActivity;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
 import com.gabrielMJr.twaire.mybusiness.util.Constants;
@@ -19,7 +23,6 @@ import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
 import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
-import android.support.v7.widget.GridLayoutManager;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface
 {
@@ -42,15 +45,27 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     // Product data center
     private ProductDataCenter dataCenter;
     private ProductDatabase productDB;
+    
+    // App bar navigation attributes
+    private ImageView nav_purchase;
+    private ImageView nav_home;
+    private ImageView nav_report;
 
     // Popup menu
     private PopupMenu product_options_menu;
 
     private void initialize()
     {
+        // Initializing main attributes
         add_new_product = findViewById(R.id.add_new_product);
         productRecycler = findViewById(R.id.productsRecyclerView);
 
+        // For app bar navigation
+      
+        nav_purchase = findViewById(R.id.nav_purchase);
+        nav_home = findViewById(R.id.nav_home);
+        nav_report = findViewById(R.id.nav_report);
+        
         name = new ArrayList<>();
         price = new ArrayList<>();
         //amount = new ArrayList<>();
@@ -84,6 +99,42 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 {
                     //startActivity(new Intent(getApplicationContext(), AddNewProductActivity.class));
                     startActivityForResult(new Intent(getApplicationContext(), AddNewProductActivity.class), Constants.ADD_PRODUCT_ACTIVITY);
+                }
+            });
+            
+            // App bar navigation on click
+            // Nav Purchase button
+            nav_purchase.setOnClickListener(
+                new OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        // Go to add card activity
+                        startActivity(new Intent(getApplicationContext(), AddCartActivity.class));
+                    }
+                });
+                
+        // Home button
+        nav_home.setOnClickListener(
+            new OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    // Dont do nothing
+                }
+            });
+            
+        // Nav Purchase button
+        nav_report.setOnClickListener(
+            new OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    // Go to report activity
+                   // startActivity(new Intent(getApplicationContext(), AddCartActivity.class));
                 }
             });
 

@@ -14,47 +14,40 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:resizeableActivity="false">
-        
+
         <!--Main Activity-->
         <activity
-            android:name=".MainActivity"
+            android:name=".app.MainActivity"
             android:label="@string/app_name">
-
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
-
             </intent-filter>
-
         </activity>
 
         <!--Add new product activity-->
-        <activity android:name=".AddNewProductActivity">
-
+        <activity android:name=".app.AddNewProductActivity">
             <intent-filter>
-
                 <action android:name="android.intent.action.PARENT"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
-
             </intent-filter>
-
         </activity>
 
         <!--Product info activity-->
-        <activity android:name=".ProductInfoActivity">
-
+        <activity android:name=".app.ProductInfoActivity">
             <intent-filter>
-
                 <action android:name="android.intent.action.PARENT"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
-
             </intent-filter>
-
         </activity>
+        
+        <activity android:name=".app.AddCartActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.PARENT"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        
 
         <meta-data
             android:name="android.max_aspect"

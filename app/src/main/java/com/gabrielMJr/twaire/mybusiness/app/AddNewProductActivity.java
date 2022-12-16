@@ -1,4 +1,4 @@
-package com.gabrielMJr.twaire.mybusiness;
+package com.gabrielMJr.twaire.mybusiness.app;
 
 import android.Manifest;
 import android.content.Intent;
