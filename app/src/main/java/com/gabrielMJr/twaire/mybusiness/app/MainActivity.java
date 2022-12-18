@@ -19,7 +19,7 @@ import com.gabrielMJr.twaire.mybusiness.app.AddNewProductActivity;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
 import com.gabrielMJr.twaire.mybusiness.util.Constants;
-import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
+import com.gabrielMJr.twaire.mybusiness.util.MainAdapter;
 import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     // Recycler and adapter view
     private RecyclerView productRecycler;
-    private MyAdapter productAdapter;
+    private MainAdapter productAdapter;
 
     // Product data center
     private ProductDataCenter dataCenter;
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         image = new ArrayList<>();
         card_id = new HashMap<>();
 
-        productAdapter = new MyAdapter(getApplicationContext(), name, price, /*amount,*/ image, this);
+        productAdapter = new MainAdapter(getApplicationContext(), name, price, /*amount,*/ image, this);
         dataCenter = new ProductDataCenter(getApplicationContext());
         productDB = new ProductDatabase(getApplicationContext());
     }
@@ -147,8 +147,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         ArrayList id = dataCenter.getIDs();
         if (dataCenter.isDataCenterEmpty())
         {
-            productRecycler.setActivated(false);
-            add_new_product.setActivated(false);
+            /*productRecycler.setActivated(false);
+            add_new_product.setActivated(false);*/
+            // Dont do nothing
         }
         else
         {

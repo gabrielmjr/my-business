@@ -18,7 +18,7 @@
     <string name="cancel">Cancel</string>
     <string name="load_picture">Load picture</string>
     <string name="add_product">Add product</string>
-    
+    <string name="add_to_cart">Add to cart</string>
     
     <string name="an_error_occurred_on_db">An error occurred while adding product</string>
     <string name="error_on_image_pick">An error occurred on image pick</string>
@@ -32,4 +32,5 @@
     
     <string name="deleted">Deleed</string>
     <string name="failed_on_delete">Failed to delete</string>
+   
 </resources>

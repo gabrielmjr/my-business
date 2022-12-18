@@ -32,16 +32,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <!--Product info activity-->
-        <activity android:name=".app.ProductInfoActivity">
+        
+        <activity android:name=".app.AddCartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.PARENT"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         
-        <activity android:name=".app.AddCartActivity">
+        <activity android:name=".app.ChooseProductActivity">
             <intent-filter>
                 <action android:name="android.intent.action.PARENT"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

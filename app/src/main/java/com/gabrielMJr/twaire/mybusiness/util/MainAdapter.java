@@ -17,7 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 
 // Products adapter view
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
 {
     
     // Attributes
@@ -31,7 +31,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
     private final RecyclerViewInterface RVI;
     
     // Constructor
-    public MyAdapter(
+    public MainAdapter(
                     Context context,
                     ArrayList names_id,
                     ArrayList prices_id,
@@ -53,7 +53,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int p2)
     {
         // Inflating the card view
-        viewHolder = LayoutInflater.from(context).inflate(R.layout.product_card_view, parent, false);
+        viewHolder = LayoutInflater.from(context).inflate(R.layout.card_view_product, parent, false);
         return new MyViewHolder(viewHolder);
     }
 

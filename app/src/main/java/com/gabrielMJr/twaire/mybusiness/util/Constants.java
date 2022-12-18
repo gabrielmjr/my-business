@@ -11,6 +11,7 @@ public class Constants {
     // Final int for result of image picker
     public static final int IMAGE_PICKER_CODE = 100;
     public static final int IMAGE_TAKE_CODE = 101;
+    public static final int CHOOSE_PRODUCT_ACTIVITY = 102;
     
     public static final String NAME = "name";
     public static final String PRICE = "price";

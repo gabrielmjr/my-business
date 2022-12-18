@@ -94,7 +94,7 @@ public class AddNewProductActivity extends AppCompatActivity
         
         // New toast object, view and them attributes
         toast = new Toast(getApplicationContext());
-        custom_toast = getLayoutInflater().inflate(R.layout.add_item_status_toast, null);
+        custom_toast = getLayoutInflater().inflate(R.layout.toast_add_item_status, null);
         toast_status = custom_toast.findViewById(R.id.toast_status);
         toast_icon = custom_toast.findViewById(R.id.toast_icon);
 
@@ -274,7 +274,7 @@ public class AddNewProductActivity extends AppCompatActivity
 
         // Builder for the dialog
         builder = new AlertDialog.Builder(this);
-        dialog_view = getLayoutInflater().inflate(R.layout.image_chooser_custom_dialog, null);
+        dialog_view = getLayoutInflater().inflate(R.layout.custom_dialog_image_chooser, null);
 
         // Initialze the buttons
         initializeChooserPicDialog();
