@@ -2,7 +2,7 @@ package com.gabrielMJr.twaire.mybusiness.util;
 
 import android.view.View;
 
-public interface RecyclerViewInterface
+public interface RecyclerViewMainInterface
  {
     // On Item view, used to get index of clicked card view
     public abstract void onItemClick(int position);

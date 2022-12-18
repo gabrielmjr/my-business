@@ -3,14 +3,15 @@ package com.gabrielMJr.twaire.mybusiness.util;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.gabrielMJr.twaire.mybusiness.R;
 import com.gabrielMJr.twaire.mybusiness.util.ChooseProductAdapter;
 import java.util.ArrayList;
-import android.view.LayoutInflater;
 
 public class ChooseProductAdapter extends RecyclerView.Adapter<ChooseProductAdapter.MyViewHolder>
 {
@@ -28,13 +29,16 @@ public class ChooseProductAdapter extends RecyclerView.Adapter<ChooseProductAdap
     // View holder
     private View viewHolder;
     
+    // Recycler view choose product interface object
+    private final RecyclerViewChooseProductInterface RVCPI;
     
     // Constructor
     public ChooseProductAdapter(Context context,
            ArrayList<Uri> image,
            ArrayList<String> name,
            ArrayList<Integer> amount,
-           ArrayList<Float> price)
+           ArrayList<Float> price,
+           RecyclerViewChooseProductInterface RVCPI)
     {
         // Initializing the context
         this.context = context;
@@ -44,6 +48,9 @@ public class ChooseProductAdapter extends RecyclerView.Adapter<ChooseProductAdap
         this.name = name;
         this.amount = amount;
         this.price = price;
+        
+        // Initializing recycler view product interface from constructor
+        this.RVCPI = RVCPI;
     }
 
     // Create new card
@@ -97,6 +104,24 @@ public class ChooseProductAdapter extends RecyclerView.Adapter<ChooseProductAdap
             choose_product_name = itemView.findViewById(R.id.choose_product_name);
             choose_product_amount = itemView.findViewById(R.id.choose_product_amount);
             choose_product_price = itemView.findViewById(R.id.choose_product_price);
+            
+            // On item click
+            itemView.setOnClickListener(
+                new OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        // Get item position 
+                        int position = getAdapterPosition();
+                        
+                        if (position != RecyclerView.NO_POSITION)
+                        {
+                            // Setting the clicked position
+                            RVCPI.onItemClick(position);
+                        }
+                    }
+                });
         }
     }
 }

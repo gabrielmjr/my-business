@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import com.gabrielMJr.twaire.mybusiness.R;
+import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.util.AddCartAdapter;
 import com.gabrielMJr.twaire.mybusiness.util.Constants;
 import java.util.ArrayList;
@@ -36,7 +37,11 @@ public class AddCartActivity extends Activity {
     private RecyclerView recycler;
     private AddCartAdapter adapter;
     
-    private int count = 0;
+    // Product database center object
+    private ProductDataCenter dataCenter;
+    
+    // Products added to cart counter
+    private int count;
     
     // Initializing the activity
     private void initialize()
@@ -60,6 +65,12 @@ public class AddCartActivity extends Activity {
                                      product_name,
                                      product_amount,
                                      product_price);
+                                    
+        // Initializing datacenter
+        dataCenter = new ProductDataCenter(getApplicationContext());
+        
+        // Initializing added products to cart with 0
+        count = 0;
     }
     
     @Override
@@ -112,5 +123,41 @@ public class AddCartActivity extends Activity {
 
         // Set text  to add_item
         add_item.setText(R.string.add_to_cart);
+    }
+
+    
+    // On activity result
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        
+        // Check from where is comming the result
+        // For choose product activity
+        if (requestCode == Constants.CHOOSE_PRODUCT_ACTIVITY)
+        {
+            // If the result was done
+            if (resultCode == RESULT_OK)
+            {
+                // Get id and display data
+                displayData(data.getIntExtra(Constants.ID, -1));
+                initializeAddItemButton();
+            }
+        }
+    }
+
+    private void displayData(int id)
+    {
+        // Adding the added product to ui
+        product_image.add(dataCenter.getImage(id));
+        product_name.add(dataCenter.getName(id));
+        product_amount.add(dataCenter.getAmount(id));
+        product_price.add(dataCenter.getPrice(id));
+        
+        // Notifying added product
+        adapter.notifyItemInserted(count + 1);
+        
+        // Incrementing the counter
+        count++;
     }
 }

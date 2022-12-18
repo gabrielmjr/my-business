@@ -20,11 +20,11 @@ import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
 import com.gabrielMJr.twaire.mybusiness.util.Constants;
 import com.gabrielMJr.twaire.mybusiness.util.MainAdapter;
-import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
+import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewMainInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewInterface
+public class MainActivity extends AppCompatActivity implements RecyclerViewMainInterface
 {
 
     // Go to add item button
@@ -158,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             //amount.clear();
             image.clear();
             card_id.clear();
+            
+            // Dont touch here
             card_id.put(0, -1);
             
             for (int i = 0; i < dataCenter.getProductsIndex(); i++)

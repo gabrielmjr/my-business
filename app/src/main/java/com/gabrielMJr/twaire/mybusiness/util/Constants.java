@@ -17,4 +17,5 @@ public class Constants {
     public static final String PRICE = "price";
     public static final String AMOUNT = "amount";
     public static final String IMAGE = "image";
+    public static final String ID ="id";
 }

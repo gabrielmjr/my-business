@@ -1,16 +1,21 @@
 package com.gabrielMJr.twaire.mybusiness.app;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.SearchView;
 import com.gabrielMJr.twaire.mybusiness.R;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.util.ChooseProductAdapter;
+import com.gabrielMJr.twaire.mybusiness.util.Constants;
+import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewChooseProductInterface;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class ChooseProductActivity extends AppCompatActivity
+public class ChooseProductActivity extends AppCompatActivity implements RecyclerViewChooseProductInterface
 {
     // Attributes
     // Card array list
@@ -26,6 +31,14 @@ public class ChooseProductActivity extends AppCompatActivity
     private RecyclerView recycler;
     private ChooseProductAdapter adapter;
 
+    // Search view
+   // private SearchView search;
+    
+    // This hash contains id of recycler view sycronized with card position
+    private HashMap<Integer, Integer> card_id;
+    
+    // Return data intent
+    private Intent returnData;
     
     // Initializing the activity
     private void initialize()
@@ -35,6 +48,7 @@ public class ChooseProductActivity extends AppCompatActivity
         name = new ArrayList<>();
         amount = new ArrayList<>();
         price = new ArrayList<>();
+        card_id = new HashMap<>();
         
         // Getting recycler view from layout
         recycler = findViewById(R.id.choose_product_recycler_view);
@@ -45,10 +59,20 @@ public class ChooseProductActivity extends AppCompatActivity
                 image,
                 name,
                 amount,
-                price);
+                price,
+                this);
                 
         // Initializing data center object
         dataCenter = new ProductDataCenter(getApplicationContext());
+        
+        // Initializing search view
+      //  search = findViewById(R.id.choose_product_search);
+        
+        // Remove focus, when the activity start, keyboard will not be showed
+       // search.clearFocus();
+        
+        // Initializing return data intent
+        returnData = new Intent();
     }
     
     
@@ -78,6 +102,9 @@ public class ChooseProductActivity extends AppCompatActivity
         // Getting all ids from db
         ArrayList id = dataCenter.getIDs();
         
+        // Dont touch here
+        card_id.put(0, -1);
+        
         // If data.isEmpty
         if (dataCenter.isDataCenterEmpty())
         {
@@ -95,8 +122,21 @@ public class ChooseProductActivity extends AppCompatActivity
                 price.add(dataCenter.getPrice((Integer)id.get(i)));
                 amount.add(dataCenter.getAmount((Integer)id.get(i)));
                 image.add(dataCenter.getImage(id.get(i)));
+                card_id.put(i + 1, (Integer)id.get(i));
             }
         }
     }
 
+    // On item clicked
+    @Override
+    public void onItemClick(int position)
+    {
+        // Set id into intentent and return them
+        returnData.putExtra(Constants.ID, card_id.get(position));
+        setResult(RESULT_OK, returnData);
+
+        
+        // Finish the activity
+        finish();
+    }
 }
