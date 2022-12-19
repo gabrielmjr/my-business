@@ -102,9 +102,6 @@ public class ChooseProductActivity extends AppCompatActivity implements Recycler
         // Getting all ids from db
         ArrayList id = dataCenter.getIDs();
         
-        // Dont touch here
-        card_id.put(0, -1);
-        
         // If data.isEmpty
         if (dataCenter.isDataCenterEmpty())
         {
@@ -122,7 +119,7 @@ public class ChooseProductActivity extends AppCompatActivity implements Recycler
                 price.add(dataCenter.getPrice((Integer)id.get(i)));
                 amount.add(dataCenter.getAmount((Integer)id.get(i)));
                 image.add(dataCenter.getImage(id.get(i)));
-                card_id.put(i + 1, (Integer)id.get(i));
+                card_id.put(i, (Integer)id.get(i));
             }
         }
     }
@@ -134,8 +131,7 @@ public class ChooseProductActivity extends AppCompatActivity implements Recycler
         // Set id into intentent and return them
         returnData.putExtra(Constants.ID, card_id.get(position));
         setResult(RESULT_OK, returnData);
-
-        
+   
         // Finish the activity
         finish();
     }

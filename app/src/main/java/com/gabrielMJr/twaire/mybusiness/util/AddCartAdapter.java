@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.gabrielMJr.twaire.mybusiness.R;
 import java.util.ArrayList;
+import android.view.View.OnClickListener;
 
 public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHolder>
 {
@@ -28,7 +29,7 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
     
     // Constructor
     public AddCartAdapter(Context context,
-           /*ArrayList<Uri> product_image,*/
+           ArrayList<Uri> product_image,
            ArrayList<String> product_name,
            ArrayList<Integer> product_amount,
            ArrayList <Float> product_price)
@@ -36,7 +37,7 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
         
         // Setting up the attributes
         this.context = context;
-        /*this.product_image = product_image;*/
+        this.product_image = product_image;
         this.product_name = product_name;
         this.product_amount = product_amount;
         this.product_price = product_price;
@@ -58,10 +59,11 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position)
     {
         // Setting values to card
-        //holder.product_image.setImageURI(product_image.get(position));
-        holder.product_name.setText(product_name.get(position));
-        holder.product_amount.setText(String.valueOf(product_amount.get(position)));
-        holder.product_price.setText(String.valueOf(product_price.get(position)));
+        holder.product_image.setImageURI(product_image.get(position));
+        holder.product_name.setText(context.getText(R.string.product_name) + " " + product_name.get(position));
+        holder.product_amount.setText(context.getText(R.string.product_amount) + " " + String.valueOf(product_amount.get(position)));
+        holder.product_price.setText(context.getText(R.string.product_price) + " " + String.valueOf(product_price.get(position)));
+        holder.amount.setText("0");
     }
 
     @Override
@@ -83,6 +85,10 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
         private TextView product_name;
         private TextView product_amount;
         private TextView product_price;
+        
+        // Increment and decrement image view
+        private ImageView increment;
+        private ImageView decrement;
 
         private EditText amount;
         
@@ -96,8 +102,49 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
             product_name = itemView.findViewById(R.id.add_cart_product_name);
             product_amount = itemView.findViewById(R.id.add_cart_product_amount);
             product_price = itemView.findViewById(R.id.add_cart_product_price);
+            increment = itemView.findViewById(R.id.add_cart_amount_plus);
+            decrement = itemView.findViewById(R.id.add_cart_amount_minus);
             
             amount = itemView.findViewById(R.id.add_cart_amount);
+            
+            // Remove focus from amount
+            amount.clearFocus();
+            
+            // On increment click
+            increment.setOnClickListener(
+                new OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        // Increment amount widget
+                        amount.setText(String.valueOf(Integer.valueOf(amount.getText().toString()) + 1));
+                    }
+                });
+                
+            // On decrement click
+            decrement.setOnClickListener(
+                new OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        // Amount value
+                        int amount_value = Integer.valueOf(amount.getText().toString());
+                        
+                        // The amount cant be negative
+                        if (amount_value < 0)
+                        {
+                            // Show the error
+                            amount.setError(context.getText(R.string.negative_amount));
+                        }
+                        else
+                        {  
+                            // Decrement amount widget
+                            amount.setText(String.valueOf(Integer.valueOf(amount.getText().toString()) - 1));
+                        }
+                    }
+                });
         }
     }
 }

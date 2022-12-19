@@ -5,7 +5,6 @@
     <string name="product_name">Name: </string>
     <string name="product_price">Price: </string>
     <string name="product_amount">Amount: </string>
-    <string name="product_amount_s">Qtd:</string>
     <string name="add_new_product">Add new product</string>
     <string name="product_added">Product added</string>
     <string name="canceled_by_user">Canceled by user</string>
@@ -29,6 +28,7 @@
     <string name="empty_price">The product need to have a price!</string>
     <string name="empty_amount">The product need to have an amount!</string>
     <string name="empty_image">Insert an image!</string>
+    <string name="negative_amount">The amount cannot be less than 0!</string>
     
     <string name="deleted">Deleed</string>
     <string name="failed_on_delete">Failed to delete</string>
