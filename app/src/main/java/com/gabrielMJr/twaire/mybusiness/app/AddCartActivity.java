@@ -1,21 +1,25 @@
 package com.gabrielMJr.twaire.mybusiness.app;
 
-import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import com.gabrielMJr.twaire.mybusiness.R;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.util.AddCartAdapter;
 import com.gabrielMJr.twaire.mybusiness.util.Constants;
+import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
+import android.view.MenuItem;
 
-public class AddCartActivity extends AppCompatActivity
+public class AddCartActivity extends AppCompatActivity implements RecyclerViewInterface
 {
 
     // Attributes
@@ -37,6 +41,12 @@ public class AddCartActivity extends AppCompatActivity
 
     // Products added to cart counter
     private int count;
+   
+    // Popup menu
+    private PopupMenu add_to_cart_card_popup_menu;
+    
+    // On long click card position
+    private static int position;
 
     // Initializing the activity
     private void initialize()
@@ -58,7 +68,8 @@ public class AddCartActivity extends AppCompatActivity
                                      product_image,
                                      product_name,
                                      product_amount,
-                                     product_price);
+                                     product_price,
+                                     this);
 
         // Initializing datacenter
         dataCenter = new ProductDataCenter(getApplicationContext());
@@ -114,6 +125,66 @@ public class AddCartActivity extends AppCompatActivity
             }
         }
         return;
+    }
+
+    // On item click
+    @Override
+    public void onItemClick(int position)
+    {
+        
+    }
+
+    // On ling click
+    @Override
+    public void onLongClick(int position, View view)
+    {
+        // Passing the position to the class atribute
+        this.position = position;
+        
+        // Initializing popup menu
+        add_to_cart_card_popup_menu = new PopupMenu(getApplicationContext(), view);
+        
+        // Inflating menu
+        add_to_cart_card_popup_menu.inflate(R.menu.add_to_cart_popup_menu);
+        
+        // Setting on click listener
+        add_to_cart_card_popup_menu.setOnMenuItemClickListener(
+            new OnMenuItemClickListener()
+            {
+                @Override
+                public boolean onMenuItemClick(MenuItem item)
+                {
+                    // If clicked, check what was clicked
+                    switch (item.getItemId())
+                    {
+                        // If remove button was clicked
+                        case R.id.remove:
+                            // Call remove product method
+                            removeProduct();
+                            
+                            return true;
+                    }
+                    
+                    // Nothing was clicked
+                    return false;
+                }            
+            });
+            
+            // Showing the menu
+            add_to_cart_card_popup_menu.show();
+    }
+    
+    // Remove product method
+    private void removeProduct()
+    {
+        // Removing values from array lists to this card
+        product_image.remove(position);
+        product_name.remove(position);
+        product_amount.remove(position);
+        product_price.remove(position);
+        
+        // Notifying removed card
+        adapter.notifyItemRemoved(position);
     }
 
     private void displayData(int id)

@@ -30,7 +30,7 @@ public class ChooseProductAdapter extends RecyclerView.Adapter<ChooseProductAdap
     private View viewHolder;
     
     // Recycler view choose product interface object
-    private final RecyclerViewChooseProductInterface RVCPI;
+    private final RecyclerViewInterface RVI;
     
     // Constructor
     public ChooseProductAdapter(Context context,
@@ -38,7 +38,7 @@ public class ChooseProductAdapter extends RecyclerView.Adapter<ChooseProductAdap
            ArrayList<String> name,
            ArrayList<Integer> amount,
            ArrayList<Float> price,
-           RecyclerViewChooseProductInterface RVCPI)
+           RecyclerViewInterface RVI)
     {
         // Initializing the context
         this.context = context;
@@ -50,7 +50,7 @@ public class ChooseProductAdapter extends RecyclerView.Adapter<ChooseProductAdap
         this.price = price;
         
         // Initializing recycler view product interface from constructor
-        this.RVCPI = RVCPI;
+        this.RVI = RVI;
     }
 
     // Create new card
@@ -118,7 +118,7 @@ public class ChooseProductAdapter extends RecyclerView.Adapter<ChooseProductAdap
                         if (position != RecyclerView.NO_POSITION)
                         {
                             // Setting the clicked position
-                            RVCPI.onItemClick(position);
+                            RVI.onItemClick(position);
                         }
                     }
                 });

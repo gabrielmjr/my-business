@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.gabrielMJr.twaire.mybusiness.R;
-import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewMainInterface;
+import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -28,7 +28,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
     private ArrayList images_id;
     
     private View viewHolder;
-    private final RecyclerViewMainInterface RVI;
+    private final RecyclerViewInterface RVI;
     
     // Constructor
     public MainAdapter(
@@ -37,7 +37,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
                     ArrayList prices_id,
                     /*ArrayList amount_id, */
                     ArrayList images_id,
-                    RecyclerViewMainInterface RVI)
+                    RecyclerViewInterface RVI)
     {
         this.context = context;
         this.names_id = names_id;
@@ -126,7 +126,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
                         // If no ppsition
                         if (position != RecyclerView.NO_POSITION)
                         {
-                            RVI.onLongItClick(position, view);
+                            RVI.onLongClick(position, view);
                             return true;
                         }
                         else

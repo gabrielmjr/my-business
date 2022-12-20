@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Toast;
 import com.gabrielMJr.twaire.mybusiness.R;
 import com.gabrielMJr.twaire.mybusiness.app.AddCartActivity;
@@ -20,11 +21,11 @@ import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
 import com.gabrielMJr.twaire.mybusiness.util.Constants;
 import com.gabrielMJr.twaire.mybusiness.util.MainAdapter;
-import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewMainInterface;
+import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewMainInterface
+public class MainActivity extends AppCompatActivity implements RecyclerViewInterface
 {
 
     // Go to add item button
@@ -181,14 +182,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewMainI
 
     // Product on long click
     @Override
-    public void onLongItClick(final int position, View view)
+    public void onLongClick(final int position, View view)
     {
         // Inflate menu
         product_options_menu = new PopupMenu(getApplicationContext(), view);
         product_options_menu.inflate(R.menu.product_options_popup_menu);
 
         product_options_menu.setOnMenuItemClickListener(
-            new PopupMenu.OnMenuItemClickListener()
+            new OnMenuItemClickListener()
             {
                 @Override
                 public boolean onMenuItemClick(MenuItem item)
@@ -200,6 +201,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewMainI
                             deleteProduct(position);
                             return true;
                     }
+                    
+                    // Nothing was clicked
                     return false;
                 }                              
             });

@@ -2,9 +2,10 @@
     
     <item
         android:id="@+id/delete_product"
-        android:title="Delete"/>
+        android:title="@string/delete"
+        android:icon="@drawable/ic_delete_circle_outline"/>
     
     <item 
         android:id="@+id/edit_product"
-        android:title="Edit"/>
+        android:title="@string/edit"/>
 </menu>

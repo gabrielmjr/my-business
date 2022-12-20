@@ -11,11 +11,12 @@ import com.gabrielMJr.twaire.mybusiness.R;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.util.ChooseProductAdapter;
 import com.gabrielMJr.twaire.mybusiness.util.Constants;
-import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewChooseProductInterface;
+import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
+import android.view.View;
 
-public class ChooseProductActivity extends AppCompatActivity implements RecyclerViewChooseProductInterface
+public class ChooseProductActivity extends AppCompatActivity implements RecyclerViewInterface
 {
     // Attributes
     // Card array list
@@ -134,5 +135,11 @@ public class ChooseProductActivity extends AppCompatActivity implements Recycler
    
         // Finish the activity
         finish();
+    }
+
+    // It need to override but will not be used yet
+    @Override
+    public void onLongClick(int position, View view)
+    {
     }
 }

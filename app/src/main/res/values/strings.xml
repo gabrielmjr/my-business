@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">My Business</string>
-    
-    
+     
     <string name="product_name">Name: </string>
     <string name="product_price">Price: </string>
     <string name="product_amount">Amount: </string>
@@ -32,5 +31,7 @@
     
     <string name="deleted">Deleed</string>
     <string name="failed_on_delete">Failed to delete</string>
-   
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
 </resources>
