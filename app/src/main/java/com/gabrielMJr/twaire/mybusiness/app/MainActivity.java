@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.gabrielMJr.twaire.mybusiness.R;
 import com.gabrielMJr.twaire.mybusiness.app.AddCartActivity;
@@ -54,6 +55,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     // Popup menu
     private PopupMenu product_options_menu;
+    
+    // Custom toast view and his components
+    private View custom_toast;
+    private TextView toast_status;
+    private ImageView toast_icon;
+    
+    // Toast object
+    private Toast toast;
 
     private void initialize()
     {
@@ -76,6 +85,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         productAdapter = new MainAdapter(getApplicationContext(), name, price, /*amount,*/ image, this);
         dataCenter = new ProductDataCenter(getApplicationContext());
         productDB = new ProductDatabase(getApplicationContext());
+        
+        // Initialize the toast components
+        toast = new Toast(getApplicationContext());
+        custom_toast = getLayoutInflater().inflate(R.layout.toast_add_item_status, null);
+        toast_status = custom_toast.findViewById(R.id.toast_status);
+        toast_icon = custom_toast.findViewById(R.id.toast_icon);
     }
 
     @Override
@@ -111,6 +126,28 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                     @Override
                     public void onClick(View view)
                     {
+                        /*
+                         Is not be possible to add cart while doent have product
+                        */
+                        // Check if has product
+                        if (name.size() < 1)
+                        {
+                            // Doesnt have product, show toast
+                            // Set background, text and icon
+                            custom_toast.setBackground(getDrawable(R.drawable.ic_error_toast1));
+                            toast_status.setText(R.string.doesnt_have_product);
+                            toast_icon.setImageDrawable(getDrawable(R.drawable.ic_alert_circle_outline));
+                            
+                            // Set view, duration and show the toast
+                            toast.setView(custom_toast);
+                            toast.setDuration(Toast.LENGTH_SHORT);
+                            toast.show();
+                            
+                            // Return void
+                            return;
+                        }
+                        
+                        // If arrive here, it means that has product
                         // Go to add card activity
                         startActivity(new Intent(getApplicationContext(), AddCartActivity.class));
                     }

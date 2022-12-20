@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.gabrielMJr.twaire.mybusiness.R;
+import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import java.util.ArrayList;
 
 public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHolder>
@@ -24,12 +25,18 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
     private ArrayList<Integer> product_amount;
     private ArrayList<Float> product_price;
     private ArrayList<Integer> amount;
+    
+    // Ids of added products
+    private ArrayList<Integer> card_id;
 
     // View holder
     private View holder;
 
     // Recycler view  interface
     private final RecyclerViewInterface RVI;
+    
+    // Data center object
+    private ProductDataCenter dataCenter;
 
     // Constructor
     public AddCartAdapter(Context context,
@@ -37,6 +44,7 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
                           ArrayList<String> product_name,
                           ArrayList<Integer> product_amount,
                           ArrayList <Float> product_price,
+                          ArrayList<Integer> card_id,
                           RecyclerViewInterface RVI)
     {
 
@@ -46,7 +54,12 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
         this.product_name = product_name;
         this.product_amount = product_amount;
         this.product_price = product_price;
+        this.card_id = card_id;
         this.RVI = RVI;
+        
+        // Initializing datacenter
+        this.dataCenter = new ProductDataCenter(context);
+        
     }
 
     // On create
@@ -124,8 +137,18 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
                     @Override
                     public void onClick(View view)
                     {
-                        // Increment amount widget
+                        // Check if actual amount is greater that stored on db
+                        if (Integer.valueOf(amount.getText().toString()) > dataCenter.getAmount(card_id.get(getAdapterPosition())) - 1)
+                        {
+                            // The amount ended
+                            amount.setError(context.getText(R.string.enough_amount));
+                            return;
+                        }
+                        else
+                        {
+                        // Else increment amount widget
                         amount.setText(String.valueOf(Integer.valueOf(amount.getText().toString()) + 1));
+                        }
                     }
                 });
 
@@ -146,7 +169,7 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
                             amount.setError(context.getText(R.string.negative_amount));
                         }
                         else
-                        {  
+                        {
                             // Decrement amount widget
                             amount.setText(String.valueOf(Integer.valueOf(amount.getText().toString()) - 1));
                         }

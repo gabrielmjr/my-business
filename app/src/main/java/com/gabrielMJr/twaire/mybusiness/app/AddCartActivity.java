@@ -29,25 +29,32 @@ public class AddCartActivity extends AppCompatActivity implements RecyclerViewIn
     private ArrayList<Integer> product_amount;
     private ArrayList<Float> product_price;
 
+    // ArrayList of added item id
+    private ArrayList<Integer> card_id;
+    
     // Add item button
     private Button add_item;
 
     // Recycler View and adapter
     private RecyclerView recycler;
     private AddCartAdapter adapter;
+    
+    // Popup menu
+    private PopupMenu add_to_cart_card_popup_menu;
 
     // Product database center object
     private ProductDataCenter dataCenter;
 
     // Products added to cart counter
     private int count;
-   
-    // Popup menu
-    private PopupMenu add_to_cart_card_popup_menu;
     
     // On long click card position
     private static int position;
 
+    // Intent for go to choose product activity
+    private Intent intent;
+
+    
     // Initializing the activity
     private void initialize()
     {
@@ -59,7 +66,10 @@ public class AddCartActivity extends AppCompatActivity implements RecyclerViewIn
         product_name = new ArrayList<>();
         product_amount = new ArrayList<>();
         product_price = new ArrayList<>();
-
+        
+        // Initializing card item ids
+        card_id = new ArrayList<>();
+        
         // Get add item button
         add_item = findViewById(R.id.add_item);
 
@@ -69,6 +79,7 @@ public class AddCartActivity extends AppCompatActivity implements RecyclerViewIn
                                      product_name,
                                      product_amount,
                                      product_price,
+                                     card_id,
                                      this);
 
         // Initializing datacenter
@@ -76,6 +87,7 @@ public class AddCartActivity extends AppCompatActivity implements RecyclerViewIn
 
         // Initializing added products to cart with 0
         count = 0;
+        
     }
 
     @Override
@@ -98,7 +110,14 @@ public class AddCartActivity extends AppCompatActivity implements RecyclerViewIn
                 @Override
                 public void onClick(View view)
                 {
-                    startActivityForResult(new Intent(getApplicationContext(), ChooseProductActivity.class), Constants.CHOOSE_PRODUCT_ACTIVITY);
+                    // Initializing intent
+                    intent = new Intent(getApplicationContext(), ChooseProductActivity.class);
+                    
+                    // Insert id array list to intent
+                    intent.putExtra(Constants.ID, card_id);
+                  
+                    // Go to choose product activity
+                    startActivityForResult(intent, Constants.CHOOSE_PRODUCT_ACTIVITY);
                     return;
                 }
             });
@@ -119,9 +138,6 @@ public class AddCartActivity extends AppCompatActivity implements RecyclerViewIn
             {
                 // Get id and display data
                 displayData(data.getIntExtra(Constants.ID, -1));
-                
-                // The adapter isnt empty and the button will stay on bottom
-                
             }
         }
         return;
@@ -131,7 +147,7 @@ public class AddCartActivity extends AppCompatActivity implements RecyclerViewIn
     @Override
     public void onItemClick(int position)
     {
-        
+        // Dont do nothing
     }
 
     // On ling click
@@ -183,6 +199,9 @@ public class AddCartActivity extends AppCompatActivity implements RecyclerViewIn
         product_amount.remove(position);
         product_price.remove(position);
         
+        // Remove the id of added item from arrayList
+        card_id.remove(position);
+        
         // Notifying removed card
         adapter.notifyItemRemoved(position);
     }
@@ -195,6 +214,9 @@ public class AddCartActivity extends AppCompatActivity implements RecyclerViewIn
         product_amount.add(dataCenter.getAmount(id));
         product_price.add(dataCenter.getPrice(id));
 
+        // Adding the added item to card id
+        card_id.add(id);
+        
         // Notifying added product
         adapter.notifyItemInserted(count);
 
