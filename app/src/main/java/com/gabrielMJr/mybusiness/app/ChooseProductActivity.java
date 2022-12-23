@@ -152,7 +152,7 @@ public class ChooseProductActivity extends AppCompatActivity implements Recycler
             if (id == card_id.get(position))
             {
                 // Create custom toast
-                custom_toast.setBackground(getDrawable(R.drawable.ic_error_toast1));
+                custom_toast.setBackground(getDrawable(R.drawable.ic_error_toast_1));
                 toast_status.setText(R.string.already_added);
                 toast_icon.setImageDrawable(getDrawable(R.drawable.ic_alert_circle_outline));
 

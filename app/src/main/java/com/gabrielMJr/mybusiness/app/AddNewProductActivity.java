@@ -234,7 +234,7 @@ public class AddNewProductActivity extends AppCompatActivity
             // Set some values into the custom view toast
             toast_status.setText(R.string.empty_image);
             toast_icon.setImageDrawable(getDrawable(R.drawable.ic_error_outline));
-            custom_toast.setBackground(getDrawable(R.drawable.ic_error_toast1));
+            custom_toast.setBackground(getDrawable(R.drawable.ic_error_toast_1));
 
             // Show empty image warning
             toast.setView(custom_toast);

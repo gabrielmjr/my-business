@@ -24,17 +24,17 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
     private ArrayList<String> product_name;
     private ArrayList<Integer> product_amount;
     private ArrayList<Float> product_price;
-    private ArrayList<Integer> amount;
-    
+    //private ArrayList<Float> amount;
+
     // Ids of added products
     private ArrayList<Integer> card_id;
 
     // View holder
     private View holder;
 
-    // Recycler view  interface
-    private final RecyclerViewInterface RVI;
-    
+    // Add cart interface
+    private final AddCartInterface ACI;
+
     // Data center object
     private ProductDataCenter dataCenter;
 
@@ -45,7 +45,7 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
                           ArrayList<Integer> product_amount,
                           ArrayList <Float> product_price,
                           ArrayList<Integer> card_id,
-                          RecyclerViewInterface RVI)
+                          AddCartInterface ACI)
     {
 
         // Setting up the attributes
@@ -55,11 +55,11 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
         this.product_amount = product_amount;
         this.product_price = product_price;
         this.card_id = card_id;
-        this.RVI = RVI;
-        
+        this.ACI = ACI;
+
         // Initializing datacenter
         this.dataCenter = new ProductDataCenter(context);
-        
+
     }
 
     // On create
@@ -146,8 +146,11 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
                         }
                         else
                         {
-                        // Else increment amount widget
-                        amount.setText(String.valueOf(Integer.valueOf(amount.getText().toString()) + 1));
+                            // Else increment amount on edit text
+                            amount.setText(String.valueOf(Integer.valueOf(amount.getText().toString()) + 1));
+
+                            // Call increment method to add the added item's price to add cart activity
+                            ACI.onItemIncremented(getAdapterPosition());
                         }
                     }
                 });
@@ -170,8 +173,11 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
                         }
                         else
                         {
-                            // Decrement amount widget
+                            // Decrement amount on edit text
                             amount.setText(String.valueOf(Integer.valueOf(amount.getText().toString()) - 1));
+
+                            // Call increment method to add the added item's price to add cart activity
+                            ACI.onItemDecremented(getAdapterPosition());
                         }
                     }
                 });
@@ -190,7 +196,7 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
                         if (position != RecyclerView.NO_POSITION)
                         {
                             // Setting the index to the activity and calling on long click
-                            RVI.onLongClick(getAdapterPosition(), view);
+                            ACI.onLongClick(getAdapterPosition(), view);
                             return true;
                         }
 

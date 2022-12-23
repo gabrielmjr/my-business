@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">My Business</string>
      
-    <string name="product_name">Name: </string>
-    <string name="product_price">Price: </string>
-    <string name="product_amount">Amount: </string>
+    <string name="product_name">Name:</string>
+    <string name="product_price">Price:</string>
+    <string name="product_amount">Amount:</string>
+    <string name="product_total">Total:</string>
+    
     <string name="add_new_product">Add new product</string>
     <string name="product_added">Product added</string>
     <string name="canceled_by_user">Canceled by user</string>
@@ -39,4 +41,6 @@
     
     <string name="enough_amount">Cannot be greater than existing amount!</string>
     <string name="very_high_value">The inserted value is very high!</string>
+    
+    <string name="initial_price">$0</string>
 </resources>

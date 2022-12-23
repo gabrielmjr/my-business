@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                         {
                             // Doesnt have product, show toast
                             // Set background, text and icon
-                            custom_toast.setBackground(getDrawable(R.drawable.ic_error_toast1));
+                            custom_toast.setBackground(getDrawable(R.drawable.ic_error_toast_1));
                             toast_status.setText(R.string.doesnt_have_product);
                             toast_icon.setImageDrawable(getDrawable(R.drawable.ic_alert_circle_outline));
                             

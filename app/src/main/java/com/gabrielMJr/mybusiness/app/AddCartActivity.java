@@ -6,20 +6,21 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.TextView;
 import com.gabrielMJr.mybusiness.R;
 import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.mybusiness.util.AddCartAdapter;
+import com.gabrielMJr.mybusiness.util.AddCartInterface;
 import com.gabrielMJr.mybusiness.util.Constants;
-import com.gabrielMJr.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
-import android.view.MenuItem;
 
-public class AddCartActivity extends AppCompatActivity implements RecyclerViewInterface
+public class AddCartActivity extends AppCompatActivity implements AddCartInterface
 {
 
     // Attributes
@@ -32,8 +33,14 @@ public class AddCartActivity extends AppCompatActivity implements RecyclerViewIn
     // ArrayList of added item id
     private ArrayList<Integer> card_id;
     
+    // Value of total price for added item
+    private Float total_price_value;
+    
     // Add item button
     private Button add_item;
+    
+    // Total price text view
+    private TextView total_price_text_view;
 
     // Recycler View and adapter
     private RecyclerView recycler;
@@ -67,11 +74,16 @@ public class AddCartActivity extends AppCompatActivity implements RecyclerViewIn
         product_amount = new ArrayList<>();
         product_price = new ArrayList<>();
         
-        // Initializing card item ids
+        // Initializing card item ids and total price
         card_id = new ArrayList<>();
+        total_price_value = 0f;
         
-        // Get add item button
+        // Get add item button and total price text view
         add_item = findViewById(R.id.add_item);
+        total_price_text_view = findViewById(R.id.total_price);
+        
+        // Set $0 as initial price for total
+        total_price_text_view.setText(getText(R.string.product_total) + " " + getText(R.string.initial_price));
 
         // Add cart adapter
         adapter = new AddCartAdapter(getApplicationContext(),
@@ -188,6 +200,29 @@ public class AddCartActivity extends AppCompatActivity implements RecyclerViewIn
             
             // Showing the menu
             add_to_cart_card_popup_menu.show();
+    }
+    
+    
+    // On item incremented
+    @Override
+    public void onItemIncremented(int position)
+    {
+        // total_price += (price stored on database
+        total_price_value += dataCenter.getPrice(card_id.get(position));
+        
+        // Set new total price to text view
+        total_price_text_view.setText(getText(R.string.product_total) + " $" + total_price_value.toString());
+    }
+
+    // On item decremented
+    @Override
+    public void onItemDecremented(int position)
+    {
+        // total_price -= (price stored on database)
+        total_price_value -= dataCenter.getPrice(card_id.get(position));
+
+        // Set new total price to text view
+        total_price_text_view.setText(getText(R.string.product_total) + " $" +total_price_value.toString());
     }
     
     // Remove product method
