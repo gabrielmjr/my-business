@@ -1,20 +1,18 @@
-package com.gabrielMJr.twaire.mybusiness.util;
+package com.gabrielMJr.mybusiness.util;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.gabrielMJr.twaire.mybusiness.R;
-import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
+import com.gabrielMJr.mybusiness.R;
+import com.gabrielMJr.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 
 // Products adapter view
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>

@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gabrielMJr.twaire.mybusiness"
-    android:versionName="0.1.0-Alpha">
+    package="com.gabrielMJr.mybusiness"
+    android:versionName="0.2.0-Alpha">
 
     <!--take pictures and videos-->
     <uses-permission android:name="android.permission.CAMERA"/>

@@ -1,11 +1,11 @@
-package com.gabrielMJr.twaire.mybusiness.data_manager;
+package com.gabrielMJr.mybusiness.data_manager;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
-import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
+import com.gabrielMJr.mybusiness.data_manager.ProductDatabase;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

@@ -5,10 +5,10 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.gabrielMJr.twaire.mybusiness"
+        applicationId "com.gabrielMJr.mybusiness"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 00100
+        versionCode 00200
         //versionName 
     }
     buildTypes {
