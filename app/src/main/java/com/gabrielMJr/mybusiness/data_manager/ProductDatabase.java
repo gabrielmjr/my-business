@@ -1,4 +1,4 @@
-package com.gabrielMJr.twaire.mybusiness.data_manager;
+package com.gabrielMJr.mybusiness.data_manager;
 
 import android.content.Context;
 import android.database.Cursor;

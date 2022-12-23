@@ -1,4 +1,4 @@
-package com.gabrielMJr.twaire.mybusiness.app;
+package com.gabrielMJr.mybusiness.app;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,14 +15,14 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.gabrielMJr.twaire.mybusiness.R;
-import com.gabrielMJr.twaire.mybusiness.app.AddCartActivity;
-import com.gabrielMJr.twaire.mybusiness.app.AddNewProductActivity;
-import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
-import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
-import com.gabrielMJr.twaire.mybusiness.util.Constants;
-import com.gabrielMJr.twaire.mybusiness.util.MainAdapter;
-import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
+import com.gabrielMJr.mybusiness.R;
+import com.gabrielMJr.mybusiness.app.AddCartActivity;
+import com.gabrielMJr.mybusiness.app.AddNewProductActivity;
+import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
+import com.gabrielMJr.mybusiness.data_manager.ProductDatabase;
+import com.gabrielMJr.mybusiness.util.Constants;
+import com.gabrielMJr.mybusiness.util.MainAdapter;
+import com.gabrielMJr.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 

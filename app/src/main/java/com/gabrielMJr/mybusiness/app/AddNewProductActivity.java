@@ -1,4 +1,4 @@
-package com.gabrielMJr.twaire.mybusiness.app;
+package com.gabrielMJr.mybusiness.app;
 
 import android.Manifest;
 import android.content.Intent;
@@ -17,9 +17,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.gabrielMJr.twaire.mybusiness.R;
-import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
-import com.gabrielMJr.twaire.mybusiness.util.Constants;
+import com.gabrielMJr.mybusiness.R;
+import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
+import com.gabrielMJr.mybusiness.util.Constants;
 import com.gabrielMJr.twaire.tools.Tools;
 
 public class AddNewProductActivity extends AppCompatActivity

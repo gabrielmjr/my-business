@@ -1,4 +1,4 @@
-package com.gabrielMJr.twaire.mybusiness.util;
+package com.gabrielMJr.mybusiness.util;
 
 import android.content.Context;
 import android.net.Uri;
@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.gabrielMJr.twaire.mybusiness.R;
-import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
+import com.gabrielMJr.mybusiness.R;
+import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
 import java.util.ArrayList;
 
 public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHolder>

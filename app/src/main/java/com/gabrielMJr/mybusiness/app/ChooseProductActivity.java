@@ -1,4 +1,4 @@
-package com.gabrielMJr.twaire.mybusiness.app;
+package com.gabrielMJr.mybusiness.app;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,11 +10,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.gabrielMJr.twaire.mybusiness.R;
-import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
-import com.gabrielMJr.twaire.mybusiness.util.ChooseProductAdapter;
-import com.gabrielMJr.twaire.mybusiness.util.Constants;
-import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
+import com.gabrielMJr.mybusiness.R;
+import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
+import com.gabrielMJr.mybusiness.util.ChooseProductAdapter;
+import com.gabrielMJr.mybusiness.util.Constants;
+import com.gabrielMJr.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 
