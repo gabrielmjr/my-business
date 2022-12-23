@@ -140,6 +140,8 @@ public class AddNewProductActivity extends AppCompatActivity
                 public void onClick(View view)
                 {
                     String product = add_new_product_name.getText().toString();
+                    
+                    // Those attributes are String becouse it comes from text views and i need to check if its empty
                     String price = add_new_product_price.getText().toString();
                     String initial_amount = add_new_product_initial_amount.getText().toString();
 
@@ -156,7 +158,7 @@ public class AddNewProductActivity extends AppCompatActivity
                             // To dont do that, actually, the limit is 9999999
 
                             // For price
-                            if (Long.valueOf(add_new_product_price.getText().toString()) > 9999999)
+                            if (Float.valueOf(add_new_product_price.getText().toString()) > 9999999)
                             {
                                 // Show the error
                                 add_new_product_price.setError(getText(R.string.very_high_value));
