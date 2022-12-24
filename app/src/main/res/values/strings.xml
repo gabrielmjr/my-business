@@ -43,4 +43,6 @@
     <string name="very_high_value">The inserted value is very high!</string>
     
     <string name="initial_price">$0</string>
+    
+    <string name="confirm_purchase">Confirm purchase</string>
 </resources>

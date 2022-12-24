@@ -8,6 +8,7 @@
     
     <color name="normal_red">#FFCD4848</color>
     <color name="normal_green">#FFAAFF00</color>
+    <color name="mid_dark_green">#FF03D000</color>
     <color name="full_red">#FFFF0000</color>
     <color name="dark_green">#FF00D100</color>
     
