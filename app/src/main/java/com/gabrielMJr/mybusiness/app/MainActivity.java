@@ -127,11 +127,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                         // Check if has product
                         if (name.size() < 1)
                         {
-                            // Doesnt have product, show toast
+                            // Doesnt have product
                             // Set background, text and icon
                             // Set and show toast
                             custom_toast.setBackground(R.drawable.ic_error_toast_1)
-                                .setDrawable(R.drawable.ic_error_toast_1)
+                                .setDrawable(R.drawable.ic_alert_circle_outline)
                                 .setDuration(Toast.LENGTH_SHORT)
                                 .setText(R.string.doesnt_have_product)
                                 .show();

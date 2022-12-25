@@ -258,7 +258,12 @@ public class AddNewProductActivity extends AppCompatActivity
             // Return datas
             setResult(RESULT_CANCELED, returnData);
             finish();
-            Toast.makeText(getApplicationContext(), getString(R.string.an_error_occurred_on_db), Toast.LENGTH_SHORT).show();
+           
+            custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                .setDrawable(R.drawable.ic_alert_circle_outline)
+                .setDuration(Toast.LENGTH_SHORT)
+                .setText(R.string.an_error_occurred_on_db)
+                .show();
         }
     }
 
@@ -341,7 +346,11 @@ public class AddNewProductActivity extends AppCompatActivity
                 public void onClick(View view)
                 {
                     dialog.dismiss();
-                    Toast.makeText(getApplicationContext(), getText(R.string.canceled_by_user), Toast.LENGTH_SHORT).show();                       
+                    custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                        .setDrawable(R.drawable.ic_alert_circle_outline)
+                        .setDuration(Toast.LENGTH_SHORT)
+                        .setText(R.string.canceled_by_user)
+                        .show();
                 }
             });              
     }
@@ -383,8 +392,13 @@ public class AddNewProductActivity extends AppCompatActivity
         // Else, show an toast
         else if (resultCode == RESULT_CANCELED)
         {
-            Toast.makeText(getApplicationContext(), getText(R.string.canceled_by_user), Toast.LENGTH_SHORT).show();
             hasImage = false;
+            
+            custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                .setDrawable(R.drawable.ic_alert_circle_outline)
+                .setDuration(Toast.LENGTH_SHORT)
+                .setText(R.string.canceled_by_user)
+                .show();
         }
     }
 }

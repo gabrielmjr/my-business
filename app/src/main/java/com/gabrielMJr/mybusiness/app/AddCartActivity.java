@@ -19,6 +19,7 @@ import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.mybusiness.util.AddCartAdapter;
 import com.gabrielMJr.mybusiness.util.AddCartInterface;
 import com.gabrielMJr.mybusiness.util.Constants;
+import com.gabrielMJr.mybusiness.util.CustomToast;
 import java.util.ArrayList;
 
 public class AddCartActivity extends AppCompatActivity implements AddCartInterface
@@ -71,6 +72,8 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
     // Intent for go to choose product activity
     private Intent intent;
 
+    // Custom toast object
+    private CustomToast custom_toast;
 
     // Initializing the activity
     private void initialize()
@@ -112,6 +115,9 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
 
         // Initializing added products to cart with 0
         count = 0;
+        
+        // Initializing custom toast
+        custom_toast = new CustomToast(getApplicationContext());
 
     }
 
@@ -171,7 +177,12 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
                             // If products amounts were updated
                             if (dataCenter.getProductDB().updateAmount(card_id.get(i), product_amount - added_amount.get(i)))
                             {
-                                Toast.makeText(getApplicationContext(), R.string.add_cart_successful, Toast.LENGTH_SHORT).show();
+                                // Set and show toast
+                                custom_toast.setBackground(R.drawable.ic_done_add_product_toast)
+                                    .setDrawable(R.drawable.ic_checkbox_marked_circle_outline)
+                                    .setDuration(Toast.LENGTH_SHORT)
+                                    .setText(R.string.add_cart_successful)
+                                    .show();
                             }
                             else
                             {
