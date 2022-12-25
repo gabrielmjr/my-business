@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.gabrielMJr.mybusiness.R;
 import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.mybusiness.util.AddCartAdapter;
@@ -32,20 +33,29 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
 
     // ArrayList of added item id
     private ArrayList<Integer> card_id;
-    
+
+    // ArrayList of each amount of added product
+    private ArrayList<Integer> added_amount;
+
+    // ArrayList of actual amount each product
+    private ArrayList<Integer> actual_amount;
+
     // Value of total price for added item
     private Float total_price_value;
-    
+
     // Add item button
     private Button add_item;
-    
+
+    // Confirm purchase button
+    private Button confirm_purchase;
+
     // Total price text view
     private TextView total_price_text_view;
 
     // Recycler View and adapter
     private RecyclerView recycler;
     private AddCartAdapter adapter;
-    
+
     // Popup menu
     private PopupMenu add_to_cart_card_popup_menu;
 
@@ -54,14 +64,14 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
 
     // Products added to cart counter
     private int count;
-    
-    // On long click card position
+
+    // Card position
     private static int position;
 
     // Intent for go to choose product activity
     private Intent intent;
 
-    
+
     // Initializing the activity
     private void initialize()
     {
@@ -73,15 +83,18 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
         product_name = new ArrayList<>();
         product_amount = new ArrayList<>();
         product_price = new ArrayList<>();
-        
-        // Initializing card item ids and total price
+        actual_amount = new ArrayList<>();
+
+        // Initializing card item ids, added amounts ans total price
         card_id = new ArrayList<>();
+        added_amount = new ArrayList<>();
         total_price_value = 0f;
-        
-        // Get add item button and total price text view
+
+        // Get add item button, confirm purchase and total price text view
         add_item = findViewById(R.id.add_item);
+        confirm_purchase = findViewById(R.id.confirm_purchase);
         total_price_text_view = findViewById(R.id.total_price);
-        
+
         // Set $0 as initial price for total
         total_price_text_view.setText(getText(R.string.product_total) + " " + getText(R.string.initial_price));
 
@@ -99,7 +112,7 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
 
         // Initializing added products to cart with 0
         count = 0;
-        
+
     }
 
     @Override
@@ -124,17 +137,42 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
                 {
                     // Initializing intent
                     intent = new Intent(getApplicationContext(), ChooseProductActivity.class);
-                    
+
                     // Insert id array list to intent
                     intent.putExtra(Constants.ID, card_id);
-                  
+
                     // Go to choose product activity
                     startActivityForResult(intent, Constants.CHOOSE_PRODUCT_ACTIVITY);
                     return;
                 }
             });
+
+        // Confirm the cart and update databade
+        confirm_purchase.setOnClickListener(
+            new OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    // Update database in amount for each added product
+                    for (int i = 0; i < card_id.size(); i++)
+                    {
+                        // Update database
+                        // If products amounts were updated
+                        if (dataCenter.getProductDB().updateAmount(card_id.get(i), added_amount.get(i)))
+                        {
+                            Toast.makeText(getApplicationContext(), R.string.add_cart_successful, Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            // If product amounts were not updated
+                            Toast.makeText(getApplicationContext(), R.string.add_cart_unsuccessful, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
     }
-    
+
     // On activity result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -162,19 +200,19 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
         // Dont do nothing
     }
 
-    // On ling click
+    // On long click
     @Override
     public void onLongClick(int position, View view)
     {
         // Passing the position to the class atribute
         this.position = position;
-        
+
         // Initializing popup menu
         add_to_cart_card_popup_menu = new PopupMenu(getApplicationContext(), view);
-        
+
         // Inflating menu
         add_to_cart_card_popup_menu.inflate(R.menu.add_to_cart_popup_menu);
-        
+
         // Setting on click listener
         add_to_cart_card_popup_menu.setOnMenuItemClickListener(
             new OnMenuItemClickListener()
@@ -185,46 +223,52 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
                     // If clicked, check what was clicked
                     switch (item.getItemId())
                     {
-                        // If remove button was clicked
+                            // If remove button was clicked
                         case R.id.remove:
                             // Call remove product method
                             removeProduct();
-                            
+
                             return true;
                     }
-                    
+
                     // Nothing was clicked
                     return false;
                 }            
             });
-            
-            // Showing the menu
-            add_to_cart_card_popup_menu.show();
+
+        // Showing the menu
+        add_to_cart_card_popup_menu.show();
     }
-    
-    
+
+
     // On item incremented
     @Override
-    public void onItemIncremented(int position)
+    public void onItemIncremented(int position, int new_amount)
     {
         // total_price += (price stored on database
         total_price_value += dataCenter.getPrice(card_id.get(position));
-        
+
+        // Increment from added products amounts
+        added_amount.add(position, new_amount);
+
         // Set new total price to text view
         total_price_text_view.setText(getText(R.string.product_total) + " $" + total_price_value.toString());
     }
 
     // On item decremented
     @Override
-    public void onItemDecremented(int position)
-    {
+    public void onItemDecremented(int position, int new_amount)
+    {  
         // total_price -= (price stored on database)
         total_price_value -= dataCenter.getPrice(card_id.get(position));
 
+        // Decrement from added products amounts
+        added_amount.add(position, new_amount);
+
         // Set new total price to text view
-        total_price_text_view.setText(getText(R.string.product_total) + " $" +total_price_value.toString());
+        total_price_text_view.setText(getText(R.string.product_total) + " $" + total_price_value.toString());
     }
-    
+
     // Remove product method
     private void removeProduct()
     {
@@ -233,10 +277,11 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
         product_name.remove(position);
         product_amount.remove(position);
         product_price.remove(position);
-        
-        // Remove the id of added item from arrayList
+
+        // Remove the id and amount of added item from arrayList
         card_id.remove(position);
-        
+        added_amount.remove(position);
+
         // Notifying removed card
         adapter.notifyItemRemoved(position);
     }
@@ -249,9 +294,20 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
         product_amount.add(dataCenter.getAmount(id));
         product_price.add(dataCenter.getPrice(id));
 
-        // Adding the added item to card id
+        // Adding the added item to card id and added products amounts
         card_id.add(id);
         
+        /*
+         The added amount will add 0 as initial amount for the added products,
+         so, if added_amount is empty, the size method will return 0,
+         the first index in programming is 0,
+         and it need to add the initial value into 0,
+         then, added_amount.add("position:" added_amount.size() "which will return "0", "value:" 0)
+         the logic will continue so for every each added product
+        */
+        added_amount.add(added_amount.size(), 0);
+        
+
         // Notifying added product
         adapter.notifyItemInserted(count);
 

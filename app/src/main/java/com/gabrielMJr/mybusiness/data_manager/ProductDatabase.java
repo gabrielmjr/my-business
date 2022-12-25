@@ -20,9 +20,7 @@ public class ProductDatabase
     private final String COL_3 = "price";
     private final String COL_4 = "amount";
 
-    // Actual opened database index
-    private int index;
-
+    // Activity context
     private Context context;
 
     private SQLiteDatabase db;
@@ -102,18 +100,25 @@ public class ProductDatabase
     {
         return false;
     }
+    
+    // Update amount product by name
+    public Boolean updateAmount(int id, int amount)
+    {
+        // Try catch and return boolean
+        try 
+        {
+            // Update using query
+            db.execSQL("UPDATE " + TBN + " SET " + COL_4 + " = " + amount + " WHERE " + COL_1 + " = " + id);
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
 
+    
     // setters and getters
-    public int getIndex()
-    {
-        return index;
-    }
-
-    public void setIndex(int index)
-    {
-        this.index = index;
-    }
-
     // Is database empty
     protected Boolean isProductDBEmpty()
     {

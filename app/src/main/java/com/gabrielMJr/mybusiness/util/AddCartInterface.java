@@ -11,9 +11,9 @@ public interface AddCartInterface
     public abstract void onLongClick(int position, View view);
     
     // Notify item incremented
-    public abstract void onItemIncremented(int position);
+    public abstract void onItemIncremented(int position, int new_amount);
     
     // Notify item decremented
-    public abstract void onItemDecremented(int position);
+    public abstract void onItemDecremented(int position, int new_amount);
     
 }

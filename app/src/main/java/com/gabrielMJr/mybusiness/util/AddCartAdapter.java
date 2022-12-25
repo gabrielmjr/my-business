@@ -24,7 +24,8 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
     private ArrayList<String> product_name;
     private ArrayList<Integer> product_amount;
     private ArrayList<Float> product_price;
-    //private ArrayList<Float> amount;
+    
+    private Integer actual_amount;
 
     // Ids of added products
     private ArrayList<Integer> card_id;
@@ -129,6 +130,7 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
 
             // Remove focus from amount
             amount.clearFocus();
+            
 
             // On increment click
             increment.setOnClickListener(
@@ -137,20 +139,25 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
                     @Override
                     public void onClick(View view)
                     {
+                        actual_amount = Integer.valueOf(amount.getText().toString());
+                        
                         // Check if actual amount is greater that stored on db
-                        if (Integer.valueOf(amount.getText().toString()) > dataCenter.getAmount(card_id.get(getAdapterPosition())) - 1)
+                        if (actual_amount > dataCenter.getAmount(card_id.get(getAdapterPosition())) - 1)
                         {
                             // The amount ended
                             amount.setError(context.getText(R.string.enough_amount));
                             return;
                         }
                         else
-                        {
-                            // Else increment amount on edit text
-                            amount.setText(String.valueOf(Integer.valueOf(amount.getText().toString()) + 1));
+                        {              
+                            // Else increment actual amount
+                            actual_amount++;
+                            
+                            // Set actual amount to the widget
+                            amount.setText(actual_amount.toString());
 
                             // Call increment method to add the added item's price to add cart activity
-                            ACI.onItemIncremented(getAdapterPosition());
+                            ACI.onItemIncremented(getAdapterPosition(), actual_amount);
                         }
                     }
                 });
@@ -163,21 +170,24 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
                     public void onClick(View view)
                     {
                         // Amount value
-                        int amount_value = Integer.valueOf(amount.getText().toString());
+                        actual_amount = Integer.valueOf(amount.getText().toString());
 
                         // The amount cant be negative
-                        if (amount_value < 1)
+                        if (actual_amount < 1)
                         {
                             // Show the error
                             amount.setError(context.getText(R.string.negative_amount));
                         }
                         else
                         {
-                            // Decrement amount on edit text
-                            amount.setText(String.valueOf(Integer.valueOf(amount.getText().toString()) - 1));
+                            // Decrement actual amount
+                            actual_amount--;
+                            
+                            // Set actual amount to the widget
+                            amount.setText(actual_amount.toString());
 
                             // Call increment method to add the added item's price to add cart activity
-                            ACI.onItemDecremented(getAdapterPosition());
+                            ACI.onItemDecremented(getAdapterPosition(), actual_amount);
                         }
                     }
                 });

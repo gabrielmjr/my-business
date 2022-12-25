@@ -20,10 +20,10 @@
     <string name="add_product">Add product</string>
     <string name="add_to_cart">Add to cart</string>
     
-    <string name="an_error_occurred_on_db">An error occurred while adding product</string>
-    <string name="error_on_image_pick">An error occurred on image pick</string>
-    <string name="product_exist">Product with the same name already exist</string>
-    <string name="added_successfully">Product added successfully</string>
+    <string name="an_error_occurred_on_db">An error occurred while adding product!</string>
+    <string name="error_on_image_pick">An error occurred on image pick!</string>
+    <string name="product_exist">Product with the same name already exist!</string>
+    <string name="added_successfully">Product added successfully!</string>
     <string name="already_added">The product was already added!</string>
     <string name="doesnt_have_product">Product list is empty!</string>
     
@@ -34,7 +34,7 @@
     <string name="negative_amount">The amount cannot be less than 0!</string>
     
     <string name="deleted">Deleed</string>
-    <string name="failed_on_delete">Failed to delete</string>
+    <string name="failed_on_delete">Failed to delete!</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
@@ -45,4 +45,6 @@
     <string name="initial_price">$0</string>
     
     <string name="confirm_purchase">Confirm purchase</string>
+    <string name="add_cart_successful">Cart added successfully!</string>
+    <string name="add_cart_unsuccessful">Something went wrong, cart not added!</string>
 </resources>
