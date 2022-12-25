@@ -157,9 +157,10 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
                     // Update database in amount for each added product
                     for (int i = 0; i < card_id.size(); i++)
                     {
+                        int product_amount = dataCenter.getAmount(card_id.get(i));
                         // Update database
                         // If products amounts were updated
-                        if (dataCenter.getProductDB().updateAmount(card_id.get(i), added_amount.get(i)))
+                        if (dataCenter.getProductDB().updateAmount(card_id.get(i), product_amount - added_amount.get(i)))
                         {
                             Toast.makeText(getApplicationContext(), R.string.add_cart_successful, Toast.LENGTH_SHORT).show();
                         }
