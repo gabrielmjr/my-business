@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.gabrielMJr.mybusiness.R;
 import com.gabrielMJr.mybusiness.app.AddCartActivity;
@@ -21,6 +20,7 @@ import com.gabrielMJr.mybusiness.app.AddNewProductActivity;
 import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.mybusiness.data_manager.ProductDatabase;
 import com.gabrielMJr.mybusiness.util.Constants;
+import com.gabrielMJr.mybusiness.util.CustomToast;
 import com.gabrielMJr.mybusiness.util.MainAdapter;
 import com.gabrielMJr.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
@@ -56,10 +56,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     // Popup menu
     private PopupMenu product_options_menu;
     
-    // Custom toast view and his components
-    private View custom_toast;
-    private TextView toast_status;
-    private ImageView toast_icon;
+    // Custom toast object
+    private CustomToast custom_toast;
     
     // Toast object
     private Toast toast;
@@ -87,10 +85,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         productDB = new ProductDatabase(getApplicationContext());
         
         // Initialize the toast components
-        toast = new Toast(getApplicationContext());
-        custom_toast = getLayoutInflater().inflate(R.layout.toast_add_item_status, null);
-        toast_status = custom_toast.findViewById(R.id.toast_status);
-        toast_icon = custom_toast.findViewById(R.id.toast_icon);
+        
     }
 
     @Override
@@ -134,14 +129,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                         {
                             // Doesnt have product, show toast
                             // Set background, text and icon
-                            custom_toast.setBackground(getDrawable(R.drawable.ic_error_toast_1));
-                            toast_status.setText(R.string.doesnt_have_product);
-                            toast_icon.setImageDrawable(getDrawable(R.drawable.ic_alert_circle_outline));
+                            // Set and show toast
+                            custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                                .setDrawable(R.drawable.ic_error_toast_1)
+                                .setDuration(Toast.LENGTH_SHORT)
+                                .setText(R.string.doesnt_have_product)
+                                .show();
                             
-                            // Set view, duration and show the toast
-                            toast.setView(custom_toast);
-                            toast.setDuration(Toast.LENGTH_SHORT);
-                            toast.show();
+                            
                             
                             // Return void
                             return;

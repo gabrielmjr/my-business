@@ -154,20 +154,30 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
                 @Override
                 public void onClick(View view)
                 {
-                    // Update database in amount for each added product
-                    for (int i = 0; i < card_id.size(); i++)
+                    // Check if has added products
+                    if (card_id.size() < 1)
                     {
-                        int product_amount = dataCenter.getAmount(card_id.get(i));
-                        // Update database
-                        // If products amounts were updated
-                        if (dataCenter.getProductDB().updateAmount(card_id.get(i), product_amount - added_amount.get(i)))
+                        
+                        
+                        
+                    }
+                    else
+                    {
+                        // Update database in amount for each added product
+                        for (int i = 0; i < card_id.size(); i++)
                         {
-                            Toast.makeText(getApplicationContext(), R.string.add_cart_successful, Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            // If product amounts were not updated
-                            Toast.makeText(getApplicationContext(), R.string.add_cart_unsuccessful, Toast.LENGTH_SHORT).show();
+                            int product_amount = dataCenter.getAmount(card_id.get(i));
+                            // Update database
+                            // If products amounts were updated
+                            if (dataCenter.getProductDB().updateAmount(card_id.get(i), product_amount - added_amount.get(i)))
+                            {
+                                Toast.makeText(getApplicationContext(), R.string.add_cart_successful, Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                // If product amounts were not updated
+                                Toast.makeText(getApplicationContext(), R.string.add_cart_unsuccessful, Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 }
@@ -297,7 +307,7 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
 
         // Adding the added item to card id and added products amounts
         card_id.add(id);
-        
+
         /*
          The added amount will add 0 as initial amount for the added products,
          so, if added_amount is empty, the size method will return 0,
@@ -305,9 +315,9 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
          and it need to add the initial value into 0,
          then, added_amount.add("position:" added_amount.size() "which will return "0", "value:" 0)
          the logic will continue so for every each added product
-        */
+         */
         added_amount.add(added_amount.size(), 0);
-        
+
 
         // Notifying added product
         adapter.notifyItemInserted(count);

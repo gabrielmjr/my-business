@@ -15,11 +15,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.gabrielMJr.mybusiness.R;
 import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.mybusiness.util.Constants;
+import com.gabrielMJr.mybusiness.util.CustomToast;
 import com.gabrielMJr.twaire.tools.Tools;
 
 public class AddNewProductActivity extends AppCompatActivity
@@ -65,12 +65,7 @@ public class AddNewProductActivity extends AppCompatActivity
     private View dialog_view;
 
     // Custom toast object
-    private Toast toast;
-
-    // Custom toast view && them components
-    private View custom_toast;
-    private TextView toast_status;
-    private ImageView toast_icon;
+    private CustomToast custom_toast;
 
     // BitmapDrawable (converteble drawable)
     private static BitmapDrawable imageS;
@@ -92,11 +87,8 @@ public class AddNewProductActivity extends AppCompatActivity
         dataCenter = new  ProductDataCenter(getApplicationContext());
         tools = new Tools();
 
-        // New toast object, view and them attributes
-        toast = new Toast(getApplicationContext());
-        custom_toast = getLayoutInflater().inflate(R.layout.toast_add_item_status, null);
-        toast_status = custom_toast.findViewById(R.id.toast_status);
-        toast_icon = custom_toast.findViewById(R.id.toast_icon);
+        // New toast object
+        custom_toast = new CustomToast(getApplicationContext());
 
         // Creating neccessary folders 
         dataCenter.createHome();
@@ -140,7 +132,7 @@ public class AddNewProductActivity extends AppCompatActivity
                 public void onClick(View view)
                 {
                     String product = add_new_product_name.getText().toString();
-                    
+
                     // Those attributes are String becouse it comes from text views and i need to check if its empty
                     String price = add_new_product_price.getText().toString();
                     String initial_amount = add_new_product_initial_amount.getText().toString();
@@ -172,18 +164,17 @@ public class AddNewProductActivity extends AppCompatActivity
                                 add_new_product_initial_amount.setError(getText(R.string.very_high_value));
                                 return;
                             }
-                            
+
                             // Else
                             // Add product
                             addProduct(product, Float.valueOf(price), Integer.valueOf(initial_amount));
-                            toast_status.setText(R.string.added_successfully);
-                            toast_icon.setImageDrawable(getDrawable(R.drawable.ic_checkbox_marked_circle_outline));
-                            custom_toast.setBackground(getDrawable(R.drawable.ic_done_add_product_toast));
 
-                            // Set view, duration and show the toast
-                            toast.setView(custom_toast);
-                            toast.setDuration(Toast.LENGTH_SHORT);
-                            toast.show();
+                            // Set and show toast
+                            custom_toast.setBackground(R.drawable.ic_done_add_product_toast)
+                                .setDrawable(R.drawable.ic_checkbox_marked_circle_outline)
+                                .setDuration(Toast.LENGTH_SHORT)
+                                .setText(R.string.added_successfully)
+                                .show();
                         }
                     }
                 }
@@ -233,15 +224,12 @@ public class AddNewProductActivity extends AppCompatActivity
 
         if (!hasImage)
         {
-            // Set some values into the custom view toast
-            toast_status.setText(R.string.empty_image);
-            toast_icon.setImageDrawable(getDrawable(R.drawable.ic_error_outline));
-            custom_toast.setBackground(getDrawable(R.drawable.ic_error_toast_1));
-
-            // Show empty image warning
-            toast.setView(custom_toast);
-            toast.setDuration(Toast.LENGTH_SHORT);
-            toast.show();
+            // Set and show toast
+            custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                .setDrawable(R.drawable.ic_error_outline)
+                .setDuration(Toast.LENGTH_SHORT)
+                .setText(R.string.empty_image)
+                .show();
         }
 
         // Checking and returning the boolean
@@ -262,35 +250,35 @@ public class AddNewProductActivity extends AppCompatActivity
             returnData.putExtra(Constants.IMAGE, dataCenter.getImagePath(dataCenter.getLastId()));
             setResult(RESULT_OK, returnData);
             finish();
-            }
+        }
 
         // Else, finish activity and show message Toast
         else
         {
-        // Return datas
+            // Return datas
             setResult(RESULT_CANCELED, returnData);
             finish();
             Toast.makeText(getApplicationContext(), getString(R.string.an_error_occurred_on_db), Toast.LENGTH_SHORT).show();
-            }
         }
+    }
 
     // Take/ pick image method
     private void pickImage()
     {
-    pm = getPackageManager();
+        pm = getPackageManager();
 
         // if sdk version >= 23, check and ask camera permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
-        // Boolean with camera permission boolean
+            // Boolean with camera permission boolean
             hasCameraPerm = getPackageManager().checkPermission(Manifest.permission.CAMERA, getPackageName()) == PackageManager.PERMISSION_GRANTED;
-            }
+        }
 
         // Else, hasCameraPerm will be true
         else
         {
-        hasCameraPerm = true;
-            }
+            hasCameraPerm = true;
+        }
 
         // Builder for the dialog
         builder = new AlertDialog.Builder(this);
@@ -310,93 +298,93 @@ public class AddNewProductActivity extends AppCompatActivity
         // OnClick of each button
         // Pick from gallery
         pick_from_gallery.setOnClickListener(
-        new OnClickListener()
+            new OnClickListener()
             {
-            @Override
+                @Override
                 public void onClick(View view)
                 {
-                dialog.dismiss();
+                    dialog.dismiss();
                     pick_take_Image = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(pick_take_Image, Constants.IMAGE_PICKER_CODE);
-                    }                          
-                });
+                }                          
+            });
 
         // Take using camera
         take_picture.setOnClickListener(
-        new OnClickListener()
+            new OnClickListener()
             {
-            @Override
+                @Override
                 public void onClick(View view)
                 {
-                dialog.dismiss();
+                    dialog.dismiss();
 
                     // Check for camera permissiom
                     if (hasCameraPerm)
                     {
-                    pick_take_Image = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        pick_take_Image = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(pick_take_Image, Constants.IMAGE_TAKE_CODE);
-                        }
+                    }
 
                     // request permission
                     else
                     {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
-                        }
+                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
                     }
-                });
+                }
+            });
 
         // Cancel field on dialog
         cancel.setOnClickListener(
-        new OnClickListener()
+            new OnClickListener()
             {
-            @Override
+                @Override
                 public void onClick(View view)
                 {
-                dialog.dismiss();
+                    dialog.dismiss();
                     Toast.makeText(getApplicationContext(), getText(R.string.canceled_by_user), Toast.LENGTH_SHORT).show();                       
-                    }
-                });              
-            }
+                }
+            });              
+    }
 
 
     // Initialize the byttons of image chooser dialog
     private void initializeChooserPicDialog()
     {
-    pick_from_gallery = dialog_view.findViewById(R.id.pick_from_gallery);
+        pick_from_gallery = dialog_view.findViewById(R.id.pick_from_gallery);
         take_picture = dialog_view.findViewById(R.id.take_picture);
         cancel = dialog_view.findViewById(R.id.cancel);
-        }
+    }
 
     // On intent result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-    super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
 
         // Check if it was done
         if (resultCode == RESULT_OK)
         {
-        if (requestCode == Constants.IMAGE_PICKER_CODE)
+            if (requestCode == Constants.IMAGE_PICKER_CODE)
             {
-            add_new_product_image.setImageURI(data.getData());
+                add_new_product_image.setImageURI(data.getData());
                 imageS = (BitmapDrawable)add_new_product_image.getDrawable();
 
                 // Setting has image to reuse when verify values
                 hasImage = true;
-                }
+            }
             else if (requestCode == Constants.IMAGE_TAKE_CODE)
             {
-            add_new_product_image.setImageBitmap((Bitmap)data.getExtras().get("data"));
+                add_new_product_image.setImageBitmap((Bitmap)data.getExtras().get("data"));
                 imageS = (BitmapDrawable)add_new_product_image.getDrawable();
                 hasImage = true;
-                }
             }
+        }
 
         // Else, show an toast
         else if (resultCode == RESULT_CANCELED)
         {
-        Toast.makeText(getApplicationContext(), getText(R.string.canceled_by_user), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getText(R.string.canceled_by_user), Toast.LENGTH_SHORT).show();
             hasImage = false;
-            }
         }
     }
+}
