@@ -163,8 +163,11 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
                     // Check if has added products
                     if (card_id.size() < 1)
                     {
-                        
-                        
+                        custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                        .setDrawable(R.drawable.ic_alert_circle_outline)
+                        .setDuration(Toast.LENGTH_SHORT)
+                        .setText(R.string.empty_cart)
+                        .show();    
                         
                     }
                     else
@@ -187,9 +190,16 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
                             else
                             {
                                 // If product amounts were not updated
-                                Toast.makeText(getApplicationContext(), R.string.add_cart_unsuccessful, Toast.LENGTH_SHORT).show();
+                                custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                                    .setDrawable(R.drawable.ic_error_outline)
+                                    .setDuration(Toast.LENGTH_SHORT)
+                                    .setText(R.string.add_cart_unsuccessful)
+                                    .show();
                             }
                         }
+                        
+                        // Finish the activity
+                        finish();
                     }
                 }
             });
