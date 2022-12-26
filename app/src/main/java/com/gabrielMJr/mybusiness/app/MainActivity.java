@@ -3,9 +3,6 @@ package com.gabrielMJr.mybusiness.app;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.gabrielMJr.mybusiness.R;
 import com.gabrielMJr.mybusiness.app.AddCartActivity;
 import com.gabrielMJr.mybusiness.app.AddNewProductActivity;
@@ -58,9 +58,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     
     // Custom toast object
     private CustomToast custom_toast;
-    
-    // Toast object
-    private Toast toast;
 
     private void initialize()
     {
