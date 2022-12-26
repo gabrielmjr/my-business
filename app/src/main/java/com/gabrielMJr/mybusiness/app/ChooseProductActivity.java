@@ -3,17 +3,16 @@ package com.gabrielMJr.mybusiness.app;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.gabrielMJr.mybusiness.R;
 import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.mybusiness.util.ChooseProductAdapter;
 import com.gabrielMJr.mybusiness.util.Constants;
+import com.gabrielMJr.mybusiness.util.CustomToast;
 import com.gabrielMJr.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,12 +27,7 @@ public class ChooseProductActivity extends AppCompatActivity implements Recycler
     private ArrayList<Float> price;
 
     // Custom toast object
-    private Toast toast;
-
-    // Custom toast view && them components
-    private View custom_toast;
-    private TextView toast_status;
-    private ImageView toast_icon;
+    private CustomToast custom_toast;
 
     // Data center object
     private ProductDataCenter dataCenter;
@@ -86,10 +80,7 @@ public class ChooseProductActivity extends AppCompatActivity implements Recycler
         returnData = new Intent();
 
         // Initiaizing custom toast
-        toast = new Toast(getApplicationContext());
-        custom_toast = getLayoutInflater().inflate(R.layout.toast_add_item_status, null);
-        toast_status = custom_toast.findViewById(R.id.toast_status);
-        toast_icon = custom_toast.findViewById(R.id.toast_icon);
+        custom_toast = new CustomToast(getApplicationContext());
     }
 
 
@@ -152,14 +143,12 @@ public class ChooseProductActivity extends AppCompatActivity implements Recycler
             if (id == card_id.get(position))
             {
                 // Create custom toast
-                custom_toast.setBackground(getDrawable(R.drawable.ic_error_toast_1));
-                toast_status.setText(R.string.already_added);
-                toast_icon.setImageDrawable(getDrawable(R.drawable.ic_alert_circle_outline));
-
-                // Set custom view, duration and show
-                toast.setView(custom_toast);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
+                // Set and show toast
+                custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                    .setDrawable(R.drawable.ic_alert_circle_outline)
+                    .setDuration(Toast.LENGTH_SHORT)
+                    .setText(R.string.already_added)
+                    .show();
 
                 // Return void
                 return;

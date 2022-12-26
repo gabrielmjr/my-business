@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import com.gabrielMJr.mybusiness.data_manager.ProductDatabase;
 import java.io.File;
 import java.io.FileNotFoundException;

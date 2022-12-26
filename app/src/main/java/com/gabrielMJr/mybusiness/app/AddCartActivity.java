@@ -3,9 +3,6 @@ package com.gabrielMJr.mybusiness.app;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,11 +11,15 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.gabrielMJr.mybusiness.R;
 import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.mybusiness.util.AddCartAdapter;
 import com.gabrielMJr.mybusiness.util.AddCartInterface;
 import com.gabrielMJr.mybusiness.util.Constants;
+import com.gabrielMJr.mybusiness.util.CustomToast;
 import java.util.ArrayList;
 
 public class AddCartActivity extends AppCompatActivity implements AddCartInterface
@@ -71,6 +72,8 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
     // Intent for go to choose product activity
     private Intent intent;
 
+    // Custom toast object
+    private CustomToast custom_toast;
 
     // Initializing the activity
     private void initialize()
@@ -112,6 +115,9 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
 
         // Initializing added products to cart with 0
         count = 0;
+        
+        // Initializing custom toast
+        custom_toast = new CustomToast(getApplicationContext());
 
     }
 
@@ -154,20 +160,46 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
                 @Override
                 public void onClick(View view)
                 {
-                    // Update database in amount for each added product
-                    for (int i = 0; i < card_id.size(); i++)
+                    // Check if has added products
+                    if (card_id.size() < 1)
                     {
-                        // Update database
-                        // If products amounts were updated
-                        if (dataCenter.getProductDB().updateAmount(card_id.get(i), added_amount.get(i)))
+                        custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                        .setDrawable(R.drawable.ic_alert_circle_outline)
+                        .setDuration(Toast.LENGTH_SHORT)
+                        .setText(R.string.empty_cart)
+                        .show();    
+                        
+                    }
+                    else
+                    {
+                        // Update database in amount for each added product
+                        for (int i = 0; i < card_id.size(); i++)
                         {
-                            Toast.makeText(getApplicationContext(), R.string.add_cart_successful, Toast.LENGTH_SHORT).show();
+                            int product_amount = dataCenter.getAmount(card_id.get(i));
+                            // Update database
+                            // If products amounts were updated
+                            if (dataCenter.getProductDB().updateAmount(card_id.get(i), product_amount - added_amount.get(i)))
+                            {
+                                // Set and show toast
+                                custom_toast.setBackground(R.drawable.ic_done_add_product_toast)
+                                    .setDrawable(R.drawable.ic_checkbox_marked_circle_outline)
+                                    .setDuration(Toast.LENGTH_SHORT)
+                                    .setText(R.string.add_cart_successful)
+                                    .show();
+                            }
+                            else
+                            {
+                                // If product amounts were not updated
+                                custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                                    .setDrawable(R.drawable.ic_error_outline)
+                                    .setDuration(Toast.LENGTH_SHORT)
+                                    .setText(R.string.add_cart_unsuccessful)
+                                    .show();
+                            }
                         }
-                        else
-                        {
-                            // If product amounts were not updated
-                            Toast.makeText(getApplicationContext(), R.string.add_cart_unsuccessful, Toast.LENGTH_SHORT).show();
-                        }
+                        
+                        // Finish the activity
+                        finish();
                     }
                 }
             });
@@ -296,7 +328,7 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
 
         // Adding the added item to card id and added products amounts
         card_id.add(id);
-        
+
         /*
          The added amount will add 0 as initial amount for the added products,
          so, if added_amount is empty, the size method will return 0,
@@ -304,9 +336,9 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
          and it need to add the initial value into 0,
          then, added_amount.add("position:" added_amount.size() "which will return "0", "value:" 0)
          the logic will continue so for every each added product
-        */
+         */
         added_amount.add(added_amount.size(), 0);
-        
+
 
         // Notifying added product
         adapter.notifyItemInserted(count);

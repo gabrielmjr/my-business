@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" 
@@ -9,7 +9,7 @@
     android:layout_margin="5dp"
     android:orientation="vertical">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toStartOf="@+id/product_info"
             app:layout_constraintHorizontal_bias=".03"/>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/product_info"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -66,9 +66,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
             />
 
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cart_info"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -113,8 +113,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintVertical_bias=".9"/>
 
-        </android.support.constraint.ConstraintLayout>
-
-    </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        
+    </androidx.constraintlayout.widget.ConstraintLayout>
     
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>
+

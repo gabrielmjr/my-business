@@ -8,7 +8,7 @@
     
     <string name="add_new_product">Add new product</string>
     <string name="product_added">Product added</string>
-    <string name="canceled_by_user">Canceled by user</string>
+    <string name="canceled_by_user">Canceled by user!</string>
     <string name="camera_perm_denied">To take pictures using camera,
         you need to grant camera permission
         , you can still load from gallery.</string>
@@ -31,6 +31,7 @@
     <string name="empty_price">The product need to have a price!</string>
     <string name="empty_amount">The product need to have an amount!</string>
     <string name="empty_image">Insert an image!</string>
+    <string name="empty_cart">Cannot add empty cart!</string>
     <string name="negative_amount">The amount cannot be less than 0!</string>
     
     <string name="deleted">Deleed</string>

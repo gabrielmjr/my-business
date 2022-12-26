@@ -3,9 +3,6 @@ package com.gabrielMJr.mybusiness.app;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,14 +10,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.gabrielMJr.mybusiness.R;
 import com.gabrielMJr.mybusiness.app.AddCartActivity;
 import com.gabrielMJr.mybusiness.app.AddNewProductActivity;
 import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.mybusiness.data_manager.ProductDatabase;
 import com.gabrielMJr.mybusiness.util.Constants;
+import com.gabrielMJr.mybusiness.util.CustomToast;
 import com.gabrielMJr.mybusiness.util.MainAdapter;
 import com.gabrielMJr.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
@@ -56,13 +56,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     // Popup menu
     private PopupMenu product_options_menu;
     
-    // Custom toast view and his components
-    private View custom_toast;
-    private TextView toast_status;
-    private ImageView toast_icon;
-    
-    // Toast object
-    private Toast toast;
+    // Custom toast object
+    private CustomToast custom_toast;
 
     private void initialize()
     {
@@ -87,10 +82,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         productDB = new ProductDatabase(getApplicationContext());
         
         // Initialize the toast components
-        toast = new Toast(getApplicationContext());
-        custom_toast = getLayoutInflater().inflate(R.layout.toast_add_item_status, null);
-        toast_status = custom_toast.findViewById(R.id.toast_status);
-        toast_icon = custom_toast.findViewById(R.id.toast_icon);
+        
     }
 
     @Override
@@ -132,16 +124,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                         // Check if has product
                         if (name.size() < 1)
                         {
-                            // Doesnt have product, show toast
+                            // Doesnt have product
                             // Set background, text and icon
-                            custom_toast.setBackground(getDrawable(R.drawable.ic_error_toast_1));
-                            toast_status.setText(R.string.doesnt_have_product);
-                            toast_icon.setImageDrawable(getDrawable(R.drawable.ic_alert_circle_outline));
+                            // Set and show toast
+                            custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                                .setDrawable(R.drawable.ic_alert_circle_outline)
+                                .setDuration(Toast.LENGTH_SHORT)
+                                .setText(R.string.doesnt_have_product)
+                                .show();
                             
-                            // Set view, duration and show the toast
-                            toast.setView(custom_toast);
-                            toast.setDuration(Toast.LENGTH_SHORT);
-                            toast.show();
+                            
                             
                             // Return void
                             return;
