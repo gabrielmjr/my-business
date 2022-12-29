@@ -8,12 +8,14 @@
     
     <color name="normal_red">#FFCD4848</color>
     <color name="normal_green">#FFAAFF00</color>
+    <color name="mid_dark_green">#FF03D000</color>
     <color name="full_red">#FFFF0000</color>
     <color name="dark_green">#FF00D100</color>
     
     <color name="colorBlue">#FF0000FF</color>
     
     <color name="colorWhite">#FFFFFFFF</color>
+    <color name="colorSemiBlueWhite">#FFCAEEF2</color>
     <color name="colorBlack">#FF000000</color>
     
     <color name="colorApp_bar_navigation_background">#FFFF0303</color>

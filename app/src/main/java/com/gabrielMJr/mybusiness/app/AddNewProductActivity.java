@@ -1,4 +1,4 @@
-package com.gabrielMJr.twaire.mybusiness.app;
+package com.gabrielMJr.mybusiness.app;
 
 import android.Manifest;
 import android.content.Intent;
@@ -8,18 +8,18 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-import com.gabrielMJr.twaire.mybusiness.R;
-import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
-import com.gabrielMJr.twaire.mybusiness.util.Constants;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import com.gabrielMJr.mybusiness.R;
+import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
+import com.gabrielMJr.mybusiness.util.Constants;
+import com.gabrielMJr.mybusiness.util.CustomToast;
 import com.gabrielMJr.twaire.tools.Tools;
 
 public class AddNewProductActivity extends AppCompatActivity
@@ -64,44 +64,36 @@ public class AddNewProductActivity extends AppCompatActivity
     private AlertDialog dialog;   
     private View dialog_view;
 
+    // Custom toast object
+    private CustomToast custom_toast;
+
     // BitmapDrawable (converteble drawable)
     private static BitmapDrawable imageS;
 
     // Intent with result data from request
     private Intent returnData;
-     
-     /*
+
+    /*
      My tools package
      I used him instead of java.lang.isEmpty because:
      my tools consider space as empty
      */
     private static Tools tools;
 
-    // Custom toast object
-    private Toast toast;
-    
-    // Custom toast view && them components
-    private View custom_toast;
-    private TextView toast_status;
-    private ImageView toast_icon;
-    
     // Initializing
     private void initialize()
     {
         // New datacenter object
         dataCenter = new  ProductDataCenter(getApplicationContext());
         tools = new Tools();
-        
-        // New toast object, view and them attributes
-        toast = new Toast(getApplicationContext());
-        custom_toast = getLayoutInflater().inflate(R.layout.add_item_status_toast, null);
-        toast_status = custom_toast.findViewById(R.id.toast_status);
-        toast_icon = custom_toast.findViewById(R.id.toast_icon);
+
+        // New toast object
+        custom_toast = new CustomToast(getApplicationContext());
 
         // Creating neccessary folders 
         dataCenter.createHome();
         dataCenter.createImgDir();
-        
+
         // Initializing return data intent
         returnData = new Intent();
 
@@ -140,6 +132,8 @@ public class AddNewProductActivity extends AppCompatActivity
                 public void onClick(View view)
                 {
                     String product = add_new_product_name.getText().toString();
+
+                    // Those attributes are String becouse it comes from text views and i need to check if its empty
                     String price = add_new_product_price.getText().toString();
                     String initial_amount = add_new_product_initial_amount.getText().toString();
 
@@ -152,18 +146,35 @@ public class AddNewProductActivity extends AppCompatActivity
                         }
                         else
                         {
+                            // If the number is greater than 9999999, java will show you "E" ans will split the value
+                            // To dont do that, actually, the limit is 9999999
+
+                            // For price
+                            if (Float.valueOf(add_new_product_price.getText().toString()) > 9999999)
+                            {
+                                // Show the error
+                                add_new_product_price.setError(getText(R.string.very_high_value));
+                                return;
+                            }
+
+                            // For amount
+                            else if (Long.valueOf(add_new_product_initial_amount.getText().toString()) > 9999999)
+                            {
+                                // Show the error
+                                add_new_product_initial_amount.setError(getText(R.string.very_high_value));
+                                return;
+                            }
+
+                            // Else
                             // Add product
                             addProduct(product, Float.valueOf(price), Integer.valueOf(initial_amount));
-                            //Toast.makeText(getApplicationContext(), getText(R.string.added_successfully), Toast.LENGTH_SHORT).show();
-                            toast_status.setText(R.string.added_successfully);
-                            toast_icon.setImageDrawable(getDrawable(R.drawable.ic_checkbox_marked_circle_outline));
-                            custom_toast.setBackground(getDrawable(R.drawable.ic_done_add_product_toast));
 
-                            // Show empty image warning
-                            //Toast.makeText(getApplicationContext(), getText(R.string.empty_image), Toast.LENGTH_SHORT).show();
-                            toast.setView(custom_toast);
-                            toast.setDuration(Toast.LENGTH_SHORT);
-                            toast.show();
+                            // Set and show toast
+                            custom_toast.setBackground(R.drawable.ic_done_add_product_toast)
+                                .setDrawable(R.drawable.ic_checkbox_marked_circle_outline)
+                                .setDuration(Toast.LENGTH_SHORT)
+                                .setText(R.string.added_successfully)
+                                .show();
                         }
                     }
                 }
@@ -213,16 +224,12 @@ public class AddNewProductActivity extends AppCompatActivity
 
         if (!hasImage)
         {
-            // Set some values into the custom view toast
-            toast_status.setText(R.string.empty_image);
-            toast_icon.setImageDrawable(getDrawable(R.drawable.ic_error_outline));
-            custom_toast.setBackground(getDrawable(R.drawable.ic_error_insert_image_toast));
-            
-            // Show empty image warning
-            //Toast.makeText(getApplicationContext(), getText(R.string.empty_image), Toast.LENGTH_SHORT).show();
-            toast.setView(custom_toast);
-            toast.setDuration(Toast.LENGTH_SHORT);
-            toast.show();
+            // Set and show toast
+            custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                .setDrawable(R.drawable.ic_error_outline)
+                .setDuration(Toast.LENGTH_SHORT)
+                .setText(R.string.empty_image)
+                .show();
         }
 
         // Checking and returning the boolean
@@ -235,6 +242,7 @@ public class AddNewProductActivity extends AppCompatActivity
         // If data.wasAdded, finish the activity
         if (dataCenter.addProduct(product, price, initial_amount, imageS))
         {
+            // Else add the product to db
             // Return datas
             returnData.putExtra(Constants.NAME, product);
             returnData.putExtra(Constants.PRICE, price);
@@ -250,7 +258,12 @@ public class AddNewProductActivity extends AppCompatActivity
             // Return datas
             setResult(RESULT_CANCELED, returnData);
             finish();
-            Toast.makeText(getApplicationContext(), getString(R.string.an_error_occurred_on_db), Toast.LENGTH_SHORT).show();
+           
+            custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                .setDrawable(R.drawable.ic_alert_circle_outline)
+                .setDuration(Toast.LENGTH_SHORT)
+                .setText(R.string.an_error_occurred_on_db)
+                .show();
         }
     }
 
@@ -274,7 +287,7 @@ public class AddNewProductActivity extends AppCompatActivity
 
         // Builder for the dialog
         builder = new AlertDialog.Builder(this);
-        dialog_view = getLayoutInflater().inflate(R.layout.image_chooser_custom_dialog, null);
+        dialog_view = getLayoutInflater().inflate(R.layout.custom_dialog_image_chooser, null);
 
         // Initialze the buttons
         initializeChooserPicDialog();
@@ -333,7 +346,11 @@ public class AddNewProductActivity extends AppCompatActivity
                 public void onClick(View view)
                 {
                     dialog.dismiss();
-                    Toast.makeText(getApplicationContext(), getText(R.string.canceled_by_user), Toast.LENGTH_SHORT).show();                       
+                    custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                        .setDrawable(R.drawable.ic_alert_circle_outline)
+                        .setDuration(Toast.LENGTH_SHORT)
+                        .setText(R.string.canceled_by_user)
+                        .show();
                 }
             });              
     }
@@ -375,8 +392,13 @@ public class AddNewProductActivity extends AppCompatActivity
         // Else, show an toast
         else if (resultCode == RESULT_CANCELED)
         {
-            Toast.makeText(getApplicationContext(), getText(R.string.canceled_by_user), Toast.LENGTH_SHORT).show();
             hasImage = false;
+            
+            custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                .setDrawable(R.drawable.ic_alert_circle_outline)
+                .setDuration(Toast.LENGTH_SHORT)
+                .setText(R.string.canceled_by_user)
+                .show();
         }
     }
 }

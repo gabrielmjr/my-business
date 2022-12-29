@@ -1,23 +1,22 @@
-package com.gabrielMJr.twaire.mybusiness.util;
+package com.gabrielMJr.mybusiness.util;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.gabrielMJr.twaire.mybusiness.R;
-import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
+import androidx.recyclerview.widget.RecyclerView;
+import com.gabrielMJr.mybusiness.R;
+import com.gabrielMJr.mybusiness.util.MainAdapter;
+import com.gabrielMJr.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 
 // Products adapter view
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
 {
     
     // Attributes
@@ -31,7 +30,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
     private final RecyclerViewInterface RVI;
     
     // Constructor
-    public MyAdapter(
+    public MainAdapter(
                     Context context,
                     ArrayList names_id,
                     ArrayList prices_id,
@@ -53,7 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int p2)
     {
         // Inflating the card view
-        viewHolder = LayoutInflater.from(context).inflate(R.layout.product_card_view, parent, false);
+        viewHolder = LayoutInflater.from(context).inflate(R.layout.card_view_product, parent, false);
         return new MyViewHolder(viewHolder);
     }
 
@@ -126,7 +125,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
                         // If no ppsition
                         if (position != RecyclerView.NO_POSITION)
                         {
-                            RVI.onLongItClick(position, view);
+                            RVI.onLongClick(position, view);
                             return true;
                         }
                         else

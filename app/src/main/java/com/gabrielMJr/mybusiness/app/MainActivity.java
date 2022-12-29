@@ -1,26 +1,28 @@
-package com.gabrielMJr.twaire.mybusiness.app;
+package com.gabrielMJr.mybusiness.app;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Toast;
-import com.gabrielMJr.twaire.mybusiness.R;
-import com.gabrielMJr.twaire.mybusiness.app.AddCartActivity;
-import com.gabrielMJr.twaire.mybusiness.app.AddNewProductActivity;
-import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
-import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
-import com.gabrielMJr.twaire.mybusiness.util.Constants;
-import com.gabrielMJr.twaire.mybusiness.util.MyAdapter;
-import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.gabrielMJr.mybusiness.R;
+import com.gabrielMJr.mybusiness.app.AddCartActivity;
+import com.gabrielMJr.mybusiness.app.AddNewProductActivity;
+import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
+import com.gabrielMJr.mybusiness.data_manager.ProductDatabase;
+import com.gabrielMJr.mybusiness.util.Constants;
+import com.gabrielMJr.mybusiness.util.CustomToast;
+import com.gabrielMJr.mybusiness.util.MainAdapter;
+import com.gabrielMJr.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     // Recycler and adapter view
     private RecyclerView productRecycler;
-    private MyAdapter productAdapter;
+    private MainAdapter productAdapter;
 
     // Product data center
     private ProductDataCenter dataCenter;
@@ -53,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     // Popup menu
     private PopupMenu product_options_menu;
+    
+    // Custom toast object
+    private CustomToast custom_toast;
 
     private void initialize()
     {
@@ -72,9 +77,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         image = new ArrayList<>();
         card_id = new HashMap<>();
 
-        productAdapter = new MyAdapter(getApplicationContext(), name, price, /*amount,*/ image, this);
+        productAdapter = new MainAdapter(getApplicationContext(), name, price, /*amount,*/ image, this);
         dataCenter = new ProductDataCenter(getApplicationContext());
         productDB = new ProductDatabase(getApplicationContext());
+        
+        // Initialize the toast components
+        
     }
 
     @Override
@@ -110,6 +118,28 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                     @Override
                     public void onClick(View view)
                     {
+                        /*
+                         Is not be possible to add cart while doent have product
+                        */
+                        // Check if has product
+                        if (name.size() < 1)
+                        {
+                            // Doesnt have product
+                            // Set background, text and icon
+                            // Set and show toast
+                            custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                                .setDrawable(R.drawable.ic_alert_circle_outline)
+                                .setDuration(Toast.LENGTH_SHORT)
+                                .setText(R.string.doesnt_have_product)
+                                .show();
+                            
+                            
+                            
+                            // Return void
+                            return;
+                        }
+                        
+                        // If arrive here, it means that has product
                         // Go to add card activity
                         startActivity(new Intent(getApplicationContext(), AddCartActivity.class));
                     }
@@ -147,8 +177,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         ArrayList id = dataCenter.getIDs();
         if (dataCenter.isDataCenterEmpty())
         {
-            productRecycler.setActivated(false);
-            add_new_product.setActivated(false);
+            /*productRecycler.setActivated(false);
+            add_new_product.setActivated(false);*/
+            // Dont do nothing
         }
         else
         {
@@ -157,6 +188,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             //amount.clear();
             image.clear();
             card_id.clear();
+            
+            // Dont touch here
             card_id.put(0, -1);
             
             for (int i = 0; i < dataCenter.getProductsIndex(); i++)
@@ -178,14 +211,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     // Product on long click
     @Override
-    public void onLongItClick(final int position, View view)
+    public void onLongClick(final int position, View view)
     {
         // Inflate menu
         product_options_menu = new PopupMenu(getApplicationContext(), view);
         product_options_menu.inflate(R.menu.product_options_popup_menu);
 
         product_options_menu.setOnMenuItemClickListener(
-            new PopupMenu.OnMenuItemClickListener()
+            new OnMenuItemClickListener()
             {
                 @Override
                 public boolean onMenuItemClick(MenuItem item)
@@ -197,6 +230,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                             deleteProduct(position);
                             return true;
                     }
+                    
+                    // Nothing was clicked
                     return false;
                 }                              
             });

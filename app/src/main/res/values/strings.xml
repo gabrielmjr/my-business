@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">My Business</string>
+     
+    <string name="product_name">Name:</string>
+    <string name="product_price">Price:</string>
+    <string name="product_amount">Amount:</string>
+    <string name="product_total">Total:</string>
     
-    
-    <string name="product_name">Name: </string>
-    <string name="product_price">Price: </string>
-    <string name="product_amount">Amount: </string>
-    <string name="product_amount_s">Qtd:</string>
     <string name="add_new_product">Add new product</string>
     <string name="product_added">Product added</string>
-    <string name="canceled_by_user">Canceled by user</string>
+    <string name="canceled_by_user">Canceled by user!</string>
     <string name="camera_perm_denied">To take pictures using camera,
         you need to grant camera permission
         , you can still load from gallery.</string>
@@ -18,18 +18,34 @@
     <string name="cancel">Cancel</string>
     <string name="load_picture">Load picture</string>
     <string name="add_product">Add product</string>
+    <string name="add_to_cart">Add to cart</string>
     
-    
-    <string name="an_error_occurred_on_db">An error occurred while adding product</string>
-    <string name="error_on_image_pick">An error occurred on image pick</string>
-    <string name="product_exist">Product with the same name already exist</string>
-    <string name="added_successfully">Product added successfully</string>
+    <string name="an_error_occurred_on_db">An error occurred while adding product!</string>
+    <string name="error_on_image_pick">An error occurred on image pick!</string>
+    <string name="product_exist">Product with the same name already exist!</string>
+    <string name="added_successfully">Product added successfully!</string>
+    <string name="already_added">The product was already added!</string>
+    <string name="doesnt_have_product">Product list is empty!</string>
     
     <string name="empty_name">The product name cannot be empty!</string>
     <string name="empty_price">The product need to have a price!</string>
     <string name="empty_amount">The product need to have an amount!</string>
     <string name="empty_image">Insert an image!</string>
+    <string name="empty_cart">Cannot add empty cart!</string>
+    <string name="negative_amount">The amount cannot be less than 0!</string>
     
     <string name="deleted">Deleed</string>
-    <string name="failed_on_delete">Failed to delete</string>
+    <string name="failed_on_delete">Failed to delete!</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
+    
+    <string name="enough_amount">Cannot be greater than existing amount!</string>
+    <string name="very_high_value">The inserted value is very high!</string>
+    
+    <string name="initial_price">$0</string>
+    
+    <string name="confirm_purchase">Confirm purchase</string>
+    <string name="add_cart_successful">Cart added successfully!</string>
+    <string name="add_cart_unsuccessful">Something went wrong, cart not added!</string>
 </resources>
