@@ -1,4 +1,4 @@
-package com.gabrielMJr.mybusiness.util;
+package com.gabrielMJr.twaire.mybusiness.util;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.gabrielMJr.mybusiness.R;
-import com.gabrielMJr.mybusiness.util.MainAdapter;
-import com.gabrielMJr.mybusiness.util.RecyclerViewInterface;
+import com.gabrielMJr.twaire.mybusiness.R;
+import com.gabrielMJr.twaire.mybusiness.util.MainAdapter;
+import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 
 // Products adapter view

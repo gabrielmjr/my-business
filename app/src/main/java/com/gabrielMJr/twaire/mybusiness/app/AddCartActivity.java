@@ -1,4 +1,4 @@
-package com.gabrielMJr.mybusiness.app;
+package com.gabrielMJr.twaire.mybusiness.app;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -14,12 +14,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.gabrielMJr.mybusiness.R;
-import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
-import com.gabrielMJr.mybusiness.util.AddCartAdapter;
-import com.gabrielMJr.mybusiness.util.AddCartInterface;
-import com.gabrielMJr.mybusiness.util.Constants;
-import com.gabrielMJr.mybusiness.util.CustomToast;
+import com.gabrielMJr.twaire.mybusiness.R;
+import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
+import com.gabrielMJr.twaire.mybusiness.util.AddCartAdapter;
+import com.gabrielMJr.twaire.mybusiness.util.AddCartInterface;
+import com.gabrielMJr.twaire.mybusiness.util.Constants;
+import com.gabrielMJr.twaire.mybusiness.util.CustomToast;
 import java.util.ArrayList;
 
 public class AddCartActivity extends AppCompatActivity implements AddCartInterface

@@ -5,25 +5,24 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.gabrielMJr.mybusiness"
-        minSdkVersion 21
+        applicationId "com.gabrielMJr.twaire.mybusiness"
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 00200
-        //versionName 
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
- 
-dependencies { 
-	implementation 'androidx.recyclerview:recyclerview:1.0.0'
-	implementation 'androidx.cardview:cardview:1.0.0'
+
+dependencies {
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
 	implementation 'androidx.constraintlayout:constraintlayout:1.1.3' 
-    implementation 'androidx.appcompat:appcompat:1.0.0' 
+    implementation 'androidx.appcompat:appcompat:1.0.0'
 	implementation 'com.google.android.material:material:1.0.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gabrielMJr.mybusiness"
+    package="com.gabrielMJr.twaire.mybusiness"
     android:versionName="0.2.0-Alpha">
 
     <!--take pictures and videos-->
@@ -32,26 +32,25 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        
+
         <activity android:name=".app.AddCartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.PARENT"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        
+
         <activity android:name=".app.ChooseProductActivity">
             <intent-filter>
                 <action android:name="android.intent.action.PARENT"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        
-
-        <meta-data
-            android:name="android.max_aspect"
-            android:value="4.0"/>
+    
+      <meta-data
+          android:name="android.max_aspect"
+          android:value="4.0"/>
 
     </application>
-
+	
 </manifest>

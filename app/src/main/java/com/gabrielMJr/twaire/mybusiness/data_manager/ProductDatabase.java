@@ -1,4 +1,4 @@
-package com.gabrielMJr.mybusiness.data_manager;
+package com.gabrielMJr.twaire.mybusiness.data_manager;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -32,11 +32,12 @@ public class ProductDatabase
         initDb();
         createTable();
     }
-    
+
     // InitializeDb
-    private void initDb()
+    protected ProductDatabase initDb()
     {
         db = context.openOrCreateDatabase(DB_NAME, context.MODE_PRIVATE, null); 
+        return this;
     }
 
     // Create new table
@@ -95,12 +96,6 @@ public class ProductDatabase
         }
     }
 
-    // Check product by name
-    public Boolean checkByName(String name)
-    {
-        return false;
-    }
-    
     // Update amount product by name
     public Boolean updateAmount(int id, int amount)
     {
@@ -117,7 +112,7 @@ public class ProductDatabase
         }
     }
 
-    
+
     // setters and getters
     // Is database empty
     protected Boolean isProductDBEmpty()
@@ -185,7 +180,12 @@ public class ProductDatabase
     {
         initDb();
         Cursor cursor = db.rawQuery("SELECT " + COL_1 + " FROM " + TBN + " WHERE " + COL_2 + " = '" + name + "'", null);
-        return cursor.getCount();
+        if (cursor.moveToNext())
+        {
+            return cursor.getInt(0);
+        }
+        
+        return 0;
     }
 
     // Get last id int

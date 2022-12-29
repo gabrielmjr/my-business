@@ -1,4 +1,4 @@
-package com.gabrielMJr.mybusiness.app;
+package com.gabrielMJr.twaire.mybusiness.app;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -14,17 +14,16 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.gabrielMJr.mybusiness.R;
-import com.gabrielMJr.mybusiness.app.AddCartActivity;
-import com.gabrielMJr.mybusiness.app.AddNewProductActivity;
-import com.gabrielMJr.mybusiness.data_manager.ProductDataCenter;
-import com.gabrielMJr.mybusiness.data_manager.ProductDatabase;
-import com.gabrielMJr.mybusiness.util.Constants;
-import com.gabrielMJr.mybusiness.util.CustomToast;
-import com.gabrielMJr.mybusiness.util.MainAdapter;
-import com.gabrielMJr.mybusiness.util.RecyclerViewInterface;
+import com.gabrielMJr.twaire.mybusiness.R;
+import com.gabrielMJr.twaire.mybusiness.app.AddCartActivity;
+import com.gabrielMJr.twaire.mybusiness.app.AddNewProductActivity;
+import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
+import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
+import com.gabrielMJr.twaire.mybusiness.util.Constants;
+import com.gabrielMJr.twaire.mybusiness.util.CustomToast;
+import com.gabrielMJr.twaire.mybusiness.util.MainAdapter;
+import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface
 {
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     protected ArrayList<String> price;
     protected ArrayList<String> image;
 
-    private HashMap<Integer, Integer> card_id;
+    private ArrayList<Integer> card_id;
 
     // Recycler and adapter view
     private RecyclerView productRecycler;
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         name = new ArrayList<>();
         price = new ArrayList<>();
         image = new ArrayList<>();
-        card_id = new HashMap<>();
+        card_id = new ArrayList<>();
 
         productAdapter = new MainAdapter(getApplicationContext(), name, price, /*amount,*/ image, this);
         dataCenter = new ProductDataCenter(getApplicationContext());
@@ -152,7 +151,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     // To display it just add values into the array list
     private void displayDate()
     {
-        ArrayList id = dataCenter.getIDs();
+        // Get total ids
+        card_id = dataCenter.getIDs();
+        
         if (dataCenter.isDataCenterEmpty())
         {
             // Dont do nothing
@@ -162,17 +163,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             name.clear();
             price.clear();
             image.clear();
-            card_id.clear();
-
-            // Dont touch here
-            card_id.put(0, -1);
 
             for (int i = 0; i < dataCenter.getProductsIndex(); i++)
             {
-                name.add(dataCenter.getName((Integer)id.get(i)));
-                price.add(String.valueOf(dataCenter.getPrice((Integer)id.get(i))));
-                image.add(String.valueOf(dataCenter.getImage(id.get(i))));
-                card_id.put(i + 1, (Integer)id.get(i));
+                name.add(dataCenter.getName(card_id.get(i)));
+                price.add(String.valueOf(dataCenter.getPrice(card_id.get(i))));
+                image.add(String.valueOf(dataCenter.getImage(card_id.get(i))));
             }
         }
     }
@@ -218,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     private void deleteProduct(int position)
     {      
         // Get id of the item to be removed
-        int id = card_id.get(position + 1);
+        int id = card_id.get(position);
 
         // Delete from datacenter
         if (productDB.deleteProduct(id) && dataCenter.deleteImage(id))
@@ -228,8 +224,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             price.remove(position);
             image.remove(position);
 
-            // Remove from actual hashmap
-            card_id.remove(position, card_id.get(position));
+            // Remove from card id arraylist
+            card_id.remove(position);
 
             // Notify on item removed
             productAdapter.notifyItemRemoved(position);
@@ -259,19 +255,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             {
                 String name = data.getStringExtra(Constants.NAME);
                 float price = data.getFloatExtra(Constants.PRICE, 0f);
-                //int amount = data.getIntExtra(Constants.AMOUNT, 0);
                 String image = data.getStringExtra(Constants.IMAGE);
 
                 Uri uri = Uri.parse(image);
 
                 this.name.add(name);
                 this.price.add(String.valueOf(price));
-                //this.amount.add(String.valueOf(amount));
                 this.image.add(String.valueOf(uri));
-
-                card_id.put(card_id.size() + 1, dataCenter.getLastId());
-                productAdapter.notifyItemInserted(productAdapter.getItemCount());
-                recreate();
+                
+                card_id = dataCenter.getIDs();
+                productAdapter.notifyItemInserted(card_id.size());
             }
         }
     }

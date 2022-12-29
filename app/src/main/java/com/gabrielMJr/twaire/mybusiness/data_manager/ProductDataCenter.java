@@ -1,11 +1,11 @@
-package com.gabrielMJr.mybusiness.data_manager;
+package com.gabrielMJr.twaire.mybusiness.data_manager;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import androidx.appcompat.app.AppCompatActivity;
-import com.gabrielMJr.mybusiness.data_manager.ProductDatabase;
+import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -85,16 +85,12 @@ public class ProductDataCenter extends AppCompatActivity
 
     // add product and return boolean value
     public boolean addProduct(String name, float price, int initial_amount, BitmapDrawable image)
-    {
-        // last Id of avaliable products
-        int lastId = product_data_base.getLastID();
-        
+    {      
         // If data center stored the value
         if (product_data_base.addNewProduct(name, price, initial_amount))
         {
             // Total avaliable + 1
-            lastId = product_data_base.getLastID();
-            this.lastId = lastId;
+            lastId = product_data_base.initDb().getLastID();
 
             // Saving the image
             addImage(image, lastId);

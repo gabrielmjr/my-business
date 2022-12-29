@@ -1,4 +1,4 @@
-package com.gabrielMJr.mybusiness.util;
+package com.gabrielMJr.twaire.mybusiness.util;
 
 // Custom toast class
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.gabrielMJr.mybusiness.R;
+import com.gabrielMJr.twaire.mybusiness.R;
 
 public class CustomToast
 {
