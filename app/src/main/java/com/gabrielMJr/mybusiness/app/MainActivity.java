@@ -31,13 +31,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     // Go to add item button
     private Button add_new_product;
-    
+
     // Products array
     protected ArrayList<String> name;
     protected ArrayList<String> price;
-    //private ArrayList<String> amount;
     protected ArrayList<String> image;
-    
+
     private HashMap<Integer, Integer> card_id;
 
     // Recycler and adapter view
@@ -47,15 +46,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     // Product data center
     private ProductDataCenter dataCenter;
     private ProductDatabase productDB;
-    
+
     // App bar navigation attributes
     private ImageView nav_purchase;
     private ImageView nav_home;
-    private ImageView nav_report;
 
     // Popup menu
     private PopupMenu product_options_menu;
-    
+
     // Custom toast object
     private CustomToast custom_toast;
 
@@ -66,23 +64,19 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         productRecycler = findViewById(R.id.productsRecyclerView);
 
         // For app bar navigation
-      
+
         nav_purchase = findViewById(R.id.nav_purchase);
         nav_home = findViewById(R.id.nav_home);
-        nav_report = findViewById(R.id.nav_report);
-        
+
         name = new ArrayList<>();
         price = new ArrayList<>();
-        //amount = new ArrayList<>();
         image = new ArrayList<>();
         card_id = new HashMap<>();
 
         productAdapter = new MainAdapter(getApplicationContext(), name, price, /*amount,*/ image, this);
         dataCenter = new ProductDataCenter(getApplicationContext());
         productDB = new ProductDatabase(getApplicationContext());
-        
-        // Initialize the toast components
-        
+        custom_toast = new CustomToast(getApplicationContext());
     }
 
     @Override
@@ -105,46 +99,43 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 @Override
                 public void onClick(View view)
                 {
-                    //startActivity(new Intent(getApplicationContext(), AddNewProductActivity.class));
                     startActivityForResult(new Intent(getApplicationContext(), AddNewProductActivity.class), Constants.ADD_PRODUCT_ACTIVITY);
                 }
             });
-            
-            // App bar navigation on click
-            // Nav Purchase button
-            nav_purchase.setOnClickListener(
-                new OnClickListener()
+
+        // App bar navigation on click
+        // Nav Purchase button
+        nav_purchase.setOnClickListener(
+            new OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
                 {
-                    @Override
-                    public void onClick(View view)
+                    // Is not be possible to add cart while doent have product
+                    // Check if has product
+                    if (name.size() < 1)
                     {
-                        /*
-                         Is not be possible to add cart while doent have product
-                        */
-                        // Check if has product
-                        if (name.size() < 1)
-                        {
-                            // Doesnt have product
-                            // Set background, text and icon
-                            // Set and show toast
-                            custom_toast.setBackground(R.drawable.ic_error_toast_1)
-                                .setDrawable(R.drawable.ic_alert_circle_outline)
-                                .setDuration(Toast.LENGTH_SHORT)
-                                .setText(R.string.doesnt_have_product)
-                                .show();
-                            
-                            
-                            
-                            // Return void
-                            return;
-                        }
-                        
-                        // If arrive here, it means that has product
-                        // Go to add card activity
-                        startActivity(new Intent(getApplicationContext(), AddCartActivity.class));
+                        // Doesnt have product
+                        // Set background, text and icon
+                        // Set and show toast
+                        custom_toast.setBackground(R.drawable.ic_error_toast_1)
+                            .setDrawable(R.drawable.ic_alert_circle_outline)
+                            .setDuration(Toast.LENGTH_SHORT)
+                            .setText(R.string.doesnt_have_product)
+                            .show();
+
+
+
+                        // Return void
+                        return;
                     }
-                });
-                
+
+                    // If arrive here, it means that has product
+                    // Go to add card activity
+                    startActivity(new Intent(getApplicationContext(), AddCartActivity.class));
+                }
+            });
+
         // Home button
         nav_home.setOnClickListener(
             new OnClickListener()
@@ -155,19 +146,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                     // Dont do nothing
                 }
             });
-            
-        // Nav Purchase button
-        nav_report.setOnClickListener(
-            new OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    // Go to report activity
-                   // startActivity(new Intent(getApplicationContext(), AddCartActivity.class));
-                }
-            });
-
     }
 
     // Displaying shared preferences into the adapter
@@ -177,26 +155,22 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         ArrayList id = dataCenter.getIDs();
         if (dataCenter.isDataCenterEmpty())
         {
-            /*productRecycler.setActivated(false);
-            add_new_product.setActivated(false);*/
             // Dont do nothing
         }
         else
         {
             name.clear();
             price.clear();
-            //amount.clear();
             image.clear();
             card_id.clear();
-            
+
             // Dont touch here
             card_id.put(0, -1);
-            
+
             for (int i = 0; i < dataCenter.getProductsIndex(); i++)
             {
                 name.add(dataCenter.getName((Integer)id.get(i)));
                 price.add(String.valueOf(dataCenter.getPrice((Integer)id.get(i))));
-                //amount.add(String.valueOf(dataCenter.getAmount((Integer)id.get(i))));
                 image.add(String.valueOf(dataCenter.getImage(id.get(i))));
                 card_id.put(i + 1, (Integer)id.get(i));
             }
@@ -206,7 +180,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     @Override
     public void onItemClick(int position)
     {
-        Toast.makeText(getApplicationContext(), "Clicked on: " + position, Toast.LENGTH_SHORT).show();
+        // Do nothing
+
     }
 
     // Product on long click
@@ -230,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                             deleteProduct(position);
                             return true;
                     }
-                    
+
                     // Nothing was clicked
                     return false;
                 }                              
@@ -244,23 +219,20 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     {      
         // Get id of the item to be removed
         int id = card_id.get(position + 1);
-        
+
         // Delete from datacenter
         if (productDB.deleteProduct(id) && dataCenter.deleteImage(id))
         {
             // Remove items from arraylist
             name.remove(position);
             price.remove(position);
-            //amount.remove(position);
             image.remove(position);
-   
+
             // Remove from actual hashmap
-            card_id.remove(position + 1, card_id.get(position));
-            
+            card_id.remove(position, card_id.get(position));
+
             // Notify on item removed
             productAdapter.notifyItemRemoved(position);
-            recreate();
-            Toast.makeText(getApplicationContext(), (String)getText(R.string.deleted) + id, Toast.LENGTH_SHORT).show();
         }
         // Something went wrong
         else
@@ -269,15 +241,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         }
     }
 
-    
+
     // On activity result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        
+
         /* Check the request code to determine what is being called*/
-        
+
         // Add product activity
         if (requestCode == Constants.ADD_PRODUCT_ACTIVITY)
         {
@@ -289,14 +261,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 float price = data.getFloatExtra(Constants.PRICE, 0f);
                 //int amount = data.getIntExtra(Constants.AMOUNT, 0);
                 String image = data.getStringExtra(Constants.IMAGE);
-                
+
                 Uri uri = Uri.parse(image);
-                
+
                 this.name.add(name);
                 this.price.add(String.valueOf(price));
                 //this.amount.add(String.valueOf(amount));
                 this.image.add(String.valueOf(uri));
-                
+
                 card_id.put(card_id.size() + 1, dataCenter.getLastId());
                 productAdapter.notifyItemInserted(productAdapter.getItemCount());
                 recreate();
