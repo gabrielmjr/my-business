@@ -1,4 +1,4 @@
-package com.gabrielMJr.twaire.mybusiness.util;
+package com.gabrielMJr.twaire.mybusiness.widget;
 
 // Custom toast class
 import android.content.Context;

@@ -15,11 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.gabrielMJr.twaire.mybusiness.R;
+import com.gabrielMJr.twaire.mybusiness.adapter.AddCartAdapter;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
-import com.gabrielMJr.twaire.mybusiness.util.AddCartAdapter;
 import com.gabrielMJr.twaire.mybusiness.util.AddCartInterface;
 import com.gabrielMJr.twaire.mybusiness.util.Constants;
-import com.gabrielMJr.twaire.mybusiness.util.CustomToast;
+import com.gabrielMJr.twaire.mybusiness.widget.CustomToast;
 import java.util.ArrayList;
 
 public class AddCartActivity extends AppCompatActivity implements AddCartInterface

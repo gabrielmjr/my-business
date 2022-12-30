@@ -15,14 +15,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.gabrielMJr.twaire.mybusiness.R;
+import com.gabrielMJr.twaire.mybusiness.adapter.MainAdapter;
 import com.gabrielMJr.twaire.mybusiness.app.AddCartActivity;
 import com.gabrielMJr.twaire.mybusiness.app.AddNewProductActivity;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
 import com.gabrielMJr.twaire.mybusiness.util.Constants;
-import com.gabrielMJr.twaire.mybusiness.util.CustomToast;
-import com.gabrielMJr.twaire.mybusiness.util.MainAdapter;
 import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
+import com.gabrielMJr.twaire.mybusiness.widget.CustomToast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     {
         // Get total ids
         card_id = dataCenter.getIDs();
-        
+
         if (dataCenter.isDataCenterEmpty())
         {
             // Dont do nothing
@@ -230,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             // Notify on item removed
             productAdapter.notifyItemRemoved(position);
         }
+
         // Something went wrong
         else
         {
@@ -244,12 +245,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        /* Check the request code to determine what is being called*/
+        // Check the request code to determine what was been called
 
         // Add product activity
         if (requestCode == Constants.ADD_PRODUCT_ACTIVITY)
         {
-            /* Check if it was successful or no*/
+            // Check if it was successful or no
             // Sucessfull
             if (resultCode == RESULT_OK)
             {
@@ -262,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 this.name.add(name);
                 this.price.add(String.valueOf(price));
                 this.image.add(String.valueOf(uri));
-                
+
                 card_id = dataCenter.getIDs();
                 productAdapter.notifyItemInserted(card_id.size());
             }

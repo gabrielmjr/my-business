@@ -1,4 +1,5 @@
 package com.gabrielMJr.twaire.mybusiness.util;
+import java.text.SimpleDateFormat;
 
 
 /*
@@ -18,4 +19,7 @@ public class Constants {
     public static final String AMOUNT = "amount";
     public static final String IMAGE = "image";
     public static final String ID ="id";
+    
+    // Date formater String
+    public static String DATE_FORMATER = "ss:mm:HH#dd/MM/yyyy#a";
 }

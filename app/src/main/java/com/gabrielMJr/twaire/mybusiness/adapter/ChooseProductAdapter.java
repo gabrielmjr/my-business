@@ -1,4 +1,4 @@
-package com.gabrielMJr.twaire.mybusiness.util;
+package com.gabrielMJr.twaire.mybusiness.adapter;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,7 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.gabrielMJr.twaire.mybusiness.R;
-import com.gabrielMJr.twaire.mybusiness.util.ChooseProductAdapter;
+import com.gabrielMJr.twaire.mybusiness.adapter.ChooseProductAdapter;
+import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
 import java.util.ArrayList;
 
 public class ChooseProductAdapter extends RecyclerView.Adapter<ChooseProductAdapter.MyViewHolder>

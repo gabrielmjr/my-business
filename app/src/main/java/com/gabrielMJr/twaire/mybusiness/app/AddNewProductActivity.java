@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.gabrielMJr.twaire.mybusiness.R;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.util.Constants;
-import com.gabrielMJr.twaire.mybusiness.util.CustomToast;
+import com.gabrielMJr.twaire.mybusiness.widget.CustomToast;
 import com.gabrielMJr.twaire.tools.Tools;
 
 public class AddNewProductActivity extends AppCompatActivity

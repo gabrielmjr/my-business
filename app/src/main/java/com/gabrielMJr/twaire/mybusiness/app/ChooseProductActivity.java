@@ -9,11 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.gabrielMJr.twaire.mybusiness.R;
+import com.gabrielMJr.twaire.mybusiness.adapter.ChooseProductAdapter;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
-import com.gabrielMJr.twaire.mybusiness.util.ChooseProductAdapter;
 import com.gabrielMJr.twaire.mybusiness.util.Constants;
-import com.gabrielMJr.twaire.mybusiness.util.CustomToast;
 import com.gabrielMJr.twaire.mybusiness.util.RecyclerViewInterface;
+import com.gabrielMJr.twaire.mybusiness.widget.CustomToast;
 import java.util.ArrayList;
 import java.util.HashMap;
 
