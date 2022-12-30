@@ -32,10 +32,10 @@ public class ProductDataCenter extends AppCompatActivity
 
     // pwd = actual directory
     public String pwd;
-    
+
     // Format of stored images
     private String IMAGE_SUFFIX = ".bmp";
-    
+
     private int lastId;
 
     // Constructor
@@ -93,19 +93,18 @@ public class ProductDataCenter extends AppCompatActivity
             lastId = product_data_base.initDb().getLastID();
 
             // Saving the image
-            addImage(image, lastId);
-
-            // If database stored return true, else false
-            return true;
+            if (addImage(image, lastId))
+            {
+                // If database stored return true, else false
+                return true;
+            }
         }
-        else
-        {
-            return false;
-        }
+        
+        return false;
     }
 
     // Save image method
-    public void addImage(BitmapDrawable drawable, int lastId)
+    public boolean addImage(BitmapDrawable drawable, int lastId)
     {
         // Converting from bitmalDrawable to bitmal
         Bitmap bitmap = drawable.getBitmap();
@@ -117,30 +116,33 @@ public class ProductDataCenter extends AppCompatActivity
             // Compressing the image
             FileOutputStream output = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.PNG, 10, output);
-           
+
             try
             {
                 output.flush();
                 output.close();
+                return true;
             }
             catch (IOException e)
             {}
         }
         catch (FileNotFoundException e)
         {}
+
+        return false;
     }
-    
+
     // Get image path as String 
     public String getImagePath(int Id)
     {
         return pwd + "/" + home + "/" + image_dir + "/" + PRODUCT + Id + IMAGE_SUFFIX;
     }
-    
+
     // Delete image method
     public Boolean deleteImage(int id)
     {
         File file = new File(pwd + "/" + home + "/" + image_dir + "/" + PRODUCT + id + IMAGE_SUFFIX);
-        
+
         return file.delete();
     }
 
@@ -215,13 +217,13 @@ public class ProductDataCenter extends AppCompatActivity
     {
         product_data_base = new ProductDatabase(context);
     }
-    
+
     // Get product database class
     public ProductDatabase getProductDB()
     {
         return product_data_base;
     }
-    
+
     // Get last id
     public int getLastId()
     {

@@ -3,6 +3,7 @@ package com.gabrielMJr.twaire.mybusiness.data_manager;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import com.gabrielMJr.twaire.mybusiness.util.DateC;
 import java.util.ArrayList;
 
 public class ProductDatabase
@@ -19,6 +20,8 @@ public class ProductDatabase
     private final String COL_2 = "name";
     private final String COL_3 = "price";
     private final String COL_4 = "amount";
+    private final String COL_5 = "first_adition";
+    private final String COL_6 = "last_modified";
 
     // Activity context
     private Context context;
@@ -31,6 +34,13 @@ public class ProductDatabase
         this.context = context;
         initDb();
         createTable();
+
+        /* The versions bellow or equals  version code 200
+         has 4 columns on products.db
+         * The news versions has/will have 6 colums
+         * The method above update the existing table to 6 columns if the app is coming from Versio code 200
+         */ 
+        update_1();
     }
 
     // InitializeDb
@@ -38,6 +48,25 @@ public class ProductDatabase
     {
         db = context.openOrCreateDatabase(DB_NAME, context.MODE_PRIVATE, null); 
         return this;
+    }
+
+    // Update table method
+    private void update_1()
+    {
+        // Before check the number of existing columns
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TBN, null);
+
+        // If columns < 6, the app was updated, update table, else was installed 
+        if (cursor.getColumnCount() < 6)
+        {
+            // Add column 5 [first adition for the current product]
+            db.execSQL("ALTER TABLE " + TBN + " "
+                       + "ADD COLUMN " + COL_5 + " TEXT");
+
+            // Add column 6 [last time of product info changed]
+            db.execSQL("ALTER TABLE " + TBN + " "
+                       + "ADD COLUMN " + COL_6 + " TEXT");
+        }
     }
 
     // Create new table
@@ -48,7 +77,9 @@ public class ProductDatabase
                    + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                    + COL_2 + " TEXT, "
                    + COL_3 + " REAL, "
-                   + COL_4 + " INTEGER)");
+                   + COL_4 + " INTEGER, "
+                   + COL_5 + " TEXT, "
+                   + COL_6 + " TEXT)");
     }
 
     // Add products
@@ -59,12 +90,16 @@ public class ProductDatabase
         {
             db.execSQL("INSERT INTO " 
                        + TBN + "("
-                       + COL_2 + ","
-                       + COL_3 + ","
-                       + COL_4 + ") VALUES ('"
+                       + COL_2 + ", "
+                       + COL_3 + ", "
+                       + COL_4 + ", "
+                       + COL_5 + ", "
+                       + COL_6 + ") VALUES ('"
                        + name + "', "
                        + price + ", "
-                       + amount + ")");
+                       + amount + ", '"
+                       + DateC.getDate() + "', "
+                       + "'never')");
             return true;
         }
         catch (Exception e)
@@ -184,7 +219,7 @@ public class ProductDatabase
         {
             return cursor.getInt(0);
         }
-        
+
         return 0;
     }
 

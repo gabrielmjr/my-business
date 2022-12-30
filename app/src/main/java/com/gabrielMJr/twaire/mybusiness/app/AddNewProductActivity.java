@@ -168,13 +168,6 @@ public class AddNewProductActivity extends AppCompatActivity
                             // Else
                             // Add product
                             addProduct(product, Float.valueOf(price), Integer.valueOf(initial_amount));
-
-                            // Set and show toast
-                            custom_toast.setBackground(R.drawable.ic_done_add_product_toast)
-                                .setDrawable(R.drawable.ic_checkbox_marked_circle_outline)
-                                .setDuration(Toast.LENGTH_SHORT)
-                                .setText(R.string.added_successfully)
-                                .show();
                         }
                     }
                 }
@@ -250,6 +243,13 @@ public class AddNewProductActivity extends AppCompatActivity
             returnData.putExtra(Constants.IMAGE, dataCenter.getImagePath(dataCenter.getLastId()));
             setResult(RESULT_OK, returnData);
             finish();
+            
+            // Show the sucessfully toast
+            custom_toast.setBackground(R.drawable.ic_done_add_product_toast)
+                        .setDrawable(R.drawable.ic_checkbox_marked_circle_outline)
+                        .setDuration(Toast.LENGTH_SHORT)
+                        .setText(R.string.added_successfully)
+                        .show();
         }
 
         // Else, finish activity and show message Toast

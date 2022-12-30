@@ -21,5 +21,5 @@ public class Constants {
     public static final String ID ="id";
     
     // Date formater String
-    public static String DATE_FORMATER = "ss:mm:HH#dd/MM/yyyy#a";
+    public static String DATE_FORMATER = "ss:mm:HH-dd/MM/yyyy-a";
 }
