@@ -3,7 +3,7 @@ package com.gabrielMJr.twaire.mybusiness.data_manager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
+import android.graphics.drawable.Drawable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDatabase;
 import java.io.File;
@@ -115,7 +115,7 @@ public class ProductDataCenter extends AppCompatActivity
         {        
             // Compressing the image
             FileOutputStream output = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 10, output);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
 
             try
             {
@@ -177,13 +177,11 @@ public class ProductDataCenter extends AppCompatActivity
     }
 
     // Getting product image using index
-    public Uri getImage(int id)
+    public BitmapDrawable getImage(int id)
     {
-        File file = new File(pwd + "/" + home + "/" + image_dir, PRODUCT + id + ".bmp");
+        String path = pwd + "/" + home + "/" + image_dir + "/" + PRODUCT + id + ".bmp";
 
-        //Drawable bmp = Drawable.createFromPath(path);
-        return Uri.fromFile(file);
-
+        return (BitmapDrawable) Drawable.createFromPath(path);
     }
 
     // Getting total ids from products

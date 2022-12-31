@@ -1,6 +1,7 @@
 package com.gabrielMJr.twaire.mybusiness.app;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     // Products array
     protected ArrayList<String> name;
     protected ArrayList<String> price;
-    protected ArrayList<String> image;
+    protected ArrayList<BitmapDrawable> image;
 
     private ArrayList<Integer> card_id;
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         image = new ArrayList<>();
         card_id = new ArrayList<>();
 
-        productAdapter = new MainAdapter(getApplicationContext(), name, price, /*amount,*/ image, this);
+        productAdapter = new MainAdapter(getApplicationContext(), name, price, image, this);
         dataCenter = new ProductDataCenter(getApplicationContext());
         productDB = new ProductDatabase(getApplicationContext());
         custom_toast = new CustomToast(getApplicationContext());
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         // Setting adapter and column numbers into the recycler
         productRecycler.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
         productRecycler.setAdapter(productAdapter);
+        productRecycler.setItemViewCacheSize(10);
         displayDate();
 
         // Add new product button
@@ -168,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             {
                 name.add(dataCenter.getName(card_id.get(i)));
                 price.add(String.valueOf(dataCenter.getPrice(card_id.get(i))));
-                image.add(String.valueOf(dataCenter.getImage(card_id.get(i))));
+                image.add(dataCenter.getImage(card_id.get(i)));
             }
         }
     }
@@ -262,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
                 this.name.add(name);
                 this.price.add(String.valueOf(price));
-                this.image.add(String.valueOf(uri));
+                //this.image.add(String.valueOf(uri));
 
                 card_id = dataCenter.getIDs();
                 productAdapter.notifyItemInserted(card_id.size());

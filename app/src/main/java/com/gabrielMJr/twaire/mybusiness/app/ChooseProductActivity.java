@@ -1,7 +1,7 @@
 package com.gabrielMJr.twaire.mybusiness.app;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -21,7 +21,7 @@ public class ChooseProductActivity extends AppCompatActivity implements Recycler
 {
     // Attributes
     // Card array list
-    private ArrayList<Uri> image;
+    private ArrayList<BitmapDrawable> image;
     private ArrayList<String> name;
     private ArrayList<Integer> amount;
     private ArrayList<Float> price;

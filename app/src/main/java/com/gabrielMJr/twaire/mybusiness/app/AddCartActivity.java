@@ -1,7 +1,7 @@
 package com.gabrielMJr.twaire.mybusiness.app;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +27,7 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
 
     // Attributes
     // Card arraylist
-    private ArrayList<Uri> product_image;
+    private ArrayList<BitmapDrawable> product_image;
     private ArrayList<String> product_name;
     private ArrayList<Integer> product_amount;
     private ArrayList<Float> product_price;

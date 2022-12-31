@@ -1,7 +1,7 @@
 package com.gabrielMJr.twaire.mybusiness.adapter;
 
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +22,7 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
 
     // Attributes
     private Context context;
-    private ArrayList<Uri> product_image;
+    private ArrayList<BitmapDrawable> product_image;
     private ArrayList<String> product_name;
     private ArrayList<Integer> product_amount;
     private ArrayList<Float> product_price;
@@ -43,7 +43,7 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
 
     // Constructor
     public AddCartAdapter(Context context,
-                          ArrayList<Uri> product_image,
+                          ArrayList<BitmapDrawable> product_image,
                           ArrayList<String> product_name,
                           ArrayList<Integer> product_amount,
                           ArrayList <Float> product_price,
@@ -81,7 +81,7 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position)
     {
         // Setting values to card
-        holder.product_image.setImageURI(product_image.get(position));
+        holder.product_image.setImageBitmap(product_image.get(position).getBitmap());
         holder.product_name.setText(context.getText(R.string.product_name) + " " + product_name.get(position));
         holder.product_amount.setText(context.getText(R.string.product_amount) + " " + String.valueOf(product_amount.get(position)));
         holder.product_price.setText(context.getText(R.string.product_price) + " " + String.valueOf(product_price.get(position)));

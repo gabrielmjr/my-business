@@ -1,7 +1,7 @@
 package com.gabrielMJr.twaire.mybusiness.adapter;
 
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,10 +21,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
     
     // Attributes
     private Context context;
-    private ArrayList names_id;
-    private ArrayList prices_id;
-    //private ArrayList amount_id;
-    private ArrayList images_id;
+    private ArrayList<String> names_id;
+    private ArrayList<String> prices_id;
+    private ArrayList<BitmapDrawable> images_id;
     
     private View viewHolder;
     private final RecyclerViewInterface RVI;
@@ -34,14 +33,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
                     Context context,
                     ArrayList names_id,
                     ArrayList prices_id,
-                    /*ArrayList amount_id, */
                     ArrayList images_id,
                     RecyclerViewInterface RVI)
     {
         this.context = context;
         this.names_id = names_id;
         this.prices_id = prices_id;
-        //this.amount_id = amount_id;
         this.images_id = images_id;
         this.RVI = RVI;
     }
@@ -62,8 +59,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
         // Setting text and uri image parsed of each avaliable product
         holder.names_id.setText(" " + names_id.get(position));
         holder.prices_id.setText(" " + prices_id.get(position));
-        //holder.amounts_id.setText(" " + amount_id.get(position));
-        holder.images_id.setImageURI(Uri.parse((String)images_id.get(position)));
+        holder.images_id.setImageBitmap(images_id.get(position).getBitmap());
     }
 
     // Setting total index of adapted views
@@ -81,7 +77,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
         // Attributes
         private TextView names_id;
         private TextView prices_id;
-        //private TextView amounts_id;
         private ImageView images_id;
         
         public MyViewHolder(View itemView)
@@ -91,7 +86,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
             // Finding the widgets
             names_id = itemView.findViewById(R.id.product_name);
             prices_id = itemView.findViewById(R.id.product_price);
-            //amounts_id = itemView.findViewById(R.id.product_amount);
             images_id = itemView.findViewById(R.id.product_image);
             
             // OnClick of item

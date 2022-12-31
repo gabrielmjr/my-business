@@ -1,7 +1,7 @@
 package com.gabrielMJr.twaire.mybusiness.adapter;
 
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +19,7 @@ public class ChooseProductAdapter extends RecyclerView.Adapter<ChooseProductAdap
     
     // Attributes
     // Card array list
-    private ArrayList<Uri> image;
+    private ArrayList<BitmapDrawable> image;
     private ArrayList<String> name;
     private ArrayList<Integer> amount;
     private ArrayList<Float> price;
@@ -35,7 +35,7 @@ public class ChooseProductAdapter extends RecyclerView.Adapter<ChooseProductAdap
     
     // Constructor
     public ChooseProductAdapter(Context context,
-           ArrayList<Uri> image,
+           ArrayList<BitmapDrawable> image,
            ArrayList<String> name,
            ArrayList<Integer> amount,
            ArrayList<Float> price,
@@ -70,7 +70,7 @@ public class ChooseProductAdapter extends RecyclerView.Adapter<ChooseProductAdap
     public void onBindViewHolder(MyViewHolder holder, int position)
     {
         // Setting the values into the layout component
-        holder.choose_product_image.setImageURI(image.get(position));
+        holder.choose_product_image.setImageBitmap(image.get(position).getBitmap());
         holder.choose_product_name.setText(name.get(position));
         holder.choose_product_amount.setText("Amount: " + String.valueOf(amount.get(position)));
         holder.choose_product_price.setText("$" + String.valueOf(price.get(position)));

@@ -21,6 +21,7 @@ import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.util.Constants;
 import com.gabrielMJr.twaire.mybusiness.widget.CustomToast;
 import com.gabrielMJr.twaire.tools.Tools;
+import java.io.IOException;
 
 public class AddNewProductActivity extends AppCompatActivity
 {
@@ -375,11 +376,21 @@ public class AddNewProductActivity extends AppCompatActivity
         {
             if (requestCode == Constants.IMAGE_PICKER_CODE)
             {
-                add_new_product_image.setImageURI(data.getData());
-                imageS = (BitmapDrawable)add_new_product_image.getDrawable();
+                try
+                {
+                    // Get image bitmap from uri
+                    Bitmap image = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                    
+                    // Set the image bitmap go imageview
+                    add_new_product_image.setImageBitmap(image);
+                    imageS = (BitmapDrawable)add_new_product_image.getDrawable();
 
-                // Setting has image to reuse when verify values
-                hasImage = true;
+                    // Setting has image to reuse when verify values
+                    hasImage = true;
+                }
+                catch (IOException e)
+                {}
+               
             }
             else if (requestCode == Constants.IMAGE_TAKE_CODE)
             {
