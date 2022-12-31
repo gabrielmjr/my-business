@@ -21,15 +21,14 @@ import com.gabrielMJr.twaire.mybusiness.data_manager.ProductDataCenter;
 import com.gabrielMJr.twaire.mybusiness.util.Constants;
 import com.gabrielMJr.twaire.mybusiness.widget.CustomToast;
 import com.gabrielMJr.twaire.tools.Tools;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.IOException;
 
 public class AddNewProductActivity extends AppCompatActivity
 {
 
     // Attributes
-    // Camera permission code
-    private final int CAMERA_PERM_CODE = 102;
-
     // Intent for picker and taker
     private Intent pick_take_Image;
 
@@ -76,7 +75,7 @@ public class AddNewProductActivity extends AppCompatActivity
 
     /*
      My tools package
-     I used him instead of java.lang.isEmpty because:
+     I used him instead of java.lang.isEmpty because
      my tools consider space as empty
      */
     private static Tools tools;
@@ -244,13 +243,13 @@ public class AddNewProductActivity extends AppCompatActivity
             returnData.putExtra(Constants.IMAGE, dataCenter.getImagePath(dataCenter.getLastId()));
             setResult(RESULT_OK, returnData);
             finish();
-            
+
             // Show the sucessfully toast
             custom_toast.setBackground(R.drawable.ic_done_add_product_toast)
-                        .setDrawable(R.drawable.ic_checkbox_marked_circle_outline)
-                        .setDuration(Toast.LENGTH_SHORT)
-                        .setText(R.string.added_successfully)
-                        .show();
+                .setDrawable(R.drawable.ic_checkbox_marked_circle_outline)
+                .setDuration(Toast.LENGTH_SHORT)
+                .setText(R.string.added_successfully)
+                .show();
         }
 
         // Else, finish activity and show message Toast
@@ -259,7 +258,7 @@ public class AddNewProductActivity extends AppCompatActivity
             // Return datas
             setResult(RESULT_CANCELED, returnData);
             finish();
-           
+
             custom_toast.setBackground(R.drawable.ic_error_toast_1)
                 .setDrawable(R.drawable.ic_alert_circle_outline)
                 .setDuration(Toast.LENGTH_SHORT)
@@ -271,6 +270,7 @@ public class AddNewProductActivity extends AppCompatActivity
     // Take/ pick image method
     private void pickImage()
     {
+        // Package manager object
         pm = getPackageManager();
 
         // if sdk version >= 23, check and ask camera permission
@@ -310,7 +310,7 @@ public class AddNewProductActivity extends AppCompatActivity
                 public void onClick(View view)
                 {
                     dialog.dismiss();
-                    pick_take_Image = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    pick_take_Image = new Intent(Intent.ACTION_GET_CONTENT).setType("image/*");
                     startActivityForResult(pick_take_Image, Constants.IMAGE_PICKER_CODE);
                 }                          
             });
@@ -334,7 +334,7 @@ public class AddNewProductActivity extends AppCompatActivity
                     // request permission
                     else
                     {
-                        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
+                        requestPermissions(new String[]{Manifest.permission.CAMERA}, Constants.CAMERA_PERM_CODE);
                     }
                 }
             });
@@ -376,22 +376,25 @@ public class AddNewProductActivity extends AppCompatActivity
         {
             if (requestCode == Constants.IMAGE_PICKER_CODE)
             {
+                // Get image bitmap from uri
                 try
                 {
-                    // Get image bitmap from uri
                     Bitmap image = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                    
+
                     // Set the image bitmap go imageview
                     add_new_product_image.setImageBitmap(image);
-                    imageS = (BitmapDrawable)add_new_product_image.getDrawable();
+                    imageS = new BitmapDrawable(getResources(), image);
 
                     // Setting has image to reuse when verify values
                     hasImage = true;
+
                 }
                 catch (IOException e)
                 {}
-               
+
             }
+            
+            // Get image from captured by camera
             else if (requestCode == Constants.IMAGE_TAKE_CODE)
             {
                 add_new_product_image.setImageBitmap((Bitmap)data.getExtras().get("data"));
@@ -404,7 +407,7 @@ public class AddNewProductActivity extends AppCompatActivity
         else if (resultCode == RESULT_CANCELED)
         {
             hasImage = false;
-            
+
             custom_toast.setBackground(R.drawable.ic_error_toast_1)
                 .setDrawable(R.drawable.ic_alert_circle_outline)
                 .setDuration(Toast.LENGTH_SHORT)

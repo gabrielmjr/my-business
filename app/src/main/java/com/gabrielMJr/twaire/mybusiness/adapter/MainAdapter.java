@@ -1,7 +1,7 @@
 package com.gabrielMJr.twaire.mybusiness.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,7 +23,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
     private Context context;
     private ArrayList<String> names_id;
     private ArrayList<String> prices_id;
-    private ArrayList<BitmapDrawable> images_id;
+    private ArrayList<Bitmap> images_id;
     
     private View viewHolder;
     private final RecyclerViewInterface RVI;
@@ -31,9 +31,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
     // Constructor
     public MainAdapter(
                     Context context,
-                    ArrayList names_id,
-                    ArrayList prices_id,
-                    ArrayList images_id,
+                    ArrayList<String> names_id,
+                    ArrayList<String> prices_id,
+                    ArrayList<Bitmap> images_id,
                     RecyclerViewInterface RVI)
     {
         this.context = context;
@@ -59,10 +59,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
         // Setting text and uri image parsed of each avaliable product
         holder.names_id.setText(" " + names_id.get(position));
         holder.prices_id.setText(" " + prices_id.get(position));
-        holder.images_id.setImageBitmap(images_id.get(position).getBitmap());
+        holder.images_id.setImageBitmap(images_id.get(position));
     }
 
-    // Setting total index of adapted views
+    // returning total index of adapted views
     @Override
     public int getItemCount()
     {
@@ -116,7 +116,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder>
                     {
                         int position = getAdapterPosition();
                         
-                        // If no ppsition
+                        // If has position on the pressed card
                         if (position != RecyclerView.NO_POSITION)
                         {
                             RVI.onLongClick(position, view);

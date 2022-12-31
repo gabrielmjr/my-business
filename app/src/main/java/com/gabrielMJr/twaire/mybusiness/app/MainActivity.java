@@ -1,8 +1,8 @@
 package com.gabrielMJr.twaire.mybusiness.app;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     // Products array
     protected ArrayList<String> name;
     protected ArrayList<String> price;
-    protected ArrayList<BitmapDrawable> image;
+    protected ArrayList<Bitmap> image;
 
     private ArrayList<Integer> card_id;
 
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             {
                 name.add(dataCenter.getName(card_id.get(i)));
                 price.add(String.valueOf(dataCenter.getPrice(card_id.get(i))));
-                image.add(dataCenter.getImage(card_id.get(i)));
+                image.add(dataCenter.getImage(card_id.get(i)).getBitmap());
             }
         }
     }
@@ -260,11 +260,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 float price = data.getFloatExtra(Constants.PRICE, 0f);
                 String image = data.getStringExtra(Constants.IMAGE);
 
-                Uri uri = Uri.parse(image);
-
                 this.name.add(name);
                 this.price.add(String.valueOf(price));
-                //this.image.add(String.valueOf(uri));
+                this.image.add(BitmapFactory.decodeFile(image));
 
                 card_id = dataCenter.getIDs();
                 productAdapter.notifyItemInserted(card_id.size());

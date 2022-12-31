@@ -115,7 +115,7 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
 
         // Initializing added products to cart with 0
         count = 0;
-        
+
         // Initializing custom toast
         custom_toast = new CustomToast(getApplicationContext());
 
@@ -164,11 +164,11 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
                     if (card_id.size() < 1)
                     {
                         custom_toast.setBackground(R.drawable.ic_error_toast_1)
-                        .setDrawable(R.drawable.ic_alert_circle_outline)
-                        .setDuration(Toast.LENGTH_SHORT)
-                        .setText(R.string.empty_cart)
-                        .show();    
-                        
+                            .setDrawable(R.drawable.ic_alert_circle_outline)
+                            .setDuration(Toast.LENGTH_SHORT)
+                            .setText(R.string.empty_cart)
+                            .show();    
+
                     }
                     else
                     {
@@ -189,7 +189,7 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
                             }
                             else
                             {
-                                // If product amounts were not updated
+                                // If product amounts were not updated from db
                                 custom_toast.setBackground(R.drawable.ic_error_toast_1)
                                     .setDrawable(R.drawable.ic_error_outline)
                                     .setDuration(Toast.LENGTH_SHORT)
@@ -197,7 +197,7 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
                                     .show();
                             }
                         }
-                        
+
                         // Finish the activity
                         finish();
                     }
@@ -255,7 +255,7 @@ public class AddCartActivity extends AppCompatActivity implements AddCartInterfa
                     // If clicked, check what was clicked
                     switch (item.getItemId())
                     {
-                            // If remove button was clicked
+                        // If remove button was clicked
                         case R.id.remove:
                             // Call remove product method
                             removeProduct();

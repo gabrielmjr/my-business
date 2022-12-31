@@ -14,6 +14,9 @@ public class Constants {
     public static final int IMAGE_TAKE_CODE = 101;
     public static final int CHOOSE_PRODUCT_ACTIVITY = 102;
     
+    // Camera permission code
+    public final int CAMERA_PERM_CODE = 103;
+    
     public static final String NAME = "name";
     public static final String PRICE = "price";
     public static final String AMOUNT = "amount";

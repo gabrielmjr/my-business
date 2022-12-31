@@ -22,11 +22,14 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
 
     // Attributes
     private Context context;
+    
+    // I used bitmap drawable because it can be convertable
     private ArrayList<BitmapDrawable> product_image;
     private ArrayList<String> product_name;
     private ArrayList<Integer> product_amount;
     private ArrayList<Float> product_price;
     
+    // 
     private Integer actual_amount;
 
     // Ids of added products
@@ -72,7 +75,7 @@ public class AddCartAdapter extends RecyclerView.Adapter<AddCartAdapter.MyViewHo
         // Inflating the layout
         holder = LayoutInflater.from(context).inflate(R.layout.card_view_add_cart, parent, false);
 
-        // Returning new layout
+        // Returning new view
         return new MyViewHolder(holder);
     }
 
